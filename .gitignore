@@ -116,3 +116,9 @@ desktop.ini
 .env.production.local
 *.env
 *.env.*
+
+*.jpg
+*.png
+*.webp
+*.svg
+*.jpeg
