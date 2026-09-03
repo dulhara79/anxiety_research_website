@@ -1,0 +1,373 @@
+# ---------------------------------------------------------------------------
+# Source: dulhara79/anxiety_research_website/main
+# Target: dulhara79/R26-DS-012/apps/research-website/
+#
+# Pull requests validate the website only. Cross-repository writes happen only
+# after changes reach source main (or through workflow_dispatch from main).
+# The sync never writes directly to R26-DS-012/main and never stages paths
+# outside apps/research-website/.
+# ---------------------------------------------------------------------------
+name: Sync research website to main research repo
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research-website/**"
+      - ".github/workflows/sync-to-main-repo.yml"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: sync-research-website-to-monorepo-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  TARGET_REPO: dulhara79/R26-DS-012
+  TARGET_BASE: main
+  SOURCE_ROOT: research-website
+  MIRROR_ROOT: apps/research-website
+  MIRROR_BRANCH: mirror/research-website/main
+  SYNC_BOT_NAME: research-website-sync[bot]
+  SYNC_BOT_EMAIL: research-website-sync@users.noreply.github.com
+  SYNC_TOKEN: ${{ secrets.MONOREPO_SYNC_TOKEN }}
+
+jobs:
+  validate-pr:
+    name: Validate research website
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout pull request source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: research-website/package-lock.json
+
+      - name: Install website dependencies
+        working-directory: research-website
+        run: npm ci
+
+      - name: Build website
+        working-directory: research-website
+        run: npm run build
+
+  sync:
+    name: Mirror website to R26-DS-012
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout research website source
+        uses: actions/checkout@v4
+        with:
+          path: source
+          persist-credentials: false
+
+      - name: Enforce main as synchronization source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF_NAME" != "main" ]]; then
+            echo "::error::Synchronization is allowed only from anxiety_research_website/main."
+            echo "::error::Re-run workflow_dispatch from main after the intended changes are merged."
+            exit 1
+          fi
+
+      - name: Validate cross-repository token
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${SYNC_TOKEN:-}" ]]; then
+            echo "::error::MONOREPO_SYNC_TOKEN is not configured in anxiety_research_website."
+            echo "::error::Create a fine-grained token limited to dulhara79/R26-DS-012 with Contents: Read and write and Pull requests: Read and write."
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: source/research-website/package-lock.json
+
+      - name: Install website dependencies
+        working-directory: source/research-website
+        run: npm ci
+
+      - name: Build website
+        working-directory: source/research-website
+        run: npm run build
+
+      - name: Checkout protected research monorepo
+        uses: actions/checkout@v4
+        with:
+          repository: dulhara79/R26-DS-012
+          ref: main
+          token: ${{ secrets.MONOREPO_SYNC_TOKEN }}
+          path: monorepo
+          fetch-depth: 0
+
+      - name: Inspect existing mirror branch
+        id: remote
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "$SYNC_BOT_NAME"
+          git config user.email "$SYNC_BOT_EMAIL"
+          git fetch --prune origin "$TARGET_BASE"
+
+          target_base_sha=$(git rev-parse "origin/$TARGET_BASE")
+          echo "target_base_sha=$target_base_sha" >> "$GITHUB_OUTPUT"
+
+          remote_mirror_sha=$(git ls-remote --heads origin "refs/heads/$MIRROR_BRANCH" | awk '{print $1}')
+          echo "remote_mirror_sha=$remote_mirror_sha" >> "$GITHUB_OUTPUT"
+
+          if [[ -z "$remote_mirror_sha" ]]; then
+            echo "Mirror branch does not exist yet."
+            exit 0
+          fi
+
+          git fetch origin "+refs/heads/$MIRROR_BRANCH:refs/remotes/origin/$MIRROR_BRANCH"
+
+          merge_base=$(git merge-base "origin/$TARGET_BASE" "origin/$MIRROR_BRANCH" || true)
+          if [[ -z "$merge_base" ]]; then
+            echo "::error::Existing mirror branch has no merge base with $TARGET_BASE. Refusing to replace it."
+            exit 1
+          fi
+
+          foreign_commits=$(git log --format='%H %ae %s' "$merge_base..origin/$MIRROR_BRANCH" \
+            | grep -v " $SYNC_BOT_EMAIL " || true)
+
+          if [[ -n "$foreign_commits" ]]; then
+            echo "::error::Manual or foreign commits exist on the bot-owned mirror branch."
+            echo "$foreign_commits"
+            echo "::error::Move those changes to anxiety_research_website/main before retrying."
+            exit 1
+          fi
+
+      - name: Rebuild local mirror branch from latest target main
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout -B "$MIRROR_BRANCH" "origin/$TARGET_BASE"
+
+      - name: Verify destination ownership
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -d "$MIRROR_ROOT" ]]; then
+            echo "Destination does not exist yet; first sync may create it."
+            exit 0
+          fi
+
+          if [[ -z "$(find "$MIRROR_ROOT" -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+            echo "Destination exists but is empty; first sync may populate it."
+            exit 0
+          fi
+
+          metadata="$MIRROR_ROOT/.sync-metadata.json"
+          if [[ ! -f "$metadata" ]]; then
+            echo "::error::$MIRROR_ROOT is non-empty but has no .sync-metadata.json ownership manifest."
+            echo "::error::Refusing destructive synchronization into a directory not proven to be automation-owned."
+            exit 1
+          fi
+
+          python - "$metadata" <<'PY'
+          import json
+          import sys
+
+          path = sys.argv[1]
+          with open(path, "r", encoding="utf-8") as handle:
+              data = json.load(handle)
+
+          expected = "dulhara79/anxiety_research_website"
+          actual = data.get("source_repository")
+          if actual != expected:
+              raise SystemExit(
+                  f"ownership manifest source_repository={actual!r}; expected {expected!r}"
+              )
+
+          print(f"Verified automation ownership from {actual}.")
+          PY
+
+      - name: Mirror website into isolated target folder
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p "monorepo/$MIRROR_ROOT"
+
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='dist/' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='.cache/' \
+            --exclude='.npm/' \
+            --exclude='.vite/' \
+            --exclude='.DS_Store' \
+            "source/$SOURCE_ROOT/" "monorepo/$MIRROR_ROOT/"
+
+          python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          metadata = {
+              "source_repository": os.environ["GITHUB_REPOSITORY"],
+              "source_branch": os.environ.get("GITHUB_REF_NAME", "main"),
+              "source_commit": os.environ["GITHUB_SHA"],
+              "source_run_id": os.environ["GITHUB_RUN_ID"],
+              "synced_at_utc": datetime.now(timezone.utc).isoformat(),
+          }
+
+          path = Path("monorepo") / os.environ["MIRROR_ROOT"] / ".sync-metadata.json"
+          path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+          PY
+
+      - name: Stage and enforce mirror-only change scope
+        id: changes
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git add -A -- "$MIRROR_ROOT"
+
+          changed=$(git diff --cached --name-only)
+          echo "Staged paths:"
+          printf '%s\n' "$changed"
+
+          outside=$(printf '%s\n' "$changed" | sed '/^$/d' | grep -v "^${MIRROR_ROOT}/" || true)
+          if [[ -n "$outside" ]]; then
+            echo "::error::Synchronization attempted to stage files outside $MIRROR_ROOT:"
+            echo "$outside"
+            exit 1
+          fi
+
+          if git diff --cached --quiet -- "$MIRROR_ROOT"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Target mirror already matches this source revision."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --cached --stat -- "$MIRROR_ROOT"
+          fi
+
+      - name: Commit synchronized website
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+          short_sha=$(printf '%s' "$GITHUB_SHA" | cut -c1-7)
+          git commit -m "chore(sync): update research website from ${short_sha}"
+
+      - name: Refresh target main and rebase if it moved
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          original_base="${{ steps.remote.outputs.target_base_sha }}"
+          git fetch origin "$TARGET_BASE"
+          refreshed_base=$(git rev-parse "origin/$TARGET_BASE")
+
+          if [[ "$refreshed_base" == "$original_base" ]]; then
+            echo "Target main did not move during this run."
+            exit 0
+          fi
+
+          echo "Target main moved from $original_base to $refreshed_base; rebasing sync commit."
+          if ! git rebase --onto "$refreshed_base" "$original_base" "$MIRROR_BRANCH"; then
+            git rebase --abort || true
+            echo "::error::Target main changed with conflicting edits. No mirror branch was pushed."
+            exit 1
+          fi
+
+      - name: Push mirror branch with lease protection
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: monorepo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          remote_mirror_sha="${{ steps.remote.outputs.remote_mirror_sha }}"
+
+          if [[ -n "$remote_mirror_sha" ]]; then
+            git push origin "HEAD:refs/heads/$MIRROR_BRANCH" \
+              "--force-with-lease=refs/heads/$MIRROR_BRANCH:$remote_mirror_sha"
+          else
+            git push --set-upstream origin "HEAD:refs/heads/$MIRROR_BRANCH"
+          fi
+
+      - name: Create or update target pull request
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.MONOREPO_SYNC_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          short_sha=$(printf '%s' "$GITHUB_SHA" | cut -c1-7)
+          title="Sync research website (${short_sha})"
+          source_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          body=$(cat <<EOF
+          Automated synchronization of \`apps/research-website/\` from \`${GITHUB_REPOSITORY}@${GITHUB_SHA}\`.
+
+          Source commit: ${source_url}
+
+          Safety properties:
+          - the source Vite application passed \`npm ci\` and \`npm run build\` before target writes;
+          - only \`apps/research-website/\` is mirrored and staged;
+          - provenance is recorded in \`apps/research-website/.sync-metadata.json\`;
+          - the mirror branch is rebuilt from the latest target \`main\`;
+          - updates use \`--force-with-lease\` so a stale run cannot overwrite a newer mirror branch.
+
+          This branch is automation-owned. Do not commit to \`${MIRROR_BRANCH}\` directly; make website changes in \`dulhara79/anxiety_research_website\` and merge them to \`main\`.
+          EOF
+          )
+
+          existing=$(gh pr list \
+            --repo "$TARGET_REPO" \
+            --head "$MIRROR_BRANCH" \
+            --base "$TARGET_BASE" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if [[ -n "$existing" ]]; then
+            gh pr edit "$existing" \
+              --repo "$TARGET_REPO" \
+              --title "$title" \
+              --body "$body"
+            gh pr view "$existing" --repo "$TARGET_REPO" --json url --jq .url
+          else
+            gh pr create \
+              --repo "$TARGET_REPO" \
+              --base "$TARGET_BASE" \
+              --head "$MIRROR_BRANCH" \
+              --title "$title" \
+              --body "$body"
+          fi
