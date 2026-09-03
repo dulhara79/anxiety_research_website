@@ -2,20 +2,25 @@
 # Source: dulhara79/anxiety_research_website/main
 # Target: dulhara79/R26-DS-012/apps/research-website/
 #
-# The workflow validates the website first, then rebuilds a deterministic
-# target mirror branch from the latest monorepo main and opens/updates a PR.
-# It never writes directly to R26-DS-012/main and never stages paths outside
-# apps/research-website/.
+# Pull requests validate the website only. Cross-repository writes happen only
+# after changes reach source main (or through workflow_dispatch from main).
+# The sync never writes directly to R26-DS-012/main and never stages paths
+# outside apps/research-website/.
 # ---------------------------------------------------------------------------
 name: Sync research website to main research repo
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research-website/**"
+      - ".github/workflows/sync-to-main-repo.yml"
   push:
     branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: sync-research-website-to-monorepo
+  group: sync-research-website-to-monorepo-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -32,7 +37,35 @@ env:
   SYNC_TOKEN: ${{ secrets.MONOREPO_SYNC_TOKEN }}
 
 jobs:
+  validate-pr:
+    name: Validate research website
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout pull request source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: research-website/package-lock.json
+
+      - name: Install website dependencies
+        working-directory: research-website
+        run: npm ci
+
+      - name: Build website
+        working-directory: research-website
+        run: npm run build
+
   sync:
+    name: Mirror website to R26-DS-012
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
