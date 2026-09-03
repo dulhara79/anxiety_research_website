@@ -43,6 +43,16 @@ jobs:
           path: source
           persist-credentials: false
 
+      - name: Enforce main as synchronization source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF_NAME" != "main" ]]; then
+            echo "::error::Synchronization is allowed only from anxiety_research_website/main."
+            echo "::error::Re-run workflow_dispatch from main after the intended changes are merged."
+            exit 1
+          fi
+
       - name: Validate cross-repository token
         shell: bash
         run: |
@@ -86,7 +96,7 @@ jobs:
 
           git config user.name "$SYNC_BOT_NAME"
           git config user.email "$SYNC_BOT_EMAIL"
-          git fetch origin "$TARGET_BASE" --prune
+          git fetch --prune origin "$TARGET_BASE"
 
           target_base_sha=$(git rev-parse "origin/$TARGET_BASE")
           echo "target_base_sha=$target_base_sha" >> "$GITHUB_OUTPUT"
