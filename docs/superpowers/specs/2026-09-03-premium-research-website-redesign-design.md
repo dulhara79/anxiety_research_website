@@ -1,439 +1,576 @@
-# Premium Research Website Redesign — Design Specification
+# Premium Research Website Redesign — Design Specification v2
 
 **Date:** 2026-09-03  
 **Repository:** `dulhara79/anxiety_research_website`  
 **Branch:** `feature/premium-research-website-redesign`  
 **Research source of truth:** `dulhara79/R26-DS-012`  
-**Status:** Approved design direction, pending implementation-plan approval
+**Status:** Revised after design-quality feedback; pending user approval
 
 ## 1. Objective
 
-Redesign the existing research website into a premium, light-theme, motion-rich scientific experience that feels closer to a polished AI/health research product launch than a conventional university project template.
+Redesign the research website into a premium, publication-grade scientific experience that feels credible enough for researchers, clinicians, conference reviewers, industry engineers, and supervisors.
 
-The redesign must improve both visual quality and scientific correctness. Existing website content that reflects superseded research directions must be replaced with the current architecture and results in `R26-DS-012`.
+The website must not look like a student portfolio, a generic SaaS template, or a collection of animated Tailwind cards. It should feel deliberate, restrained, editorial, and technically sophisticated.
+
+The visual standard is closer to contemporary healthcare-AI and research organizations that use strong typography, editorial spacing, real evidence, and bespoke scientific graphics rather than stock photography and decorative effects.
 
 Primary goals:
 
-- Create an immediate visual “wow” effect without sacrificing scientific credibility.
-- Use smooth, intentional animation and motion rather than decorative effects with no information value.
-- Present the research architecture and component relationships interactively.
-- Centralize research facts so pages do not drift out of sync.
-- Correct outdated component descriptions, datasets, metrics, and deployment claims.
-- Preserve strong usability on desktop, tablet, and mobile.
-- Keep performance, accessibility, and maintainability at production quality.
+- create a strong first impression through composition and typography, not visual noise;
+- make the research itself the visual identity;
+- use custom scientific diagrams and real project assets as primary imagery;
+- remove generic stock-photo dependence;
+- replace repeated glass cards / pills / gradients with a disciplined component system;
+- keep motion smooth and meaningful rather than constant or playful;
+- accurately present the current science in `R26-DS-012`;
+- preserve excellent accessibility, performance, responsiveness, and maintainability.
 
-## 2. Design Direction
+## 2. Design Principles
 
-### 2.1 Visual language
+### 2.1 Premium means restraint
 
-The site will use premium scientific minimalism:
+The design will deliberately avoid the common signals of amateur AI-generated websites:
 
-- warm clinical white / soft neutral canvas
-- soft blue, cyan, teal, and lavender atmospheric gradients
-- electric blue as the primary research signal
-- teal for physiological content
-- blue/cyan for behavioural research
-- rose/coral for clinical NLP
-- violet for multimodal fusion and RAG
-- graphite / slate typography
-- restrained glass surfaces and luminous borders
-- large editorial typography with generous whitespace
-- diagrams and data visualizations as primary visual assets
+- no floating decorative bubbles around every section;
+- no random particles;
+- no excessive neon gradients;
+- no rainbow glassmorphism;
+- no spinning rings for decoration;
+- no shimmer on ordinary badges;
+- no large number of rounded cards with identical shadows;
+- no excessive pill tags;
+- no icon on every heading;
+- no stock doctor/patient imagery used merely to fill space;
+- no fake medical dashboards;
+- no animation simply because Framer Motion is available;
+- no gratuitous 3D tilt or magnetic effects across the interface.
 
-The design must not become a generic glassmorphism template. Glass, blur, glow, and gradient treatments must support hierarchy and depth rather than dominate every element.
+Every visual effect must have one of three jobs: establish hierarchy, explain research, or improve interaction feedback.
 
-### 2.2 Motion language
+### 2.2 Editorial scientific composition
 
-Motion will follow a single consistent system:
+The site will use large negative space, asymmetric editorial layouts, strong typographic hierarchy, thin rules, precise alignment, restrained borders, and selected full-width visual moments.
 
-- page transitions: opacity + small vertical translation
-- section reveals: opacity + blur + transform
-- large headings: masked / staggered text reveal
-- research architecture: line drawing, signal travel, scroll-linked transitions
-- cards: subtle elevation, cursor spotlight, optional low-amplitude tilt
-- buttons: spring hover, arrow travel, slight magnetic response on pointer devices
-- images: mask reveal + low-amplitude parallax
-- metrics: count-up, graph draw, confidence-interval reveal
-- navigation: shared-layout active indicator
-- backgrounds: extremely slow ambient gradient / orbital movement
+Pages should resemble a high-quality research publication translated to the web rather than a card dashboard.
 
-Animations must use transforms and opacity where possible to minimize layout thrashing.
+### 2.3 Research is the brand
 
-## 3. Information Architecture
+The four modalities and the multimodal fusion architecture become the main visual system.
 
-The website remains multi-page because the research contains substantial technical depth and visitors need direct access to specific topics.
+Instead of relying on generic healthcare photos, the website should repeatedly reinterpret real research concepts:
 
-Primary navigation:
+- physiological waveform and wearable signals;
+- temporal graph structure;
+- clinical-note embedding / prototype geometry;
+- weighted multimodal fusion;
+- evidence retrieval and provenance;
+- confidence intervals, validation decisions, and abstention states.
 
-1. Home
-2. Research
-3. Components
-4. Methodology
-5. Results
-6. Team
-7. Publications
-8. Documents
-9. Contact
+## 3. Typography System
 
-A new `Results` page will be added so validated outcomes, confidence intervals, limitations, deployment decisions, and component-level evidence have a dedicated home.
+The existing `Plus Jakarta Sans + Outfit + JetBrains Mono` combination will be replaced. It currently contributes to a generic portfolio / template feel.
 
-### 3.1 Home
+### 3.1 Proposed type stack
 
-The home page becomes the flagship experience.
+**Primary display / interface:** `Manrope`
 
-Sections:
+- clean but more distinctive than a default system sans;
+- suitable for large technical headlines and navigation;
+- controlled weights: 500, 600, 700 only.
 
-1. cinematic multimodal hero
-2. concise research problem and motivation
-3. animated multimodal architecture
-4. four component story panels
-5. evidence / validation highlights
-6. reliability and abstention philosophy
-7. end-to-end workflow / methodology preview
-8. research team preview
-9. documents/publications CTA
-10. final research CTA
+**Editorial accent:** `Instrument Serif`
 
-### 3.2 Research
+- used sparingly for selected words, section openers, pull statements, and major editorial moments;
+- never used for dense technical content;
+- typically 400 / italic.
 
-A dedicated overview experience for:
+**Body / long-form:** `Inter`
 
-- problem definition
-- research gap
-- objectives
-- multimodal rationale
-- intended users / research context
-- safety and research-use boundaries
+- used for research explanations, captions, documents, and dense information;
+- optimized for readability and neutral enough not to compete with the science.
 
-If introducing a separate `Research.jsx` page creates unnecessary navigation complexity, the same content may remain distributed between Home and Methodology, but the data layer and visual system must support this hierarchy.
+**Data / technical labels:** `IBM Plex Mono`
 
-### 3.3 Components
+- used for model names, IDs, metric labels, timestamps, equations, and dataset metadata;
+- no oversized monospace decorative text.
 
-Four technically accurate component sections/cards:
+### 3.2 Typography rules
 
-- C1 — physiological / wearable forecasting
-- C2 — spatio-temporal behavioural graph study
-- C3 — clinical NLP / TC-WPN
-- C4 — contextual modelling, reliability-weighted multimodal fusion, and CARE-AnxRAG
+- Hero display: 64–96px desktop depending on viewport, tightly controlled line length.
+- Section headings: 44–64px desktop.
+- Body text: 16–18px with approximately 1.6 line height.
+- Long text line length: approximately 60–72 characters.
+- Labels: 11–13px mono with deliberate letter spacing.
+- Maximum three font families on any page, each with a clearly defined role.
+- Avoid excessive font weights; hierarchy comes from scale, spacing, and contrast.
 
-Each component should include:
+## 4. Colour System
 
-- objective
-- research gap
-- methodology
-- datasets
-- architecture / flow
-- metrics
-- current evidence
-- limitations
-- deployment / fusion status where applicable
-- technologies
-- component lead
+The palette will move away from the current bright blue/violet/teal startup-gradient look.
 
-### 3.4 Methodology
+### 4.1 Core palette
 
-The methodology page should use an animated stepwise research pipeline rather than static text-heavy blocks.
+- **Canvas:** warm ivory / clinical off-white, approximately `#F5F3EE`
+- **Surface:** soft white, approximately `#FCFBF8`
+- **Primary ink:** near-black graphite, approximately `#111417`
+- **Secondary text:** cool grey, approximately `#5E646B`
+- **Rule / border:** warm grey, approximately `#D9D8D2`
+- **Primary signal:** restrained cobalt, approximately `#3E5CC8`
+- **Physiology:** muted sea-green / teal
+- **Behavioural:** desaturated cyan-blue
+- **Clinical NLP:** muted coral / rose
+- **Fusion / RAG:** soft violet / indigo
 
-High-level flow:
+Exact contrast-safe values will be finalized during implementation.
 
-`Data → Preprocessing → Modality Models → Leakage-Aware Validation → Reliability Gating → Fusion → Evidence Retrieval / Decision Support`
+### 4.2 Colour usage
 
-A sticky or progress-aware side navigation may be used on large screens.
+- Most of the site remains off-white, graphite, and neutral grey.
+- Component colours appear mainly in diagrams, data marks, hover states, and tiny identity accents.
+- Large gradients are rare and subtle.
+- No section should look like a different template because it uses a different saturated colour.
 
-### 3.5 Results
+## 5. Imagery Strategy
 
-The Results page will explicitly separate:
+### 5.1 Remove generic stock-photo dependence
 
-- component-level validation
-- held-out / external validation
-- confidence intervals / permutation tests where available
-- fusion eligibility decisions
-- negative / non-significant findings
-- engineering validation versus clinical validation
+The current site uses several Unsplash medical/technology images. These will no longer define the visual identity.
 
-The site must not visually imply that software scenario tests are clinical validation.
+Primary imagery hierarchy:
 
-### 3.6 Team
+1. real project figures and architecture assets from `R26-DS-012`;
+2. real hardware / wearable imagery where available;
+3. real mobile / clinician application screenshots where appropriate;
+4. real team portraits already referenced by the project;
+5. custom React/SVG scientific visuals;
+6. custom graphical-abstract style illustrations if needed;
+7. carefully chosen supporting photography only when it adds genuine context.
 
-Use real team images already referenced by the project where stable and appropriate.
+### 5.2 Image treatment
 
-Correct component ownership and descriptions to the current architecture.
+All media must feel like one visual system:
 
-Cards should support:
+- consistent crop ratios;
+- large editorial crops rather than many small thumbnails;
+- subtle tonal treatment where source images differ significantly;
+- restrained border radius (not every image is a rounded 24px card);
+- no image shadows unless required for device/UI screenshots;
+- captions for scientific figures;
+- lightbox or expanded figure viewing only where useful.
 
-- name
-- student ID
-- component role
-- current technical focus
-- short bio
-- GitHub / relevant profile links if already present in existing source content
+### 5.3 Team photography
 
-Supervisor information must remain prominent and accurate.
+Use real portraits only. No generic professional stock portraits.
 
-## 4. Scientific Source-of-Truth Rules
+Because source portraits have different backgrounds and quality, the layout should normalize them through consistent 4:5 or 3:4 crops, neutral framing, and optional low-saturation treatment rather than artificial replacement.
 
-`R26-DS-012/main` is the scientific source of truth. The current website must not preserve outdated claims merely because they are already implemented.
+If a supervisor portrait is not available in the repository/source content, use an elegant text profile rather than a fake image.
 
-### 4.1 Component mapping
+## 6. Motion System
 
-The website must use this mapping:
+The previous direction contained too many visible motion motifs. v2 uses a restrained three-speed motion system.
 
-- **C1:** Wearable physiological sensing, self-supervised anomaly detection, short-horizon forecasting.
-- **C2:** Spatio-temporal behavioural graph learning using the final GLOBEM pipeline and leakage-free evaluation.
-- **C3:** Clinical NLP / TC-WPN using patient-disjoint few-shot benchmark design.
-- **C4:** Contextual modelling + reliability-weighted fusion + CARE-AnxRAG decision support.
+### 6.1 Interaction motion
 
-### 4.2 Required corrections
+**150–260ms**
 
-Remove or clearly mark as historical any website claims that still present:
+Used for:
 
-- StudentLife as the final C2 evaluation source
-- validated high-risk behavioural windows or phenotypes from the old C2 pipeline
-- active C2 contribution to fusion
-- KNN/NHANES intervention engine as the current C4 architecture
-- inflated or archived TC-WPN benchmark claims
-- clinical-validation language unsupported by the current repository evidence
+- buttons;
+- nav indicator;
+- hover/focus states;
+- accordion / disclosure controls;
+- small UI feedback.
 
-### 4.3 Current research facts to surface
+### 6.2 Content motion
 
-Where supported by the current main repo, the redesign should surface facts such as:
+**500–850ms**
 
-- C2 held-out GATv2 AUROC around `0.5205`
-- participant-clustered 95% CI around `0.485–0.560`
-- permutation null around `0.4991`
-- empirical p-value around `0.255`
-- active C2 fusion base weight `0.0`
-- clean TC-WPN five-seed benchmark around `0.7377 ± 0.0031` AUROC
-- C4 reliability-weighted fusion using modality informativeness, recency, and reliability / coverage
-- CARE-AnxRAG evidence-quality, contradiction, provenance, abstention, and safety-aware retrieval safeguards
+Used for:
 
-Exact displayed values must be taken from current repository sources during implementation rather than copied from stale website code.
+- section entry;
+- figure reveal;
+- text mask reveal;
+- route transition;
+- chart / confidence-interval drawing.
 
-## 5. Data Architecture
+### 6.3 Ambient scientific motion
 
-Introduce a centralized research-data module, tentatively:
+**10–30 seconds**
 
-`src/data/research.js`
+Used only for a small number of research-specific background visuals such as a slow signal field or data-flow loop.
 
-This module becomes the website content source for repeated facts such as:
+### 6.4 Explicitly removed patterns
 
-- project metadata
-- component definitions
-- team ownership
-- metrics
-- datasets
-- methodology summaries
-- validation status
-- tech stack
-- supervisor information
+- floating badges;
+- random particle clouds;
+- constant card bobbing;
+- infinite decorative spins;
+- shimmer effects on regular content;
+- aggressive parallax on every image;
+- exaggerated spring/bounce effects;
+- novelty cursor effects.
 
-Pages and visual components should render from this shared data where practical instead of duplicating values in multiple files.
+The site should feel calm even when many animations are technically present.
 
-This reduces the risk of component descriptions drifting out of sync across Home, Components, Methodology, Results, and Team.
+## 7. Global Layout System
 
-## 6. Component Architecture
+### 7.1 Grid
 
-Introduce reusable visual and motion primitives rather than duplicating animation logic across pages.
+- 12-column desktop editorial grid;
+- max content width around 1360–1440px;
+- long-form reading width much narrower;
+- consistent vertical rhythm built around 8px increments;
+- section spacing typically 112–176px desktop;
+- large whitespace is intentional, not empty.
+
+### 7.2 Borders and radii
+
+- small UI: 8–12px radius;
+- selected feature surfaces: 16–20px;
+- large figures may use 0–16px depending on composition;
+- avoid universal `rounded-3xl` treatment;
+- thin 1px neutral rules preferred to shadows.
+
+### 7.3 Shadows
+
+Most content should have no shadow.
+
+Shadows are reserved for:
+
+- floating navigation;
+- device screenshots;
+- modal/lightbox layers;
+- rare elevated interactive surfaces.
+
+## 8. Navigation
+
+Desktop navigation becomes visually quiet and architectural.
+
+- compact R26/DS/012 wordmark rather than an emoji/brain-style logo;
+- floating or inset neutral navigation surface;
+- no colourful logo tile;
+- active state indicated through typography / fine rule / subtle shared motion;
+- repository link visually secondary;
+- primary navigation reduced to the most important destinations.
+
+Proposed desktop items:
+
+`Research  Components  Methodology  Results  Team  Publications`
+
+Documents and Contact can sit in a utility menu / footer if this produces cleaner navigation.
+
+Mobile uses a premium full-height sheet with large typography, not a small accordion dropdown.
+
+## 9. Homepage — Revised Composition
+
+The homepage should feel like a research launch story, not a landing-page template.
+
+### 9.1 Hero
+
+No full-screen dark stock brain image.
+
+Preferred composition:
+
+- off-white background;
+- restrained project code / SLIIT metadata line;
+- very large left-aligned editorial title;
+- one Instrument Serif accent phrase at most;
+- concise one- or two-sentence research thesis;
+- two simple text/button CTAs;
+- right or lower half occupied by a bespoke multimodal scientific graphic derived from the actual architecture.
+
+Example visual hierarchy:
+
+```text
+R26 / DS / 012                         SLIIT · 2026
+
+A multimodal digital
+biomarker framework for
+understanding anxiety
+vulnerability.
+
+Personalized physiological forecasting, behavioural
+research, clinical NLP, and evidence-aware fusion.
+
+Explore the research  →      Read methodology
+
+                     [custom multimodal signal figure]
+```
+
+The hero visual should feel like a graphical abstract: fine lines, waveform traces, graph nodes, clinical-text fragments, and a central weighted fusion field. No cartoon brain icon.
+
+### 9.2 Research thesis strip
+
+A full-width typographic statement explaining why multimodal evidence is necessary. No cards.
+
+### 9.3 Four-component narrative
+
+Use four large alternating editorial sections rather than four equal cards.
+
+Each section contains:
+
+- large component number;
+- concise title;
+- one strong visual;
+- research question;
+- method summary;
+- one or two validated metrics/status facts;
+- link to full details.
+
+### 9.4 Evidence section
+
+A clean data editorial layout inspired by scientific figures:
+
+- large metric;
+- small source/context label;
+- confidence interval where available;
+- deployment / validation status;
+- short interpretation.
+
+No fake dashboard gauge graphics.
+
+### 9.5 Research integrity section
+
+A high-quality editorial section on leakage control, reliability gating, negative findings, and abstention. This distinguishes the project from ordinary student portfolios.
+
+### 9.6 Team preview
+
+One horizontal editorial team composition with real photos, not four identical profile cards.
+
+## 10. Components Page
+
+The current expandable-card interface will be replaced.
+
+Use a research monograph structure:
+
+- sticky component index on desktop;
+- four vertically separated chapters;
+- large figure at the beginning of each chapter;
+- concise objective and research gap;
+- architecture flow;
+- datasets and validation design;
+- results;
+- limitations / current status;
+- technologies as compact metadata rather than colourful chips.
+
+Component identity:
+
+- C1: waveform / wearable signal visual language;
+- C2: temporal graph / missingness / validation visual language;
+- C3: clinical text / embedding / prototype visual language;
+- C4: weighted fusion / evidence provenance visual language.
+
+## 11. Methodology Page
+
+Designed like an interactive scientific methods paper.
+
+Use a central vertical pipeline with chapter-style sections:
+
+`Acquisition → Cleaning → Modality modelling → Leakage-aware evaluation → Reliability gating → Fusion → Evidence retrieval`
+
+On desktop, the pipeline indicator may remain sticky while detailed content scrolls.
+
+Animations draw or activate only the currently discussed stage.
+
+No milestone-card timeline styling.
+
+## 12. Results Page
+
+The Results page should be the strongest proof of research maturity.
+
+Visual style:
+
+- restrained charts;
+- tables with generous spacing;
+- confidence intervals;
+- baseline comparisons;
+- negative findings presented clearly;
+- deployment decisions connected directly to evidence.
+
+Examples:
+
+- C2 AUROC `0.5205`, 95% CI `0.485–0.560`, p=`0.255`, fusion base weight `0.0`;
+- TC-WPN clean five-seed benchmark approximately `0.7377 ± 0.0031` AUROC;
+- C4 eligibility / reliability logic and engineering validation separated from clinical validation.
+
+Charts should look like publication figures, not SaaS analytics widgets.
+
+## 13. Team Page
+
+The Team page should feel like an editorial lab page.
+
+Recommended layout:
+
+- opening group / institution statement;
+- large asymmetric member portraits;
+- member name and role in large typography;
+- technical focus in concise prose;
+- student ID and component as small mono metadata;
+- supervisors presented in a restrained institutional section.
+
+Avoid colourful focus-tag clouds.
+
+## 14. Publications / Documents
+
+These pages should resemble a research library.
+
+Use:
+
+- document title;
+- type;
+- year/status;
+- authors;
+- concise abstract/description;
+- clear download/open action;
+- citation-style metadata.
+
+Avoid generic download cards with oversized icons.
+
+## 15. Contact
+
+Minimal, credible, and institutional.
+
+- research group contact information;
+- SLIIT affiliation;
+- repository link;
+- simple contact form only if it has a real submission path;
+- no oversized stock hero image.
+
+## 16. Scientific Source-of-Truth
+
+`R26-DS-012/main` is authoritative for research content.
+
+Current mapping:
+
+- **C1:** wearable physiological sensing, self-supervised anomaly detection, short-horizon forecasting;
+- **C2:** final GLOBEM spatio-temporal behavioural graph study with leakage-free evaluation;
+- **C3:** clinical NLP / TC-WPN with patient-disjoint few-shot evaluation;
+- **C4:** contextual modelling + reliability-weighted fusion + CARE-AnxRAG.
+
+Outdated claims must be removed or explicitly marked historical, including:
+
+- StudentLife as final C2 evidence;
+- validated C2 high-risk windows / phenotypes;
+- active C2 fusion contribution;
+- KNN/NHANES intervention engine as current C4 architecture;
+- archived/inflated TC-WPN results;
+- unsupported clinical-validation language.
+
+## 17. Data Architecture
+
+Centralize repeated research content in `src/data/research.js` or a small set of domain-focused data modules.
+
+Store:
+
+- project metadata;
+- component metadata;
+- datasets;
+- validated metrics;
+- team mappings;
+- methodology stages;
+- publications/documents metadata;
+- safety / validation status.
+
+Pages consume the shared data rather than duplicating facts.
+
+## 18. Component Architecture
+
+Reusable primitives should be fewer and more purposeful than the original proposal.
 
 Suggested structure:
 
 ```text
 src/
 ├── components/
+│   ├── layout/
+│   │   ├── PageShell.jsx
+│   │   ├── Section.jsx
+│   │   └── EditorialGrid.jsx
 │   ├── motion/
 │   │   ├── Reveal.jsx
 │   │   ├── TextReveal.jsx
-│   │   ├── ParallaxMedia.jsx
-│   │   ├── MagneticButton.jsx
-│   │   ├── SpotlightCard.jsx
-│   │   ├── ScrollProgress.jsx
-│   │   └── PageTransition.jsx
-│   ├── visuals/
-│   │   ├── MultimodalOrbital.jsx
-│   │   ├── ECGSignal.jsx
-│   │   ├── BehavioralGraph.jsx
-│   │   ├── TCWPNVisualizer.jsx
-│   │   └── FusionVisualizer.jsx
+│   │   └── RouteTransition.jsx
+│   ├── research/
+│   │   ├── MultimodalFigure.jsx
+│   │   ├── PhysiologicalFigure.jsx
+│   │   ├── BehavioralGraphFigure.jsx
+│   │   ├── TCWPNFigure.jsx
+│   │   ├── FusionFigure.jsx
+│   │   └── MetricFigure.jsx
 │   └── ui/
-│       ├── SectionHeader.jsx
-│       ├── MetricCard.jsx
-│       ├── ResearchBadge.jsx
-│       └── GlassPanel.jsx
+│       ├── Button.jsx
+│       ├── FigureCaption.jsx
+│       └── SectionLabel.jsx
 ├── data/
 │   └── research.js
 └── pages/
-    ├── Home.jsx
-    ├── Components.jsx
-    ├── Methodology.jsx
-    ├── Results.jsx
-    ├── Team.jsx
-    ├── Publications.jsx
-    ├── Documents.jsx
-    └── Contact.jsx
 ```
 
-Names may be adjusted during implementation if the existing codebase suggests cleaner boundaries.
+Do not create dozens of one-purpose visual-effect components.
 
-## 7. Homepage Hero
-
-The hero must be visually distinctive and research-specific.
-
-Concept:
-
-- large project title / short research thesis
-- lightweight animated multimodal network/orbital diagram
-- four modality nodes around a fusion core
-- signal particles / lines moving into fusion
-- cursor-responsive low-amplitude depth effect on pointer devices
-- very subtle scroll-linked separation as the user leaves the hero
-- clear CTA to Components / Methodology / Results
-
-No autoplay video background and no heavy WebGL by default.
-
-## 8. Research Visualizations
-
-### 8.1 C1
-
-Use ECG / physiological waveform motifs, wearable sensor callouts, and forecast trajectory visualizations.
-
-### 8.2 C2
-
-Use a temporal graph visualization that accurately represents the final graph concept. It must not imply that C2 is a validated clinical predictor.
-
-### 8.3 C3
-
-Visualize the few-shot flow:
-
-`Clinical Note → ClinicalBERT Embedding → Projection → Support Prototypes → Weighted Prototype Classification`
-
-Use careful labels so prototype consistency is not misrepresented as calibrated confidence.
-
-### 8.4 C4
-
-Visualize multiple eligible modality scores entering a reliability-weighted fusion core, then producing Low / Medium / High or insufficient-evidence states, followed by evidence-aware retrieval.
-
-The demographic/context prior must not be shown as independently producing a clinical tier.
-
-## 9. Navigation
-
-Desktop:
-
-- floating glass navigation bar slightly inset from viewport edges
-- shared-layout active indicator
-- compact project mark / identity
-- direct GitHub repository link
-- optionally a primary CTA for research documents
-
-Mobile:
-
-- animated full-screen or large-sheet navigation
-- large touch targets
-- body scroll locking while open
-- reduced animation complexity compared with desktop
-
-## 10. Imagery Strategy
-
-Avoid making the site a stock-photo collage.
-
-Priority order:
-
-1. real project figures / architecture imagery from the main repo where suitable
-2. real team portraits already used by the project
-3. custom SVG research diagrams
-4. generated visual motifs / data visualizations implemented in code
-5. carefully selected medical/scientific photography as supporting media only
-
-Images must have descriptive alt text and responsive sizing.
-
-## 11. Accessibility
+## 19. Accessibility
 
 Required:
 
-- `prefers-reduced-motion` support
-- keyboard navigation
-- visible focus states
-- semantic headings
-- sufficient text/background contrast
-- descriptive alt text
-- non-motion-dependent communication of research meaning
-- interactive cards/buttons operable without pointer hover
-- no important information communicated by color alone
+- `prefers-reduced-motion` support;
+- keyboard navigation;
+- visible focus styles;
+- semantic headings;
+- contrast-safe palette;
+- descriptive alt text;
+- static equivalents for animated research diagrams;
+- no information conveyed solely by colour or motion;
+- large touch targets on mobile.
 
-Motion-intensive sections must degrade gracefully when reduced motion is enabled.
+## 20. Performance
 
-## 12. Performance
+Premium quality includes speed.
 
-Performance is part of the premium experience.
+- Framer Motion remains sufficient; no Three.js unless an actual requirement emerges;
+- no autoplay hero video;
+- lazy-load non-critical images;
+- responsive image sources;
+- SVG/Canvas diagrams kept lightweight;
+- permanent animations limited to a small number of elements;
+- animation primarily uses transform/opacity;
+- mobile gets reduced complexity;
+- production bundle verified with `npm run build`.
 
-Requirements:
+## 21. Responsive Design
 
-- continue using Framer Motion already installed unless another dependency has a clear measurable benefit
-- avoid unnecessary Three.js / WebGL
-- lazy-load non-critical images
-- use responsive image dimensions where possible
-- only animate elements when relevant / in viewport
-- avoid permanent high-frequency animation on many DOM nodes
-- use transform/opacity for animation where possible
-- keep mobile effects simpler
-- avoid large autoplay video assets
-- run production `npm run build` before PR completion
+Desktop is not simply scaled down.
 
-## 13. Responsive Behaviour
+**Desktop:** full editorial grid, rich diagrams, sticky methods/results navigation.
 
-The design must be deliberately adapted rather than merely shrunk.
+**Tablet:** simplified grids and diagrams, preserved hierarchy.
 
-Desktop:
+**Mobile:** single-column editorial story, simplified static/low-motion diagrams, large type, no pointer-only interactions.
 
-- full architecture visualizations
-- richer parallax and pointer effects
-- sticky methodology navigation where useful
+## 22. Verification
 
-Tablet:
+Before PR completion:
 
-- reduced density and simplified grid arrangements
-- maintain primary architecture motions
+1. `npm ci`;
+2. `npm run build`;
+3. verify all routes;
+4. verify Results route;
+5. verify desktop/tablet/mobile layouts;
+6. verify reduced-motion behavior;
+7. verify navigation and keyboard focus;
+8. verify external images cannot collapse layouts;
+9. verify outdated StudentLife / KNN-C4 claims are removed as current claims;
+10. verify all displayed result values against current `R26-DS-012/main`;
+11. verify no runtime-breaking console errors in representative interactions;
+12. verify `.github/workflows/sync-to-main-repo.yml` is not unintentionally changed.
 
-Mobile:
+## 23. Git / Delivery Workflow
 
-- stacked narrative
-- simplified diagrams
-- fewer simultaneous animations
-- no pointer-dependent interaction requirements
-- large readable typography and controls
-
-## 14. Error / Fallback Handling
-
-- External images should not break page layout if unavailable.
-- Research diagrams implemented in SVG/React should be usable without remote media.
-- Links to external documents/repositories should use safe external-link attributes.
-- Components must have stable static fallback states if animation APIs are unavailable.
-
-## 15. Testing and Verification
-
-Minimum implementation verification:
-
-1. `npm ci`
-2. `npm run build`
-3. verify all routes render
-4. verify new Results route
-5. verify mobile navigation
-6. verify reduced-motion behaviour
-7. verify no console-breaking runtime errors in representative interactions
-8. verify no stale StudentLife/KNN-intervention claims remain as current architecture
-9. verify component mappings against current `R26-DS-012/main`
-10. verify all metric claims displayed on the site are sourced from current repository evidence
-11. verify navigation / CTAs resolve correctly
-12. verify source sync workflow files are not accidentally changed by redesign work
-
-## 16. Git / Delivery Workflow
-
-Implementation branch:
+Implementation remains on:
 
 `feature/premium-research-website-redesign`
 
-The redesign must remain isolated from `main` until review.
-
-Delivery flow:
+Flow:
 
 ```text
 anxiety_research_website/main
@@ -442,43 +579,32 @@ feature/premium-research-website-redesign
         ↓
 implementation + validation
         ↓
-Pull Request to anxiety_research_website/main
+PR to anxiety_research_website/main
         ↓
 human review / merge
         ↓
-existing cross-repository sync workflow
+existing sync workflow
         ↓
 R26-DS-012/mirror/research-website/main
         ↓
-automatically created/updated PR to R26-DS-012/main
+automatic PR to R26-DS-012/main
 ```
 
-The redesign PR must not directly modify `R26-DS-012`.
+No direct redesign edits will be made to `R26-DS-012`.
 
-## 17. Non-Goals
+## 24. Definition of Done
 
-This redesign will not:
+The redesign is complete only if:
 
-- turn the public research website into the clinician application
-- expose patient or research-participant data
-- add a production clinical prediction interface
-- claim clinical validation where only benchmark or engineering validation exists
-- use animations that materially damage accessibility or mobile performance
-- auto-merge either repository PR
-
-## 18. Definition of Done
-
-The redesign is complete when:
-
-- the website has a coherent premium light visual system
-- all major pages use the new design system
-- the homepage contains a high-impact multimodal animated research story
-- research diagrams are interactive / motion-enhanced but understandable statically
-- current research architecture and results replace stale content
-- repeated project facts are centralized where practical
-- Results is a first-class page
-- reduced-motion and responsive behaviour are implemented
-- production build passes
-- changed files are reviewed for content accuracy and scope
-- a PR is opened from `feature/premium-research-website-redesign` to `main`
-- the PR is left for human review rather than auto-merged
+- the site no longer reads visually as a generic student project or template;
+- typography is deliberate and consistent;
+- generic stock imagery is no longer the primary visual language;
+- custom research figures carry the visual identity;
+- motion is restrained, smooth, and research-specific;
+- major pages use an editorial composition rather than repeated card grids;
+- current scientific content replaces stale architecture and metrics;
+- the Results page presents evidence with publication-like clarity;
+- real team imagery is treated consistently;
+- responsive and reduced-motion behavior are intentional;
+- the production build passes;
+- the implementation PR is opened for human review and not auto-merged.
