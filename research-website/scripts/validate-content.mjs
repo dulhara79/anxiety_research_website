@@ -1,0 +1,4 @@
+import fs from 'node:fs';import path from 'node:path';
+const root=path.resolve('src');const files=[];function walk(d){for(const n of fs.readdirSync(d)){const p=path.join(d,n);const s=fs.statSync(p);s.isDirectory()?walk(p):/\.(js|jsx|css)$/.test(n)&&files.push(p)}}walk(root);const text=files.map(f=>fs.readFileSync(f,'utf8')).join('\n');
+const forbidden=['images.unsplash.com','pexels.com','Plus Jakarta Sans','Outfit','Adaptive Intervention Engine','KNN BallTree','grad-multi','float-badge','ring-glow'];const required=['GLOBEM','CARE-AnxRAG','0.5205','TC-WPN','Active fusion weight 0.0'];
+const bad=forbidden.filter(x=>text.includes(x));const missing=required.filter(x=>!text.includes(x));if(bad.length||missing.length){console.error('Content validation failed',{bad,missing});process.exit(1)}console.log('Research content/design validation passed.');
