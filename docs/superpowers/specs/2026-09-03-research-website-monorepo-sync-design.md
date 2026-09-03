@@ -12,6 +12,8 @@ The monorepo already uses automated component mirrors. The website sync should f
 
 After a commit or pull request is merged into `anxiety_research_website/main`, automatically validate the website, mirror the current website source into `R26-DS-012/apps/research-website/`, and create or update a pull request targeting `R26-DS-012/main`.
 
+Pull requests to the source repository run website validation only. They never perform cross-repository writes.
+
 The automation must never directly push to the target `main` branch.
 
 ## Source and destination
@@ -30,20 +32,24 @@ Only the contents of `research-website/` are mirrored. Repository-root files fro
 
 The workflow runs on:
 
-1. `push` to source `main`, which covers direct commits and merged pull requests.
-2. `workflow_dispatch` for controlled manual retries.
+1. `pull_request` targeting source `main` when the website or the sync workflow changes. This runs build validation only.
+2. `push` to source `main`, which covers direct commits and merged pull requests. This may perform synchronization.
+3. `workflow_dispatch` for controlled manual retries. Manual synchronization is rejected unless the selected source ref is `main`.
 
-The workflow uses a concurrency group with `cancel-in-progress: false`, so rapid source pushes are serialized rather than racing.
+Concurrency is keyed by event name and ref with `cancel-in-progress: false`, so rapid source-main synchronization runs are serialized instead of racing while pull-request validation remains isolated from production synchronization.
 
 ## Validation before synchronization
 
-Before any target-repository write, the workflow must:
+Before any target-repository write, the synchronization job must:
 
 1. Check out the exact source commit that triggered the run.
-2. Use Node.js 20.
-3. Run `npm ci` in `research-website/`.
-4. Run `npm run build` in `research-website/`.
-5. Stop immediately if the cross-repository token is missing.
+2. Verify the source ref is `main`.
+3. Use Node.js 20.
+4. Run `npm ci` in `research-website/`.
+5. Run `npm run build` in `research-website/`.
+6. Stop immediately if the cross-repository token is missing.
+
+The pull-request validation job separately runs `npm ci` and `npm run build` without receiving or using the cross-repository token.
 
 A broken website must not generate a target sync branch or pull request.
 
@@ -95,11 +101,11 @@ This makes the target copy traceable to an exact source revision.
 
 The workflow uses one deterministic target branch: `mirror/research-website/main`.
 
-For every run:
+For every synchronization run:
 
 1. Fetch the latest `R26-DS-012/main`.
 2. Record the current remote mirror-branch SHA, if the mirror branch exists.
-3. Refuse to overwrite an open mirror branch that contains commits not authored by the website sync bot.
+3. Refuse to overwrite a mirror branch that contains commits not authored by the website sync bot.
 4. Rebuild the local mirror branch from the latest target `main`.
 5. Apply only the website mirror changes.
 6. Commit the synchronized tree.
@@ -116,7 +122,7 @@ No existing monorepo component directory, root file, workflow, or documentation 
 
 ## Pull request lifecycle
 
-The workflow searches for an open pull request whose head is `mirror/research-website/main` and base is `main`.
+The synchronization job searches for an open pull request whose head is `mirror/research-website/main` and base is `main`.
 
 - If one exists, the workflow updates its title and body after pushing the new source revision.
 - If none exists, the workflow creates one.
@@ -134,8 +140,9 @@ The current monorepo ruleset also globally requires status contexts named `Valid
 
 ## Failure behavior
 
-The workflow must fail without modifying the target remote when any of these conditions occurs:
+The synchronization job must fail without modifying the target remote when any of these conditions occurs:
 
+- a manual run is launched from a source ref other than `main`
 - website build fails
 - sync token is missing or invalid
 - existing target mirror directory has no valid ownership manifest
@@ -145,19 +152,20 @@ The workflow must fail without modifying the target remote when any of these con
 - the mirror branch changed since the workflow observed it, causing the force-with-lease to fail
 - GitHub rejects branch push or PR creation/update
 
-A failed run is retriable through `workflow_dispatch` after the underlying issue is corrected.
+A failed run is retriable through `workflow_dispatch` from `main` after the underlying issue is corrected.
 
 ## Success criteria
 
 The implementation is complete when:
 
 1. A workflow exists at `.github/workflows/sync-to-main-repo.yml`.
-2. It triggers on source `main` pushes and manual dispatch.
-3. It validates the Vite application before target writes.
-4. It mirrors only `research-website/` into `R26-DS-012/apps/research-website/`.
-5. It uses deterministic branch/PR behavior and serialized runs.
-6. It protects unrelated target code through scoped staging and path validation.
-7. It protects the mirror branch from stale or manual overwrite through authorship checks and force-with-lease.
-8. It records source provenance.
-9. The workflow YAML and shell logic pass local/static verification.
-10. The implementation is delivered through a pull request to `anxiety_research_website/main`.
+2. Pull requests run build validation without cross-repository writes.
+3. Synchronization triggers on source `main` pushes and manual dispatch from source `main` only.
+4. It validates the Vite application before target writes.
+5. It mirrors only `research-website/` into `R26-DS-012/apps/research-website/`.
+6. It uses deterministic branch/PR behavior and serialized sync runs.
+7. It protects unrelated target code through scoped staging and path validation.
+8. It protects the mirror branch from stale or manual overwrite through authorship checks and force-with-lease.
+9. It records source provenance.
+10. The workflow receives successful pull-request build verification before merge.
+11. The implementation is delivered through a pull request to `anxiety_research_website/main`.
