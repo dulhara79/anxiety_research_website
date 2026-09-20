@@ -107,6 +107,8 @@ assert.ok(fs.existsSync(path.resolve('public/images/research/ai-behavioural-conc
 assert.ok(fs.existsSync(path.resolve('public/images/research/multimodal-editorial.webp')))
 
 const hero = fs.readFileSync(path.join(root, 'components/ResearchHero.jsx'), 'utf8')
-assert.ok(hero.includes('ai-neural-concept.webp'), 'hero must use a verified AI-generated concept visual with a real repo asset')
+const refinementCss = fs.readFileSync(path.join(root, 'refinement.css'), 'utf8')
+assert.ok(hero.includes('showcase-hero'), 'hero must use the approved showcase composition')
+assert.ok(refinementCss.includes('ai-neural-concept.webp'), 'hero background must use a verified AI-generated concept visual with a real repo asset')
 
 console.log('Research semantic and presentation tests passed.')
