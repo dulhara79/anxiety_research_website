@@ -1,17 +1,77 @@
-export default function ResearchPlate(){
-  return <svg className="research-plate" viewBox="0 0 760 500" role="img" aria-label="Scientific signal and evidence flow illustration">
-    <rect x="1" y="1" width="758" height="498" fill="#fff" stroke="#d8d8d2"/>
-    <text x="42" y="52" className="svg-label">MULTIMODAL EVIDENCE PLATE / 01</text>
-    <path d="M44 152h55l15-38 20 76 20-63 18 25h84" className="signal"/>
-    <text x="44" y="206" className="svg-small">PHYSIOLOGICAL / SHORT HORIZON</text>
-    <g className="nodes"><circle cx="90" cy="302" r="7"/><circle cx="150" cy="270" r="7"/><circle cx="210" cy="320" r="7"/><circle cx="270" cy="282" r="7"/><path d="M90 302L150 270L210 320L270 282M150 270L270 282"/></g>
-    <text x="44" y="365" className="svg-small">BEHAVIOURAL / LONGER HORIZON</text>
-    <rect x="380" y="82" width="310" height="116" fill="#f7f7f4" stroke="#d8d8d2"/>
-    <line x1="408" y1="116" x2="654" y2="116" className="thin"/><line x1="408" y1="142" x2="618" y2="142" className="thin"/><line x1="408" y1="168" x2="674" y2="168" className="thin"/>
-    <text x="380" y="226" className="svg-small">CLINICAL NOTE / EMBEDDING EVIDENCE</text>
-    <path d="M380 330h110M600 330h90" className="thin"/><circle cx="545" cy="330" r="44" fill="#2547b8"/><text x="545" y="325" textAnchor="middle" className="svg-white">FUSION</text><text x="545" y="345" textAnchor="middle" className="svg-white-small">RELIABILITY</text>
-    <path d="M490 330h11M589 330h11M256 152C330 152 330 296 501 316M270 282C360 282 400 305 501 326" className="flow"/>
-    <text x="380" y="420" className="svg-small">ELIGIBLE SIGNALS → WEIGHTING → EVIDENCE</text>
-    <text x="380" y="452" className="svg-note">Unreliable or unavailable modalities can be withheld.</text>
-  </svg>
+import { motion } from 'framer-motion'
+
+const pulse = {
+  animate: {
+    opacity: [0.35, 1, 0.35],
+    scale: [0.9, 1.08, 0.9],
+  },
+  transition: {
+    duration: 3.6,
+    repeat: Infinity,
+    ease: 'easeInOut',
+  },
+}
+
+export default function ResearchPlate() {
+  return (
+    <div className="signal-atlas" role="img" aria-label="Animated multimodal evidence flow showing four research streams converging into an evidence-aware fusion layer">
+      <div className="atlas-grid" aria-hidden="true" />
+
+      <div className="atlas-title">
+        <span>Evidence atlas</span>
+        <b>04 streams / 01 framework</b>
+      </div>
+
+      <motion.div className="atlas-node node-c1" {...pulse}>
+        <span>C1</span>
+        <small>Physiological</small>
+      </motion.div>
+      <motion.div className="atlas-node node-c2" {...pulse} transition={{ ...pulse.transition, delay: 0.8 }}>
+        <span>C2</span>
+        <small>Behavioural</small>
+      </motion.div>
+      <motion.div className="atlas-node node-c3" {...pulse} transition={{ ...pulse.transition, delay: 1.6 }}>
+        <span>C3</span>
+        <small>Clinical NLP</small>
+      </motion.div>
+      <motion.div className="atlas-node node-c4" {...pulse} transition={{ ...pulse.transition, delay: 2.4 }}>
+        <span>C4</span>
+        <small>Context</small>
+      </motion.div>
+
+      <svg className="atlas-lines" viewBox="0 0 640 520" aria-hidden="true">
+        <defs>
+          <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="currentColor" stopOpacity=".18" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity=".8" />
+          </linearGradient>
+        </defs>
+        <path d="M110 132 C 220 138, 260 210, 322 266" />
+        <path d="M110 382 C 220 374, 260 320, 322 278" />
+        <path d="M530 142 C 430 155, 390 220, 338 267" />
+        <path d="M530 382 C 430 368, 390 320, 338 280" />
+        <motion.circle
+          cx="110" cy="132" r="4"
+          animate={{ cx: [110, 205, 322], cy: [132, 170, 266] }}
+          transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.circle
+          cx="530" cy="142" r="4"
+          animate={{ cx: [530, 430, 338], cy: [142, 190, 267] }}
+          transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: .6 }}
+        />
+      </svg>
+
+      <div className="atlas-core">
+        <span>Evidence-aware</span>
+        <strong>FUSION</strong>
+        <small>reliability · recency · eligibility</small>
+      </div>
+
+      <div className="atlas-status">
+        <span className="status-dot" />
+        Weak or unavailable signals can be withheld.
+      </div>
+    </div>
+  )
 }
