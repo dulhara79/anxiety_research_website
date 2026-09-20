@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'reac
 import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ScrollProgress from './components/ScrollProgress'
 import Home from './pages/Home'
 import Components from './pages/Components'
 import Results from './pages/Results'
@@ -13,15 +14,24 @@ import Contact from './pages/Contact'
 
 function AnimatedRoutes() {
   const location = useLocation()
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 16, filter: 'blur(5px)' }}
+        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
+        transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
       >
+        <motion.div
+          className="route-transition-wash"
+          initial={{ scaleX: 1 }}
+          animate={{ scaleX: 0 }}
+          exit={{ scaleX: 1 }}
+          transition={{ duration: .52, ease: [0.76, 0, 0.24, 1] }}
+          aria-hidden="true"
+        />
         <Routes location={location}>
           <Route path="/" element={<Home />} />
           <Route path="/research" element={<Components />} />
@@ -42,6 +52,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <Router>
+      <ScrollProgress />
       <Navbar />
       <AnimatedRoutes />
       <Footer />
