@@ -5,6 +5,7 @@ import path from 'node:path'
 const research = await import('../src/data/researchData.js')
 const system = await import('../src/data/systemStatus.js')
 const evidence = await import('../src/data/evidenceData.js')
+const team = await import('../src/data/teamData.js')
 
 assert.ok(Array.isArray(research.components), 'components must be an array')
 for (const component of research.components) {
@@ -32,11 +33,18 @@ for (const projection of system.audienceProjections) {
 assert.equal(evidence.unavailableEvidenceExample.value, null)
 assert.equal(evidence.unavailableEvidenceExample.status, 'unavailable')
 
+assert.deepEqual(
+  team.people.map((person) => person.shortName),
+  ['Dulhara', 'Senuvi', 'Dewdu', 'Uvindu'],
+  'researcher order must match the approved team order'
+)
+
 const root = path.resolve('src')
 const requiredFiles = [
   'components/StatusBadge.jsx',
   'components/ThemeToggle.jsx',
   'components/ScrollProgress.jsx',
+  'components/RouteScrollTop.jsx',
   'components/ResearchHero.jsx',
   'components/DeviceSignalStage.jsx',
   'components/MultimodalStory.jsx',
@@ -47,6 +55,7 @@ const requiredFiles = [
   'components/AudienceProjection.jsx',
   'components/EvidenceLedger.jsx',
   'components/ResearchArtifactGallery.jsx',
+  'components/AiConceptGallery.jsx',
   'pages/System.jsx',
 ]
 for (const relative of requiredFiles) {
@@ -59,9 +68,19 @@ for (const route of ['/research','/methodology','/evidence','/system','/publicat
 }
 
 const home = fs.readFileSync(path.join(root, 'pages/Home.jsx'), 'utf8')
-for (const componentName of ['ResearchHero','MultimodalStory','ValidationGate','FusionStage','CurrentForecastSplit','AudienceProjection','ResearchArtifactGallery']) {
+for (const componentName of ['ResearchHero','MultimodalStory','AiConceptGallery','ValidationGate','FusionStage','CurrentForecastSplit','AudienceProjection','ResearchArtifactGallery']) {
   assert.ok(home.includes(componentName), 'Home must compose ' + componentName)
 }
+
+const story = fs.readFileSync(path.join(root, 'components/MultimodalStory.jsx'), 'utf8')
+assert.ok(story.includes('activeComponent'), 'multimodal story must render one active modality visual')
+assert.ok(story.includes('component={activeComponent}'), 'multimodal story must not stack all modality visuals in the left stage')
+
+const scrollTop = fs.readFileSync(path.join(root, 'components/RouteScrollTop.jsx'), 'utf8')
+assert.ok(scrollTop.includes('window.scrollTo'))
+assert.ok(scrollTop.includes('location.pathname'))
+
+assert.ok(app.includes('RouteScrollTop'), 'App must reset scroll on route changes')
 
 const gate = fs.readFileSync(path.join(root, 'components/ValidationGate.jsx'), 'utf8')
 assert.ok(gate.includes('component.statusLabel'))
@@ -82,6 +101,12 @@ assert.ok(css.includes('(hover: none)'))
 assert.ok(css.includes('[data-theme="dark"]') || css.includes("[data-theme='dark']"))
 
 assert.ok(fs.existsSync(path.resolve('public/images/research/chest-strap-reference.webp')))
-assert.ok(fs.existsSync(path.resolve('public/images/research/multimodal-editorial.webp')))
+assert.ok(fs.existsSync(path.resolve('public/images/research/ai-neural-concept.webp')))
+assert.ok(fs.existsSync(path.resolve('public/images/research/ai-behavioural-concept.webp')))
+assert.ok(fs.existsSync(path.resolve('public/images/research/ai-clinical-language-concept.webp')))
+assert.ok(fs.existsSync(path.resolve('public/images/research/ai-contextual-concept.webp')))
+
+const hero = fs.readFileSync(path.join(root, 'components/ResearchHero.jsx'), 'utf8')
+assert.ok(hero.includes('ai-neural-concept.webp'), 'hero must use a verified AI-generated concept visual with a real repo asset')
 
 console.log('Research semantic and presentation tests passed.')
