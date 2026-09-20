@@ -25,11 +25,12 @@ export default function ResearchHero() {
         </motion.div>
         <div className="research-boundary-chip"><FlaskConical size={14}/><span>Research prototype · not a diagnostic device</span></div>
       </div>
+
       <motion.div className="hero-instrument" initial={reduce ? false : { opacity: 0, scale: .985 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: .18, duration: .8 }}>
         <DeviceSignalStage />
-        <figure className="editorial-figure">
-          <img src="/images/research/multimodal-editorial.webp" alt="Editorial illustration supporting the multimodal anxiety research concept" />
-          <figcaption>EDITORIAL ILLUSTRATION · SUPPORTING VISUAL</figcaption>
+        <figure className="editorial-figure hero-concept-figure">
+          <img src="/images/research/ai-neural-concept.webp" alt="AI-generated conceptual illustration of a human-centred multimodal mental-health research theme" />
+          <figcaption>AI-GENERATED CONCEPT · SUPPORTING VISUAL · NOT DATA</figcaption>
         </figure>
       </motion.div>
     </section>

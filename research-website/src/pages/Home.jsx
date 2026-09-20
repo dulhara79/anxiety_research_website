@@ -1,5 +1,6 @@
 import ResearchHero from '../components/ResearchHero'
 import MultimodalStory from '../components/MultimodalStory'
+import AiConceptGallery from '../components/AiConceptGallery'
 import ValidationGate from '../components/ValidationGate'
 import FusionStage from '../components/FusionStage'
 import CurrentForecastSplit from '../components/CurrentForecastSplit'
@@ -31,6 +32,7 @@ export default function Home() {
       </section>
 
       <MultimodalStory/>
+      <AiConceptGallery/>
       <ValidationGate components={components}/>
       <FusionStage/>
       <CurrentForecastSplit assessment={currentAssessment} forecast={physiologicalForecast}/>
@@ -38,7 +40,7 @@ export default function Home() {
 
       <section className="home-evidence">
         <div className="shell">
-          <SectionChapter index="06" label="EVIDENCE RECORD" title="Metrics remain attached to the setting that produced them.">
+          <SectionChapter index="07" label="EVIDENCE RECORD" title="Metrics remain attached to the setting that produced them.">
             <p>Evidence is presented with evaluation context, current eligibility and limitations rather than isolated promotional numbers.</p>
           </SectionChapter>
           <EvidenceLedger records={evidenceRecords}/>
@@ -49,7 +51,7 @@ export default function Home() {
       <ResearchArtifactGallery/>
 
       <section className="closing-manifesto shell">
-        <span>08 / RESEARCH RECORD</span>
+        <span>09 / RESEARCH RECORD</span>
         <h2>A public research record should make uncertainty easier to inspect, not easier to hide.</h2>
         <div>
           <Link to="/methodology">Methodology <ArrowRight size={14}/></Link>

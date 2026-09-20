@@ -103,8 +103,7 @@ assert.ok(css.includes('[data-theme="dark"]') || css.includes("[data-theme='dark
 assert.ok(fs.existsSync(path.resolve('public/images/research/chest-strap-reference.webp')))
 assert.ok(fs.existsSync(path.resolve('public/images/research/ai-neural-concept.webp')))
 assert.ok(fs.existsSync(path.resolve('public/images/research/ai-behavioural-concept.webp')))
-assert.ok(fs.existsSync(path.resolve('public/images/research/ai-clinical-language-concept.webp')))
-assert.ok(fs.existsSync(path.resolve('public/images/research/ai-contextual-concept.webp')))
+assert.ok(fs.existsSync(path.resolve('public/images/research/multimodal-editorial.webp')))
 
 const hero = fs.readFileSync(path.join(root, 'components/ResearchHero.jsx'), 'utf8')
 assert.ok(hero.includes('ai-neural-concept.webp'), 'hero must use a verified AI-generated concept visual with a real repo asset')

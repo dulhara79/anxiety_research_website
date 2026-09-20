@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollProgress from './components/ScrollProgress'
+import RouteScrollTop from './components/RouteScrollTop'
 import Home from './pages/Home'
 import Components from './pages/Components'
 import Results from './pages/Results'
@@ -43,5 +44,5 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
-  return <Router><ScrollProgress/><Navbar/><AnimatedRoutes/><Footer/></Router>
+  return <Router><RouteScrollTop/><ScrollProgress/><Navbar/><AnimatedRoutes/><Footer/></Router>
 }
