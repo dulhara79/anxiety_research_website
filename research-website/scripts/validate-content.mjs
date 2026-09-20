@@ -1,20 +1,20 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from 'node:fs'
+import path from 'node:path'
 
-const scanTargets = [path.resolve('src'), path.resolve('tailwind.config.js')];
-const files = [];
+const scanTargets = [path.resolve('src'), path.resolve('tailwind.config.js')]
+const files = []
 
 function collect(target) {
-  const stat = fs.statSync(target);
+  const stat = fs.statSync(target)
   if (stat.isDirectory()) {
-    for (const name of fs.readdirSync(target)) collect(path.join(target, name));
-    return;
+    for (const name of fs.readdirSync(target)) collect(path.join(target, name))
+    return
   }
-  if (/\.(js|jsx|css)$/.test(target)) files.push(target);
+  if (/\.(js|jsx|css)$/.test(target)) files.push(target)
 }
 
-scanTargets.forEach(collect);
-const text = files.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+scanTargets.forEach(collect)
+const text = files.map((file) => fs.readFileSync(file, 'utf8')).join('\n')
 
 const forbidden = [
   'images.unsplash.com',
@@ -32,15 +32,34 @@ const forbidden = [
   'glow-violet',
   'spin-slow',
   'pulse-soft',
-];
+]
 
-const required = ['GLOBEM', 'CARE-AnxRAG', '0.5205', 'TC-WPN', 'Active fusion weight 0.0'];
-const bad = forbidden.filter((term) => text.includes(term));
-const missing = required.filter((term) => !text.includes(term));
+const required = [
+  'GLOBEM',
+  'CARE-AnxRAG',
+  '0.5205',
+  'TC-WPN',
+  'Active fusion weight',
+  'EXPERIMENTAL / EXCLUDED',
+  'Near-term physiological forecast',
+  'Current multimodal assessment',
+  'fusion_result_id',
+]
 
-if (bad.length || missing.length) {
-  console.error('Content/design validation failed', { bad, missing });
-  process.exit(1);
+const researchSafetyForbidden = [
+  'guaranteed anxiety attack',
+  'predicts an anxiety attack at',
+  'multimodal forecast in 10 minutes',
+  'C2 active fusion',
+]
+
+const bad = forbidden.filter((term) => text.includes(term))
+const missing = required.filter((term) => !text.includes(term))
+const badSafety = researchSafetyForbidden.filter((term) => text.toLowerCase().includes(term.toLowerCase()))
+
+if (bad.length || missing.length || badSafety.length) {
+  console.error('Content/design validation failed', { bad, missing, badSafety })
+  process.exit(1)
 }
 
-console.log('Research content/design validation passed.');
+console.log('Research content/design validation passed.')
