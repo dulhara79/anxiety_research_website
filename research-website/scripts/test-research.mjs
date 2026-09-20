@@ -14,6 +14,7 @@ const c2 = research.components.find((item) => item.id === 'C2')
 assert.ok(c2, 'C2 must exist')
 assert.equal(c2.fusionEligible, false, 'C2 must be excluded from current active fusion')
 assert.equal(c2.activeFusionWeight, 0, 'C2 current active fusion weight must be 0.0')
+assert.equal(c2.statusLabel, 'EXPERIMENTAL / EXCLUDED')
 
 assert.equal(system.systemStates.current.status, 'current')
 assert.equal(system.systemStates.target.status, 'target')
@@ -63,7 +64,7 @@ for (const componentName of ['ResearchHero','MultimodalStory','ValidationGate','
 }
 
 const gate = fs.readFileSync(path.join(root, 'components/ValidationGate.jsx'), 'utf8')
-assert.ok(gate.includes('EXPERIMENTAL / EXCLUDED'))
+assert.ok(gate.includes('component.statusLabel'))
 assert.ok(gate.includes('activeFusionWeight'))
 
 const split = fs.readFileSync(path.join(root, 'components/CurrentForecastSplit.jsx'), 'utf8')
