@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { Menu, Moon, Sun, X, ExternalLink } from 'lucide-react'
 
 const nav = [
@@ -22,21 +23,34 @@ function getInitialTheme() {
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [theme, setTheme] = useState(getInitialTheme)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
     window.localStorage.setItem('research-theme', theme)
   }, [theme])
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 28)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   const close = () => setOpen(false)
 
   return (
-    <header className="site-header">
+    <motion.header
+      className={scrolled ? 'site-header scrolled' : 'site-header'}
+      initial={{ y: -78 }}
+      animate={{ y: 0 }}
+      transition={{ duration: .65, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="nav-shell">
         <NavLink to="/" className="brand" onClick={close} aria-label="R26-DS-012 home">
-          <span className="brand-mark" aria-hidden="true">
+          <motion.span className="brand-mark" aria-hidden="true" whileHover={{ rotate: 18, scale: 1.06 }}>
             <i /><i /><i />
-          </span>
+          </motion.span>
           <span className="brand-copy">
             <strong>R26—DS—012</strong>
             <small>Multimodal Anxiety Research</small>
@@ -65,24 +79,26 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-actions">
-          <button
+          <motion.button
             className="icon-button"
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
             title={theme === 'light' ? 'Dark mode' : 'Light mode'}
+            whileTap={{ scale: .9, rotate: 14 }}
           >
             {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className="menu-button"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label={open ? 'Close menu' : 'Open menu'}
+            whileTap={{ scale: .9 }}
           >
             {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          </motion.button>
         </div>
       </div>
-    </header>
+    </motion.header>
   )
 }
