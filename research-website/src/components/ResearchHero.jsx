@@ -1,154 +1,201 @@
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Layers3, Activity, Boxes, CircleDot, ShieldCheck } from 'lucide-react'
+import {
+  Activity,
+  ArrowRight,
+  Boxes,
+  Layers3,
+  MapPin,
+  ShieldCheck,
+} from 'lucide-react'
 
-const miniStats = [
-  { icon: Boxes, number: '4', label: 'Modalities' },
-  { icon: CircleDot, number: '1', label: 'Unified Framework' },
-  { icon: ShieldCheck, number: '', label: 'Personalized Risk Assessment' },
-  { icon: Activity, number: '', label: 'Real-world Clinical Relevance' },
+const metrics = [
+  {
+    icon: Boxes,
+    value: '4',
+    text: 'Modalities',
+  },
+  {
+    icon: Layers3,
+    value: '1',
+    text: 'Unified Framework',
+  },
+  {
+    icon: ShieldCheck,
+    text: 'Personalized\nRisk Assessment',
+  },
+  {
+    icon: MapPin,
+    text: 'Real-world\nClinical Relevance',
+  },
 ]
 
 export default function ResearchHero() {
-  const reduce = useReducedMotion()
+  const reducedMotion = useReducedMotion()
 
   return (
-    <section className="showcase-hero pixel-hero">
-      <div className="pixel-hero-background" aria-hidden="true" />
-      <div className="shell pixel-hero-shell">
-        <div className="pixel-hero-copy">
-          <motion.div
-            className="pixel-hero-kicker"
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <span>R26–DS–012</span>
-            <b>MULTIMODAL AI FOR MENTAL HEALTH</b>
-          </motion.div>
+    <section className="exact-hero">
+      <div className="exact-hero-ai-bg" />
 
-          <motion.h1
-            initial={reduce ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: .06 }}
-          >
+      <div className="exact-hero-content">
+        <motion.div
+          className="exact-hero-copy"
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65 }}
+        >
+          <div className="exact-hero-kicker">
+            <span>R26—DS—012</span>
+            <b>Multimodal AI for Mental Health</b>
+          </div>
+
+          <h1>
             From Signals to
             <br />
-            Safer <em>Tomorrows</em>
-          </motion.h1>
+            Safer <strong>Tomorrows</strong>
+          </h1>
 
-          <motion.p
-            initial={reduce ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: .12 }}
-          >
-            A multimodal digital biomarker framework for personalized vulnerability mapping and acute escalation forecasting in young adults with anxiety disorders.
-          </motion.p>
+          <p>
+            A multimodal digital biomarker framework for personalized
+            vulnerability mapping and acute escalation forecasting in young
+            adults with anxiety disorders.
+          </p>
 
-          <motion.div
-            className="pixel-hero-actions"
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: .18 }}
-          >
-            <Link to="/research" className="pixel-primary">
-              Explore the Research <ArrowRight size={17} />
+          <div className="exact-hero-actions">
+            <Link to="/research" className="exact-primary-button">
+              Explore the Research
+              <ArrowRight size={18} />
             </Link>
-            <Link to="/system" className="pixel-secondary">
-              <Layers3 size={17} /> View System Architecture
-            </Link>
-          </motion.div>
 
-          <motion.div
-            className="pixel-hero-stats"
-            initial={reduce ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: .24 }}
-          >
-            {miniStats.map(({ icon: Icon, number, label }) => (
-              <article key={label}>
-                <Icon size={15} />
+            <Link to="/system" className="exact-secondary-button">
+              <Layers3 size={18} />
+              View System Architecture
+            </Link>
+          </div>
+
+          <div className="exact-hero-metrics">
+            {metrics.map(({ icon: Icon, value, text }) => (
+              <article key={text}>
+                <div className="exact-metric-icon">
+                  <Icon size={15} />
+                </div>
+
                 <div>
-                  {number && <strong>{number}</strong>}
-                  <span>{label}</span>
+                  {value && <strong>{value}</strong>}
+                  <span>
+                    {text.split('\n').map((part) => (
+                      <span key={part}>{part}</span>
+                    ))}
+                  </span>
                 </div>
               </article>
             ))}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
-        <div className="pixel-hero-visual">
+        <div className="exact-hero-visual">
           <motion.div
-            className="pixel-device-block"
-            initial={reduce ? false : { opacity: 0, x: 28 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: .18, duration: .7 }}
+            className="exact-device-block"
+            initial={
+              reducedMotion
+                ? false
+                : {
+                    opacity: 0,
+                    x: 25,
+                  }
+            }
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              duration: 0.75,
+              delay: 0.15,
+            }}
           >
-            <div className="pixel-device-label">
+            <div className="exact-device-label">
               <strong>Physiological</strong>
               <strong>Sensing</strong>
               <span>(Chest Strap)</span>
             </div>
+
             <img
               src="/images/research/chest-strap-reference.webp"
-              alt="Chest strap physiological sensing hardware used as the research hardware reference"
+              alt="Chest strap physiological sensing research hardware"
             />
           </motion.div>
 
-          <motion.div
-            className="pixel-evidence-copy"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: .42 }}
-          >
-            <span>MULTIMODAL EVIDENCE</span>
-            <b>HUMAN-CENTRED CARE</b>
+          <div className="exact-evidence-copy">
+            <span>Multimodal Evidence</span>
+            <strong>Human-Centred Care</strong>
+
             <ul>
               <li>Physiological</li>
               <li>Behavioral</li>
               <li>Clinical Language</li>
               <li>Contextual</li>
             </ul>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="pixel-ai-humanity"
-            initial={reduce ? false : { opacity: 0, x: 18 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: .48 }}
-          >
+          <div className="exact-humanity-copy">
             <strong>AI + HUMANITY</strong>
             <span>FOR MENTAL WELLBEING</span>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="pixel-risk-card"
-            initial={reduce ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: .55 }}
+          <motion.article
+            className="exact-risk-demo"
+            initial={
+              reducedMotion
+                ? false
+                : {
+                    opacity: 0,
+                    y: 18,
+                  }
+            }
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              delay: 0.55,
+            }}
           >
-            <div className="risk-left">
+            <div className="exact-risk-demo-left">
               <strong>Anxiety Risk Analysis</strong>
-              <svg viewBox="0 0 130 38" aria-hidden="true">
-                <path d="M2 21 L14 21 L20 9 L26 30 L33 15 L40 21 L54 21 L61 12 L67 28 L76 17 L84 21 L98 21 L104 14 L112 26 L120 20 L128 20" />
-              </svg>
-              <small><i /> Demo UI</small>
-            </div>
-            <div className="risk-dial">
-              <div className="dial-ring"><span>—</span></div>
-              <small>NO LIVE DATA</small>
-            </div>
-          </motion.div>
 
-          <p className="pixel-script-note">
+              <svg
+                className="exact-demo-wave"
+                viewBox="0 0 150 40"
+                aria-hidden="true"
+              >
+                <path d="M0 22 L14 22 L18 13 L22 32 L27 18 L34 22 L46 22 L52 10 L57 33 L62 19 L69 22 L81 22 L87 14 L93 29 L100 21 L112 22 L118 16 L124 26 L130 22 L150 22" />
+              </svg>
+
+              <small>
+                <i />
+                Research prototype
+              </small>
+            </div>
+
+            <div className="exact-risk-demo-dial">
+              <Activity size={18} />
+              <strong>—</strong>
+              <span>NO LIVE DATA</span>
+            </div>
+          </motion.article>
+
+          <div className="exact-hero-script">
             Better Understanding
             <br />
             Brighter Tomorrows
-          </p>
+          </div>
         </div>
       </div>
 
-      <div className="pixel-scroll-cue">
-        <i />
+      <div className="exact-scroll-cue">
+        <div className="exact-mouse">
+          <i />
+        </div>
         <span>Scroll to explore</span>
       </div>
     </section>

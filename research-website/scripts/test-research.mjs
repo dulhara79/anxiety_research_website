@@ -73,7 +73,7 @@ for (const componentName of ['ResearchHero','MultimodalStory','AiConceptGallery'
 }
 
 const story = fs.readFileSync(path.join(root, 'components/MultimodalStory.jsx'), 'utf8')
-assert.ok(story.includes('timescale-rail'), 'multimodal story must use the horizontal timescale card rail')
+assert.ok(story.includes('exact-timescale-cards'), 'multimodal story must use the exact reference timescale card row')
 assert.ok(story.includes('components.map'), 'multimodal story must render all four modalities as separate cards')
 assert.ok(!story.includes('position:absolute;inset:0'), 'multimodal story must not depend on overlapping stacked cards')
 
@@ -108,7 +108,9 @@ assert.ok(fs.existsSync(path.resolve('public/images/research/multimodal-editoria
 
 const hero = fs.readFileSync(path.join(root, 'components/ResearchHero.jsx'), 'utf8')
 const refinementCss = fs.readFileSync(path.join(root, 'refinement.css'), 'utf8')
-assert.ok(hero.includes('showcase-hero'), 'hero must use the approved showcase composition')
+assert.ok(hero.includes('exact-hero'), 'hero must use the exact reference composition')
 assert.ok(refinementCss.includes('ai-neural-concept.webp'), 'hero background must use a verified AI-generated concept visual with a real repo asset')
+assert.ok(refinementCss.includes('.exact-navbar'))
+assert.ok(refinementCss.includes('.exact-timescale-card'))
 
 console.log('Research semantic and presentation tests passed.')
