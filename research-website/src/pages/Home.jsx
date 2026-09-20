@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, BookOpen, ShieldCheck, Layers3, FlaskConical, FileText, MoveRight } from 'lucide-react'
 import HeroVisual from '../components/HeroVisual'
 import ResearchFlow from '../components/ResearchFlow'
+import EvidenceSignature from '../components/EvidenceSignature'
 import { components, evidence } from '../data/research'
 
 const reveal = {
@@ -160,12 +161,14 @@ export default function Home() {
         </div>
       </section>
 
+      <EvidenceSignature />
+
       <ResearchFlow />
 
       <section className="evidence-section">
         <div className="shell">
           <motion.div className="section-heading" {...reveal}>
-            <div className="section-index">04 / Evidence record</div>
+            <div className="section-index">05 / Evidence record</div>
             <div>
               <h2>Results stay attached to their evaluation context.</h2>
               <p>
@@ -205,7 +208,7 @@ export default function Home() {
 
       <section className="shell portal-section">
         <motion.div className="portal-copy" {...reveal}>
-          <div className="section-index">05 / Research record</div>
+          <div className="section-index">06 / Research record</div>
           <h2>A public-facing research record, not a product landing page.</h2>
           <p>
             Methodology, evidence, publications, project documents and the research team are separated into clear,
