@@ -1,2 +1,12 @@
-import { evidence } from '../data/research'
-export default function Results(){return <main className="internal shell"><header className="page-intro"><p className="eyebrow">03 / EVIDENCE</p><h1>Evidence record</h1><p>Validation results are paired with the setting that produced them and the limitation that changes how they should be interpreted.</p></header><section className="evidence-table"><div className="evidence-header"><span>Component</span><span>Measure</span><span>Result</span><span>Interpretation</span></div>{evidence.map(e=><div className="evidence-row full" key={e.metric}><span>{e.component}</span><div><strong>{e.metric}</strong><small>{e.context}</small></div><b>{e.value}</b><p>{e.note}</p></div>)}</section><section className="evidence-callout"><p className="eyebrow">VALIDATION GATE</p><h2>C2 is excluded from active fusion.</h2><p>The final GLOBEM GATv2 result was not distinguishable from chance under the project’s leakage-free held-out evaluation. Its current active fusion weight is <strong>0.0</strong>.</p></section></main>}
+import EvidenceLedger from '../components/EvidenceLedger'
+import { evidenceRecords, unavailableEvidenceExample } from '../data/evidenceData'
+
+export default function Results(){
+  return (
+    <main className="internal shell">
+      <header className="page-intro"><p className="eyebrow">EVIDENCE</p><h1>Evidence with provenance, setting and limitation.</h1><p>The page intentionally avoids a leaderboard-style display. The question is not only what number was obtained, but under what evaluation and whether it is eligible to influence the current system.</p></header>
+      <EvidenceLedger records={[...evidenceRecords, unavailableEvidenceExample]}/>
+      <section className="evidence-callout"><p className="eyebrow">CURRENT VALIDATION GATE</p><h2>C2 is experimental / excluded from active fusion.</h2><p>The final GLOBEM GATv2 result was not distinguishable from chance under the project’s held-out evaluation. Its current active fusion weight is <strong>0.0</strong>.</p></section>
+    </main>
+  )
+}

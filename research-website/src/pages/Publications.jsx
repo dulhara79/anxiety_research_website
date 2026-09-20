@@ -1,1 +1,12 @@
-export default function Publications(){return <main className="internal shell"><header className="page-intro"><p className="eyebrow">05 / PUBLICATIONS</p><h1>Publications</h1><p>Research outputs are listed as records, not promotional cards.</p></header><section className="publication-list"><article><span>2026</span><div><h2>A Multimodal Digital Biomarker Framework for Personalized Vulnerability Mapping and Acute Escalation Forecasting in Young Adults with Anxiety Disorders</h2><p>Research manuscript · R26-DS-012</p></div><a href="https://github.com/dulhara79/R26-DS-012" target="_blank" rel="noreferrer">Repository ↗</a></article></section></main>}
+import { publications } from '../data/publicationsData'
+
+export default function Publications(){
+  return (
+    <main className="internal shell">
+      <header className="page-intro"><p className="eyebrow">PUBLICATIONS & OUTPUTS</p><h1>Status is a fact, not a visual flourish.</h1><p>Acceptance, indexing and DOI information are only added when verified from an official public record.</p></header>
+      <section className="publication-list">
+        {publications.map(item=><article key={item.title}><span>{item.year}</span><div><small>{item.statusLabel}</small><h2>{item.title}</h2><p>{item.project}</p></div><a href={item.url} target="_blank" rel="noreferrer">Repository ↗</a></article>)}
+      </section>
+    </main>
+  )
+}
