@@ -74,7 +74,7 @@ for (const componentName of ['ResearchHero','MultimodalStory','AiConceptGallery'
 
 const story = fs.readFileSync(path.join(root, 'components/MultimodalStory.jsx'), 'utf8')
 assert.ok(story.includes('exact-timescale-cards'), 'multimodal story must use the exact reference timescale card row')
-assert.ok(story.includes('components.map'), 'multimodal story must render all four modalities as separate cards')
+assert.ok(story.includes('cards.map'), 'multimodal story must render all four modalities as separate cards')
 assert.ok(!story.includes('position:absolute;inset:0'), 'multimodal story must not depend on overlapping stacked cards')
 
 const scrollTop = fs.readFileSync(path.join(root, 'components/RouteScrollTop.jsx'), 'utf8')
