@@ -1,4 +1,62 @@
+import ResearchHero from '../components/ResearchHero'
+import MultimodalStory from '../components/MultimodalStory'
+import ValidationGate from '../components/ValidationGate'
+import FusionStage from '../components/FusionStage'
+import CurrentForecastSplit from '../components/CurrentForecastSplit'
+import AudienceProjection from '../components/AudienceProjection'
+import EvidenceLedger from '../components/EvidenceLedger'
+import ResearchArtifactGallery from '../components/ResearchArtifactGallery'
+import SectionChapter from '../components/SectionChapter'
+import { components } from '../data/researchData'
+import { evidenceRecords } from '../data/evidenceData'
+import { currentAssessment, physiologicalForecast } from '../data/systemStatus'
 import { Link } from 'react-router-dom'
-import ResearchPlate from '../components/ResearchPlate'
-import { components,evidence } from '../data/research'
-export default function Home(){return <main><section className="hero shell"><div className="hero-copy"><p className="eyebrow">R26—DS—012 / SLIIT / 2026</p><h1>Understanding anxiety vulnerability across multiple timescales.</h1><p className="lead">A multimodal research framework combining physiological forecasting, leakage-audited behavioural evaluation, clinical language modelling and reliability-aware evidence fusion.</p><div className="actions"><a href="#research">Research ↓</a><Link to="/results">Evidence ↗</Link></div></div><ResearchPlate/></section><section id="research" className="statement shell"><p className="eyebrow">RESEARCH THESIS</p><h2>Anxiety-related change is not expressed through a single signal—and different modalities should not be treated as equally reliable evidence.</h2></section><section className="shell system-list"><div className="section-head"><p className="eyebrow">SYSTEM / 04 STREAMS</p><h2>Four research streams. One evidence-aware framework.</h2></div>{components.map(c=><article className="system-row" key={c.id}><div className="component-id">{c.id}</div><div><h3>{c.title}</h3><p>{c.question}</p></div><div className="status"><span>{c.status}</span><p>{c.data}</p></div></article>)}</section><section className="shell evidence-preview"><div className="section-head"><p className="eyebrow">EVIDENCE</p><h2>Results are shown with their evaluation context—not as marketing statistics.</h2></div>{evidence.slice(0,4).map(e=><div className="evidence-row" key={e.metric}><span>{e.component}</span><div><strong>{e.metric}</strong><small>{e.context}</small></div><b>{e.value}</b><p>{e.note}</p></div>)}<Link className="text-link" to="/results">View full evidence record ↗</Link></section><section className="safety"><div className="shell safety-grid"><p className="eyebrow">RESEARCH SAFETY</p><h2>The system can withhold weak modalities and return insufficient evidence rather than manufacture certainty.</h2><p>This framework is for research and clinical decision support. It is not a diagnostic device and does not interpret unavailable evidence as zero risk.</p></div></section></main>}
+import { ArrowRight } from 'lucide-react'
+
+export default function Home() {
+  return (
+    <main className="home-page">
+      <ResearchHero/>
+
+      <section className="research-problem shell">
+        <SectionChapter index="01" label="RESEARCH THESIS" title="One person. Multiple signals. Different clocks.">
+          <p>Anxiety-related change can be reflected across physiological, behavioural, clinical-language and contextual evidence, but those streams are not interchangeable and do not deserve equal influence by default.</p>
+        </SectionChapter>
+        <div className="timescale-ruler" aria-label="Conceptual modality timescale comparison">
+          <span><b>C1</b><i className="fast"/></span>
+          <span><b>C2</b><i className="slow"/></span>
+          <span><b>C3</b><i className="event"/></span>
+          <span><b>C4</b><i className="static"/></span>
+        </div>
+      </section>
+
+      <MultimodalStory/>
+      <ValidationGate components={components}/>
+      <FusionStage/>
+      <CurrentForecastSplit assessment={currentAssessment} forecast={physiologicalForecast}/>
+      <AudienceProjection/>
+
+      <section className="home-evidence">
+        <div className="shell">
+          <SectionChapter index="06" label="EVIDENCE RECORD" title="Metrics remain attached to the setting that produced them.">
+            <p>Evidence is presented with evaluation context, current eligibility and limitations rather than isolated promotional numbers.</p>
+          </SectionChapter>
+          <EvidenceLedger records={evidenceRecords}/>
+          <Link className="text-link" to="/evidence">Open the full evidence record <ArrowRight size={14}/></Link>
+        </div>
+      </section>
+
+      <ResearchArtifactGallery/>
+
+      <section className="closing-manifesto shell">
+        <span>08 / RESEARCH RECORD</span>
+        <h2>A public research record should make uncertainty easier to inspect, not easier to hide.</h2>
+        <div>
+          <Link to="/methodology">Methodology <ArrowRight size={14}/></Link>
+          <Link to="/system">Current / target architecture <ArrowRight size={14}/></Link>
+          <Link to="/documents">Documents <ArrowRight size={14}/></Link>
+        </div>
+      </section>
+    </main>
+  )
+}

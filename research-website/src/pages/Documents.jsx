@@ -1,2 +1,12 @@
-const docs=[['Research repository','Current implementation, results and source-of-truth documentation','https://github.com/dulhara79/R26-DS-012'],['Website repository','Research website source and design history','https://github.com/dulhara79/anxiety_research_website']]
-export default function Documents(){return <main className="internal shell"><header className="page-intro"><p className="eyebrow">DOCUMENTS</p><h1>Research documents</h1><p>A compact index of project sources and technical records.</p></header><section className="document-list">{docs.map(([n,d,u])=><article key={n}><h2>{n}</h2><p>{d}</p><a href={u} target="_blank" rel="noreferrer">Open ↗</a></article>)}</section></main>}
+import DocumentPreview from '../components/DocumentPreview'
+import { documents } from '../data/documentsData'
+
+export default function Documents(){
+  return (
+    <main className="internal shell">
+      <header className="page-intro"><p className="eyebrow">DOCUMENTS</p><h1>Public research records with explicit provenance.</h1><p>Only sources that have a verified public location are exposed here.</p></header>
+      <section className="document-list">{documents.map(document=><DocumentPreview key={document.id} document={document}/>)}</section>
+      <aside className="publication-policy"><strong>Publication control</strong><p>Internal implementation handbooks, credentials, sensitive operational material and unpublished restricted records are not automatically exposed as downloads.</p></aside>
+    </main>
+  )
+}
