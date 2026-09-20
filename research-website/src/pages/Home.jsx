@@ -18,25 +18,13 @@ export default function Home() {
   return (
     <main className="home-page">
       <ResearchHero/>
-
-      <section className="research-problem shell">
-        <SectionChapter index="01" label="RESEARCH THESIS" title="One person. Multiple signals. Different clocks.">
-          <p>Anxiety-related change can be reflected across physiological, behavioural, clinical-language and contextual evidence, but those streams are not interchangeable and do not deserve equal influence by default.</p>
-        </SectionChapter>
-        <div className="timescale-ruler" aria-label="Conceptual modality timescale comparison">
-          <span><b>C1</b><i className="fast"/></span>
-          <span><b>C2</b><i className="slow"/></span>
-          <span><b>C3</b><i className="event"/></span>
-          <span><b>C4</b><i className="static"/></span>
-        </div>
-      </section>
-
       <MultimodalStory/>
-      <AiConceptGallery/>
+
       <ValidationGate components={components}/>
       <FusionStage/>
       <CurrentForecastSplit assessment={currentAssessment} forecast={physiologicalForecast}/>
       <AudienceProjection/>
+      <AiConceptGallery/>
 
       <section className="home-evidence">
         <div className="shell">

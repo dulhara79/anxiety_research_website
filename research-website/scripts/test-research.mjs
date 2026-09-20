@@ -73,8 +73,9 @@ for (const componentName of ['ResearchHero','MultimodalStory','AiConceptGallery'
 }
 
 const story = fs.readFileSync(path.join(root, 'components/MultimodalStory.jsx'), 'utf8')
-assert.ok(story.includes('activeComponent'), 'multimodal story must render one active modality visual')
-assert.ok(story.includes('component={activeComponent}'), 'multimodal story must not stack all modality visuals in the left stage')
+assert.ok(story.includes('timescale-rail'), 'multimodal story must use the horizontal timescale card rail')
+assert.ok(story.includes('components.map'), 'multimodal story must render all four modalities as separate cards')
+assert.ok(!story.includes('position:absolute;inset:0'), 'multimodal story must not depend on overlapping stacked cards')
 
 const scrollTop = fs.readFileSync(path.join(root, 'components/RouteScrollTop.jsx'), 'utf8')
 assert.ok(scrollTop.includes('window.scrollTo'))
