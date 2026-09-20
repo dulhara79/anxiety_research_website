@@ -1,102 +1,156 @@
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Boxes, Layers3, ShieldCheck, UserRoundCheck, Activity } from 'lucide-react'
+import { ArrowRight, Layers3, Activity, Boxes, CircleDot, ShieldCheck } from 'lucide-react'
 
-const stats = [
-  { icon: Boxes, value: '4', label: 'Modalities' },
-  { icon: Layers3, value: '1', label: 'Unified Framework' },
-  { icon: ShieldCheck, value: '', label: 'Validation-Aware Fusion' },
-  { icon: UserRoundCheck, value: '', label: 'Human-Centred Research' },
+const miniStats = [
+  { icon: Boxes, number: '4', label: 'Modalities' },
+  { icon: CircleDot, number: '1', label: 'Unified Framework' },
+  { icon: ShieldCheck, number: '', label: 'Personalized Risk Assessment' },
+  { icon: Activity, number: '', label: 'Real-world Clinical Relevance' },
 ]
 
 export default function ResearchHero() {
   const reduce = useReducedMotion()
 
   return (
-    <section className="showcase-hero">
-      <motion.div
-        className="showcase-hero-art"
-        initial={reduce ? false : { opacity: 0, scale: 1.03 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        aria-hidden="true"
-      />
-
-      <div className="showcase-hero-grid shell">
-        <div className="showcase-copy">
-          <motion.div className="showcase-kicker" initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <span>R26—DS—012</span>
-            <b>Multimodal AI for Mental Health</b>
+    <section className="showcase-hero pixel-hero">
+      <div className="pixel-hero-background" aria-hidden="true" />
+      <div className="shell pixel-hero-shell">
+        <div className="pixel-hero-copy">
+          <motion.div
+            className="pixel-hero-kicker"
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <span>R26–DS–012</span>
+            <b>MULTIMODAL AI FOR MENTAL HEALTH</b>
           </motion.div>
 
-          <motion.h1 initial={reduce ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .08 }}>
-            From <span>Signals</span> to<br/>Safer <span>Tomorrows</span>
+          <motion.h1
+            initial={reduce ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: .06 }}
+          >
+            From Signals to
+            <br />
+            Safer <em>Tomorrows</em>
           </motion.h1>
 
-          <motion.p initial={reduce ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 }}>
+          <motion.p
+            initial={reduce ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: .12 }}
+          >
             A multimodal digital biomarker framework for personalized vulnerability mapping and acute escalation forecasting in young adults with anxiety disorders.
           </motion.p>
 
-          <motion.div className="showcase-actions" initial={reduce ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .24 }}>
-            <Link to="/research" className="showcase-primary">Explore the Research <ArrowRight size={16}/></Link>
-            <Link to="/system" className="showcase-secondary"><Layers3 size={17}/> View System Architecture</Link>
+          <motion.div
+            className="pixel-hero-actions"
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: .18 }}
+          >
+            <Link to="/research" className="pixel-primary">
+              Explore the Research <ArrowRight size={17} />
+            </Link>
+            <Link to="/system" className="pixel-secondary">
+              <Layers3 size={17} /> View System Architecture
+            </Link>
           </motion.div>
 
-          <motion.div className="showcase-stats" initial={reduce ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .32 }}>
-            {stats.map(({icon:Icon,value,label})=>(
-              <div key={label}>
-                <span className="showcase-stat-icon"><Icon size={14}/></span>
-                <p>{value && <strong>{value}</strong>}<span>{label}</span></p>
-              </div>
+          <motion.div
+            className="pixel-hero-stats"
+            initial={reduce ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: .24 }}
+          >
+            {miniStats.map(({ icon: Icon, number, label }) => (
+              <article key={label}>
+                <Icon size={15} />
+                <div>
+                  {number && <strong>{number}</strong>}
+                  <span>{label}</span>
+                </div>
+              </article>
             ))}
           </motion.div>
         </div>
 
-        <div className="showcase-visual">
+        <div className="pixel-hero-visual">
           <motion.div
-            className="hero-device-reference"
-            initial={reduce ? false : { opacity: 0, x: 34, rotate: 2 }}
-            animate={{ opacity: 1, x: 0, rotate: 0 }}
-            transition={{ delay: .2, duration: .8 }}
+            className="pixel-device-block"
+            initial={reduce ? false : { opacity: 0, x: 28 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: .18, duration: .7 }}
           >
-            <span>Physiological Sensing</span>
-            <b>Chest Strap</b>
-            <img src="/images/research/chest-strap-reference.webp" alt="Chest strap physiological sensing hardware used as the research hardware reference" />
-            <small>REAL RESEARCH ARTEFACT</small>
+            <div className="pixel-device-label">
+              <strong>Physiological</strong>
+              <strong>Sensing</strong>
+              <span>(Chest Strap)</span>
+            </div>
+            <img
+              src="/images/research/chest-strap-reference.webp"
+              alt="Chest strap physiological sensing hardware used as the research hardware reference"
+            />
           </motion.div>
 
-          <motion.div className="hero-modality-list" initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .55 }}>
+          <motion.div
+            className="pixel-evidence-copy"
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: .42 }}
+          >
             <span>MULTIMODAL EVIDENCE</span>
-            <strong>HUMAN-CENTRED RESEARCH</strong>
+            <b>HUMAN-CENTRED CARE</b>
             <ul>
               <li>Physiological</li>
-              <li>Behavioural</li>
+              <li>Behavioral</li>
               <li>Clinical Language</li>
               <li>Contextual</li>
             </ul>
           </motion.div>
 
           <motion.div
-            className="hero-prototype-card"
-            initial={reduce ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: .65 }}
+            className="pixel-ai-humanity"
+            initial={reduce ? false : { opacity: 0, x: 18 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: .48 }}
           >
-            <div>
-              <span>Fusion Research View</span>
-              <svg viewBox="0 0 170 35" aria-hidden="true">
-                <path d="M2 20 L18 20 L24 8 L31 29 L39 15 L47 20 L66 20 L73 11 L82 27 L91 17 L104 20 L122 20 L128 13 L136 25 L145 20 L168 20" />
-              </svg>
-              <small><i/> Research prototype</small>
-            </div>
-            <div className="prototype-dial"><Activity size={18}/><b>—</b><span>NO LIVE DATA</span></div>
+            <strong>AI + HUMANITY</strong>
+            <span>FOR MENTAL WELLBEING</span>
           </motion.div>
 
-          <p className="hero-annotation">AI-generated concept artwork supports the research story and is not experimental evidence.</p>
+          <motion.div
+            className="pixel-risk-card"
+            initial={reduce ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: .55 }}
+          >
+            <div className="risk-left">
+              <strong>Anxiety Risk Analysis</strong>
+              <svg viewBox="0 0 130 38" aria-hidden="true">
+                <path d="M2 21 L14 21 L20 9 L26 30 L33 15 L40 21 L54 21 L61 12 L67 28 L76 17 L84 21 L98 21 L104 14 L112 26 L120 20 L128 20" />
+              </svg>
+              <small><i /> Demo UI</small>
+            </div>
+            <div className="risk-dial">
+              <div className="dial-ring"><span>—</span></div>
+              <small>NO LIVE DATA</small>
+            </div>
+          </motion.div>
+
+          <p className="pixel-script-note">
+            Better Understanding
+            <br />
+            Brighter Tomorrows
+          </p>
         </div>
       </div>
 
-      <div className="hero-scroll-cue"><i/><span>Scroll to explore</span></div>
+      <div className="pixel-scroll-cue">
+        <i />
+        <span>Scroll to explore</span>
+      </div>
     </section>
   )
 }

@@ -1,158 +1,184 @@
 import { useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, HeartPulse, Smartphone, FileText, Users, Moon, MessageSquareText, Brain, ShieldCheck, UserRound, History, MapPinned } from 'lucide-react'
+import {
+  Activity,
+  Brain,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  HeartPulse,
+  History,
+  MapPinned,
+  MessageSquareText,
+  Moon,
+  ShieldCheck,
+  Smartphone,
+  Users,
+  UserRound,
+} from 'lucide-react'
 import { components } from '../data/researchData'
 
-const presentation = {
+const cards = {
   C1: {
     title: 'Physiological Signals',
     subtitle: 'Short-term · Real-time',
     pill: 'Seconds – Minutes',
     image: '/images/research/chest-strap-reference.webp',
+    imageLabel: 'REAL RESEARCH ARTEFACT',
     imageClass: 'contain',
-    icon: HeartPulse,
     color: 'blue',
     bullets: [
       ['Heart Rate & HRV', HeartPulse],
-      ['Respiration patterns', ActivityIcon],
-      ['Physiological arousal', Brain],
-      ['Real-time monitoring', ShieldCheck],
+      ['Respiration Patterns', Activity],
+      ['Physiological Arousal', Brain],
+      ['Real-time Monitoring', ShieldCheck],
     ],
   },
   C2: {
-    title: 'Behavioural Patterns',
+    title: 'Behavioral Patterns',
     subtitle: 'Medium-term · Daily',
     pill: 'Hours – Weeks',
     image: '/images/research/ai-behavioural-concept.webp',
-    icon: Smartphone,
+    imageLabel: 'AI-GENERATED CONCEPT',
     color: 'violet',
     bullets: [
-      ['Activity & sleep patterns', Moon],
-      ['Mobile usage patterns', Smartphone],
-      ['Social interaction signals', Users],
-      ['Experimental / excluded', ShieldCheck],
+      ['Activity & Sleep Patterns', Moon],
+      ['Mobile Usage Patterns', Smartphone],
+      ['Social Interaction Signals', Users],
+      ['Currently Experimental', ShieldCheck],
     ],
   },
   C3: {
     title: 'Clinical Language',
-    subtitle: 'Episodic · Clinical context',
-    pill: 'Visits – Months',
+    subtitle: 'Episodic · Clinical Context',
+    pill: 'Days – Weeks',
     image: '/images/research/multimodal-editorial.webp',
-    icon: FileText,
+    imageLabel: 'AI-GENERATED CONCEPT',
     color: 'teal',
     bullets: [
-      ['Clinical note analysis', FileText],
-      ['Few-shot learning (TC-WPN)', Brain],
-      ['Semantic understanding', MessageSquareText],
-      ['Confidence-weighted evidence', ShieldCheck],
+      ['Clinical Note Analysis', FileText],
+      ['Few-shot Learning (TC-WPN)', Brain],
+      ['Semantic Understanding', MessageSquareText],
+      ['Confidence-weighted', ShieldCheck],
     ],
   },
   C4: {
     title: 'Contextual Information',
-    subtitle: 'Long-term · Baseline',
+    subtitle: 'Long-term · Static/Dynamic',
     pill: 'Weeks – Months',
     image: '/images/research/ai-neural-concept.webp',
-    icon: UserRound,
+    imageLabel: 'AI-GENERATED CONCEPT',
     color: 'orange',
     bullets: [
-      ['Demographic factors', UserRound],
-      ['Clinical history', History],
-      ['Contextual factors', MapPinned],
-      ['Risk modifiers', ShieldCheck],
+      ['Demographic Factors', UserRound],
+      ['Environmental Context', MapPinned],
+      ['Lifestyle Information', History],
+      ['Risk Modifiers', ShieldCheck],
     ],
   },
 }
 
-function ActivityIcon(props){
-  return <HeartPulse {...props}/>
-}
-
-function SignalTrace({id}){
-  const paths={
-    C1:'M2 23 L18 23 L23 8 L29 38 L35 16 L43 23 L58 23 L63 12 L70 34 L78 19 L86 23 L103 23 L111 14 L117 31 L126 23 L145 23',
-    C2:'M2 25 C17 23 22 29 37 25 S60 20 75 25 S99 30 114 25 S132 20 146 24',
-    C3:'M2 27 C17 27 26 10 42 10 S65 36 83 20 S104 11 119 21 S133 31 146 18',
-    C4:'M2 29 C18 28 33 27 49 28 S78 29 97 27 S124 25 146 21',
-  }
-  return <svg className="timescale-trace" viewBox="0 0 148 44" preserveAspectRatio="none" aria-hidden="true"><path d={paths[id]}/></svg>
+function Trace({ id }) {
+  const d = {
+    C1: 'M2 25 L14 25 L20 9 L26 36 L33 17 L40 25 L53 25 L60 13 L67 34 L75 19 L83 25 L97 25 L103 14 L111 32 L120 22 L133 25 L146 25',
+    C2: 'M2 26 C15 22 23 31 37 26 S60 20 75 26 S98 31 112 26 S132 20 146 25',
+    C3: 'M2 25 L12 25 L17 13 L22 33 L28 17 L34 25 L44 25 L50 14 L56 32 L63 18 L70 25 L80 25 L87 11 L93 35 L101 17 L109 25 L121 25 L128 14 L135 31 L146 25',
+    C4: 'M2 30 C20 30 31 29 47 28 S74 27 92 26 S119 23 146 21',
+  }[id]
+  return (
+    <svg className="pixel-trace" viewBox="0 0 148 44" preserveAspectRatio="none" aria-hidden="true">
+      <path d={d} />
+    </svg>
+  )
 }
 
 export default function MultimodalStory() {
-  const rail=useRef(null)
-  const reduce=useReducedMotion()
+  const rail = useRef(null)
+  const reduce = useReducedMotion()
 
-  const move=(direction)=>{
-    rail.current?.scrollBy({left:direction*360,behavior:'smooth'})
+  const scroll = (direction) => {
+    rail.current?.scrollBy({ left: direction * 360, behavior: 'smooth' })
   }
 
   return (
-    <section className="timescale-showcase">
+    <section className="timescale-rail-section">
       <div className="shell">
-        <header className="timescale-heading">
-          <div>
-            <span className="timescale-label"><i/> Our Research Foundation</span>
-            <h2>Multimodal <strong>Timescales</strong></h2>
-            <p>Anxiety is complex. No single signal tells the whole story. The framework investigates multiple modalities, each operating on its own timescale, before evidence-aware integration.</p>
+        <header className="pixel-timescale-heading">
+          <div className="pixel-timescale-title">
+            <span><i /> OUR RESEARCH FOUNDATION</span>
+            <h2>Multimodal <em>Timescales</em></h2>
+            <p>
+              Anxiety is complex. No single signal tells the whole story. We investigate multiple modalities, each with its own timescale, to build a more complete and reliable understanding.
+            </p>
           </div>
-          <div className="timescale-side">
-            <i/>
-            <p>Different signals, different timescales,<br/>a unified understanding.</p>
+
+          <div className="pixel-timescale-controls">
+            <i />
+            <p>Different signals, different timescales,<br />a unified understanding.</p>
             <div>
-              <button type="button" aria-label="Scroll modalities left" onClick={()=>move(-1)}><ChevronLeft size={18}/></button>
-              <button type="button" aria-label="Scroll modalities right" onClick={()=>move(1)}><ChevronRight size={18}/></button>
+              <button type="button" aria-label="Previous modalities" onClick={() => scroll(-1)}><ChevronLeft size={18} /></button>
+              <button type="button" aria-label="Next modalities" onClick={() => scroll(1)}><ChevronRight size={18} /></button>
             </div>
           </div>
         </header>
 
-        <div className="timescale-rail" ref={rail}>
-          {components.map((component,index)=>{
-            const view=presentation[component.id]
-            const Icon=view.icon
+        <div className="timescale-rail pixel-card-grid" ref={rail}>
+          {components.map((component, index) => {
+            const view = cards[component.id]
             return (
               <motion.article
-                className={'timescale-card card-'+view.color}
                 key={component.id}
-                initial={reduce ? false : { opacity: 0, y: 20 }}
+                className={'pixel-modality-card card-' + view.color}
+                initial={reduce ? false : { opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: .2 }}
-                transition={{ delay:index*.06 }}
-                whileHover={reduce ? undefined : { y:-6 }}
+                transition={{ delay: index * .05 }}
+                whileHover={reduce ? undefined : { y: -5 }}
               >
-                <div className={'timescale-image '+(view.imageClass||'')}>
-                  <img src={view.image} alt={component.id==='C1' ? 'Chest strap physiological sensing research artefact' : view.title+' AI-generated conceptual illustration'} loading="lazy"/>
-                  <span>{component.id==='C1'?'REAL RESEARCH ARTEFACT':'AI-GENERATED CONCEPT'}</span>
+                <div className={'pixel-card-image ' + (view.imageClass || '')}>
+                  <img src={view.image} alt={component.id === 'C1' ? 'Chest strap physiological sensing research artefact' : view.title + ' conceptual illustration'} />
+                  <span>{view.imageLabel}</span>
                 </div>
 
-                <div className="timescale-card-body">
-                  <div className="timescale-card-title">
-                    <span className="component-chip">{component.id}</span>
-                    <Icon size={15}/>
-                  </div>
+                <div className="pixel-card-body">
+                  <span className="pixel-component-chip">{component.id}</span>
                   <h3>{view.title}</h3>
-                  <p className="timescale-subtitle">{view.subtitle}</p>
-                  <span className="timescale-pill">{view.pill}</span>
-                  <SignalTrace id={component.id}/>
+                  <p className="pixel-card-subtitle">{view.subtitle}</p>
+                  <span className="pixel-pill">{view.pill}</span>
+                  <Trace id={component.id} />
+
                   <ul>
-                    {view.bullets.map(([label,BulletIcon])=><li key={label}><BulletIcon size={13}/><span>{label}</span></li>)}
+                    {view.bullets.map(([label, Icon]) => (
+                      <li key={label}><Icon size={12} /><span>{label}</span></li>
+                    ))}
                   </ul>
-                  {component.id==='C2' && <small className="timescale-excluded">Current fusion weight: 0.0 · experimental/excluded</small>}
+
+                  {component.id === 'C2' && (
+                    <small className="pixel-c2-note">Current fusion weight 0.0 · experimental/excluded</small>
+                  )}
                 </div>
               </motion.article>
             )
           })}
         </div>
 
-        <div className="fusion-bridge" aria-label="Evidence-aware fusion concept">
-          <div className="fusion-wire wire-1"/><div className="fusion-wire wire-2"/><div className="fusion-wire wire-3"/><div className="fusion-wire wire-4"/>
-          <span className="fusion-cube"><LayersIcon/></span>
-          <div className="fusion-bridge-copy"><strong>Integrated through evidence-aware fusion</strong><small>Different timescales. One auditable research framework.</small></div>
-          <a href="#/system">See Fusion Process <ChevronRight size={15}/></a>
+        <div className="pixel-fusion-bridge">
+          <div className="bridge-wire wire-a" />
+          <div className="bridge-wire wire-b" />
+          <div className="bridge-wire wire-c" />
+          <div className="bridge-wire wire-d" />
+          <span className="bridge-dot dot-a" />
+          <span className="bridge-dot dot-b" />
+          <span className="bridge-dot dot-c" />
+
+          <div className="bridge-badge">◇</div>
+          <div className="bridge-copy">
+            <strong>Integrated through evidence-aware fusion</strong>
+            <span>Different timescales. One comprehensive understanding.</span>
+          </div>
+          <a href="#/system">See Fusion Process <ChevronRight size={14} /></a>
         </div>
       </div>
     </section>
   )
-}
-
-function LayersIcon(){
-  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Zm-8 9 8 4.5 8-4.5M4 16.5l8 4.5 8-4.5"/></svg>
 }
