@@ -5,6 +5,13 @@ export const components = [
   { id:'C4', owner:'Seneviratne K.A.U.A.', title:'Reliability-weighted fusion + CARE-AnxRAG', question:'How should heterogeneous evidence be combined when modalities differ in recency, reliability and validation quality?', method:'Contextual prior + eligible modality outputs → reliability-weighted fusion → evidence-aware retrieval and abstention.', data:'Component outputs · contextual variables · evidence corpus', status:'Research decision-support layer', evidence:'Missing/unreliable modalities can be masked; insufficient evidence can abstain.' },
 ]
 
+export const heroStreams = [
+  { id:'C1', number:'01', short:'Physiological Forecasting', detail:'Personal baseline · short horizon', visualLabel:'PHYSIOLOGY' },
+  { id:'C2', number:'02', short:'Behavioural Graph Evaluation', detail:'Leakage-free · validation-gated', visualLabel:'BEHAVIOUR' },
+  { id:'C3', number:'03', short:'Clinical NLP / TC-WPN', detail:'Patient-disjoint · few-shot', visualLabel:'CLINICAL NLP' },
+  { id:'C4', number:'04', short:'Reliability-Weighted Fusion', detail:'Evidence · recency · abstention', visualLabel:'FUSION' },
+]
+
 export const evidence = [
   { component:'C2', metric:'Held-out AUROC', value:'0.5205', context:'GLOBEM / GATv2', note:'Participant-grouped external evaluation.' },
   { component:'C2', metric:'95% clustered CI', value:'0.485–0.560', context:'Participant-clustered interval', note:'Interval overlaps chance-level discrimination.' },
