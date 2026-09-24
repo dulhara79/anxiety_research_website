@@ -5,7 +5,7 @@ const home=read('src/pages/Home.jsx');
 const nav=read('src/components/Navbar.jsx');
 const mobileNav=read('src/components/hero/MobileResearchMenu.jsx');
 const navigationText=`${nav}\n${mobileNav}`;
-const css=read('src/index.css');
+const css=`${read('src/index.css')}\n${read('src/hero.css')}`;
 const html=read('index.html');
 assert.match(home,/ResearchHero/,'Home must render the modular ResearchHero');
 assert.doesNotMatch(home,/ResearchPlate/,'Legacy ResearchPlate must be removed from Home');
