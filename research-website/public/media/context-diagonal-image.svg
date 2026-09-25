@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="736" height="393" viewBox="0 0 736 393" fill="none">
+  <defs>
+    <linearGradient id="wash" x1="150" y1="80" x2="650" y2="250" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECF5F5" stop-opacity="0.82"/>
+      <stop offset="0.55" stop-color="#DCECEE" stop-opacity="0.48"/>
+      <stop offset="1" stop-color="#E8F2F2" stop-opacity="0.25"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="736" height="393" fill="#F4F8F7"/>
+  <g opacity="0.72" filter="url(#soft)">
+    <rect x="154" y="72" width="500" height="174" rx="4" fill="url(#wash)"/>
+    <rect x="201" y="58" width="432" height="162" rx="4" fill="#DFECEE" fill-opacity="0.40"/>
+  </g>
+
+  <g stroke-linecap="round">
+    <path d="M163 112C216 122 255 126 300 120C342 115 386 103 425 103C468 103 519 111 582 124" stroke="#AFCBD1" stroke-opacity="0.38" stroke-width="1.2"/>
+    <path d="M169 133C220 142 262 150 301 148C349 146 382 136 423 137C471 138 514 145 592 156" stroke="#B9C9DD" stroke-opacity="0.42" stroke-width="1.2"/>
+    <path d="M160 153C211 162 251 166 298 161C340 157 381 149 421 149C475 150 512 162 611 177" stroke="#94C4C7" stroke-opacity="0.46" stroke-width="1.4"/>
+    <path d="M126 200C186 190 229 183 271 185C316 186 349 198 395 201C441 204 480 198 522 187C558 177 587 169 624 157" stroke="#68B4B7" stroke-opacity="0.46" stroke-width="1.6"/>
+    <path d="M128 224C177 223 214 225 257 231C307 239 345 240 388 240C433 240 472 237 514 225C556 214 596 199 628 186" stroke="#7FC1C4" stroke-opacity="0.38" stroke-width="1.4"/>
+    <path d="M298 247C343 231 379 217 420 208C465 198 503 198 538 194C573 190 604 180 631 169" stroke="#DEA37F" stroke-opacity="0.66" stroke-width="1.5"/>
+  </g>
+
+  <g>
+    <circle cx="186" cy="128" r="4.5" fill="#83C4C8" fill-opacity="0.62"/>
+    <circle cx="220" cy="108" r="4" fill="#B5B8E1" fill-opacity="0.54"/>
+    <circle cx="252" cy="110" r="3.8" fill="#B8D4D6" fill-opacity="0.54"/>
+    <circle cx="259" cy="152" r="4.2" fill="#6DB3B6" fill-opacity="0.52"/>
+    <circle cx="291" cy="170" r="5.2" fill="#75B7B9" fill-opacity="0.58"/>
+    <circle cx="319" cy="178" r="3.6" fill="#A8A8D8" fill-opacity="0.55"/>
+    <circle cx="347" cy="174" r="3.2" fill="#B7D6D7" fill-opacity="0.58"/>
+    <circle cx="369" cy="180" r="6.6" fill="#EAF3F2" stroke="#7CB9B8" stroke-opacity="0.32"/>
+    <circle cx="395" cy="147" r="3.5" fill="#6EAFB3" fill-opacity="0.55"/>
+    <circle cx="419" cy="116" r="4.6" fill="#A2A7D3" fill-opacity="0.58"/>
+    <circle cx="441" cy="104" r="3.3" fill="#B8D2D4" fill-opacity="0.56"/>
+    <circle cx="478" cy="136" r="4.1" fill="#6DB2B4" fill-opacity="0.60"/>
+    <circle cx="505" cy="151" r="3.7" fill="#A7CBCD" fill-opacity="0.52"/>
+    <circle cx="518" cy="166" r="3.6" fill="#D89978" fill-opacity="0.60"/>
+    <circle cx="534" cy="172" r="5.3" fill="#B3CBD7" fill-opacity="0.62"/>
+    <circle cx="603" cy="166" r="4.2" fill="#66AEB0" fill-opacity="0.64"/>
+    <circle cx="589" cy="197" r="4.2" fill="#6CAFB0" fill-opacity="0.58"/>
+    <circle cx="146" cy="162" r="6.2" fill="#61AAAC" fill-opacity="0.64"/>
+  </g>
+</svg>
