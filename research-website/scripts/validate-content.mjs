@@ -79,6 +79,7 @@ const required = [
   'useScroll', 'useMotionValueEvent', 'layout="position"',
   'context-longitudinal-art', 'contextWaveGradient', 'context-observation-node',
   'context-visual-wrap', 'context-wave-path',
+  'context-section-endcap', 'context-art-anchor', 'context-visual-wrap{position:absolute',
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
