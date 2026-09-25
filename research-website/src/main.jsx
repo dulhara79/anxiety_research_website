@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import "./motion.css";
 import "./context.css";
+import "./spatial.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
