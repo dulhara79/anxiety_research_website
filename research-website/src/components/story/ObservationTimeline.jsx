@@ -1,11 +1,7 @@
-import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { researchNarrative } from "../../data/research";
 import TextReveal from "../motion/TextReveal";
 import DiagonalMediaBand from "../media/DiagonalMediaBand";
-import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
-
-const TimescaleScene = React.lazy(() => import("../three/TimescaleScene"));
 
 export default function ObservationTimeline() {
   const reduced = useReducedMotion();
@@ -21,15 +17,10 @@ export default function ObservationTimeline() {
           </TextReveal>
         </div>
 
-        <DiagonalMediaBand variant="timescale" className="observation-diagonal-media">
-          <SpatialSceneBoundary
-            scene={TimescaleScene}
-            fallbackVariant="timescale"
-            className="observation-spatial-stage"
-            minHeight={330}
-            camera={{ position: [0, 0, 6.8], fov: 42 }}
-          />
-        </DiagonalMediaBand>
+        <DiagonalMediaBand
+          variant="timescale"
+          className="observation-diagonal-media observation-clean-band"
+        />
 
         <div className="observation-tracks">
           {researchNarrative.timescales.map(([time, label], i) => (
