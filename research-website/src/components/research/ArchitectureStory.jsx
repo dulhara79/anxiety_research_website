@@ -2,6 +2,7 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { architectureStages, architectureNote } from "../../data/architecture";
 import TextReveal from "../motion/TextReveal";
+import DiagonalMediaBand from "../media/DiagonalMediaBand";
 import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
 
 const ArchitectureScene = React.lazy(() => import("../three/ArchitectureScene"));
@@ -16,14 +17,16 @@ export default function ArchitectureStory() {
           <TextReveal as="h2" preset="heading" delay={0.04}>From participant signals to one governed research state.</TextReveal>
           <TextReveal as="p" preset="body" delay={0.1}>{architectureNote}</TextReveal>
         </div>
-        <SpatialSceneBoundary
-          scene={ArchitectureScene}
-          fallbackVariant="architecture"
-          className="architecture-spatial-stage"
-          minHeight={360}
-          camera={{ position: [0, 0, 7.2], fov: 42 }}
-          sceneProps={{ stages: architectureStages }}
-        />
+        <DiagonalMediaBand variant="architecture" className="architecture-diagonal-media">
+          <SpatialSceneBoundary
+            scene={ArchitectureScene}
+            fallbackVariant="architecture"
+            className="architecture-spatial-stage"
+            minHeight={360}
+            camera={{ position: [0, 0, 7.2], fov: 42 }}
+            sceneProps={{ stages: architectureStages }}
+          />
+        </DiagonalMediaBand>
         <div className="architecture-flow" role="img" aria-label="Progressive research architecture">
           {architectureStages.map((stage, i) => (
             <motion.div
