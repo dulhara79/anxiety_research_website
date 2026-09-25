@@ -1,9 +1,6 @@
-import React from "react";
 import { researchNarrative } from "../../data/research";
 import TextReveal from "../motion/TextReveal";
-import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
-
-const LongitudinalField3D = React.lazy(() => import("../three/LongitudinalField3D"));
+import DiagonalMediaBand from "../media/DiagonalMediaBand";
 
 export default function AnxietyContext() {
   const c = researchNarrative.context;
@@ -24,15 +21,13 @@ export default function AnxietyContext() {
           <TextReveal as="p" preset="body" className="large-copy context-large-copy" delay={0.08}>
             {c.body}
           </TextReveal>
-
-          <SpatialSceneBoundary
-            scene={LongitudinalField3D}
-            fallbackVariant="context"
-            className="context-visual-wrap context-art-anchor"
-            minHeight={360}
-            camera={{ position: [0, 0, 6.6], fov: 39 }}
-          />
         </div>
+
+        <DiagonalMediaBand
+          variant="context"
+          className="context-diagonal-media"
+          imageSrc="/media/context-diagonal-image.svg"
+        />
 
         <div className="context-section-endcap" aria-hidden="true" />
       </div>
