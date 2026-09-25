@@ -1,0 +1,21 @@
+.spatial-stage{position:relative;isolation:isolate;overflow:hidden;width:100%}
+.spatial-canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important;pointer-events:none}
+.spatial-fallback{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;overflow:hidden;transition:opacity .4s ease}
+.spatial-fallback--context img{width:100%;height:100%;object-fit:contain;object-position:center}
+.fallback-field{position:absolute;inset:8%;border-radius:32px;background:radial-gradient(circle at 62% 48%,rgba(120,183,181,.16),transparent 34%),radial-gradient(circle at 74% 58%,rgba(184,180,221,.13),transparent 32%)}
+.fallback-field i{position:absolute;left:8%;right:8%;height:1px;top:34%;background:linear-gradient(90deg,transparent,rgba(120,183,181,.6),rgba(140,201,211,.45),transparent);transform:rotate(-4deg)}
+.fallback-field i:nth-child(2){top:52%;transform:rotate(5deg);background:linear-gradient(90deg,transparent,rgba(184,180,221,.55),rgba(120,183,181,.35),transparent)}
+.fallback-field i:nth-child(3){top:67%;transform:rotate(-2deg);background:linear-gradient(90deg,transparent,rgba(227,164,135,.55),transparent)}
+.fallback-field span{--x:calc(12% + (var(--dot) * 9%));position:absolute;left:var(--x);top:calc(26% + ((var(--dot) % 4) * 14%));width:7px;height:7px;border-radius:50%;background:rgba(120,183,181,.62);box-shadow:0 0 0 8px rgba(120,183,181,.06)}
+.fallback-field span:nth-of-type(3n){background:rgba(184,180,221,.72)}
+.fallback-field span:nth-of-type(5n){background:rgba(227,164,135,.72)}
+.hero-spatial-layer{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-inner{z-index:2}
+.spatial-inline{min-height:300px}
+.modality-spatial-stage{height:150px;margin:14px 0 8px;border-radius:18px}
+.component-spatial-stage{height:100%;min-height:360px}
+.fusion-spatial-stage{min-height:430px;border-radius:28px}
+.architecture-spatial-stage{min-height:360px;margin:40px 0 28px;border-radius:28px}
+@media(max-width:900px){.modality-spatial-stage{height:120px}.component-spatial-stage{min-height:280px}.fusion-spatial-stage,.architecture-spatial-stage{min-height:300px}}
+@media(max-width:640px){.spatial-canvas{display:none!important}.spatial-fallback{display:grid!important}}
+@media(prefers-reduced-motion:reduce){.spatial-canvas{display:none!important}.spatial-fallback{display:grid!important;opacity:1!important}}
