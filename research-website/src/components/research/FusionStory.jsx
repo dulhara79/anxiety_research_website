@@ -1,5 +1,6 @@
 import React from "react";
 import TextReveal from "../motion/TextReveal";
+import DiagonalMediaBand from "../media/DiagonalMediaBand";
 import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
 
 const FusionScene = React.lazy(() => import("../three/FusionScene"));
@@ -24,13 +25,15 @@ export default function FusionStory() {
           </TextReveal>
         </div>
         <div>
-          <SpatialSceneBoundary
-            scene={FusionScene}
-            fallbackVariant="fusion"
-            className="fusion-spatial-stage"
-            minHeight={430}
-            camera={{ position: [0, 0, 6.7], fov: 40 }}
-          />
+          <DiagonalMediaBand variant="fusion" className="fusion-diagonal-media">
+            <SpatialSceneBoundary
+              scene={FusionScene}
+              fallbackVariant="fusion"
+              className="fusion-spatial-stage"
+              minHeight={430}
+              camera={{ position: [0, 0, 6.7], fov: 40 }}
+            />
+          </DiagonalMediaBand>
           <div className="fusion-equation">
             {factors.map((f, i) => <TextReveal as="div" preset="support" delay={Math.min(i * 0.05, 0.2)} key={f}><span>{f}</span>{i < factors.length - 1 && <b>+</b>}</TextReveal>)}
             <i>↓</i>
