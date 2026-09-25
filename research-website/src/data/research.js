@@ -1,27 +1,22 @@
-export const components = [
-  { id:'C1', owner:'Sendanayake H.D.', title:'Wearable physiological forecasting', question:'Can individualized physiological deviation provide useful short-horizon evidence of escalation?', method:'Self-supervised LSTM autoencoder over wearable physiological windows, followed by short-horizon forecasting.', data:'WESAD · AffectiveROAD · PPG-DaLiA · EmoWear', status:'Active research signal', evidence:'Subject-level evaluation and personalization experiments.' },
-  { id:'C2', owner:'Layathma B.M.A.S.', title:'Leakage-free behavioural graph evaluation', question:'Do temporal behavioural graphs generalize beyond simpler passive-sensing baselines?', method:'GATv2 on 28-day GLOBEM graphs with participant-grouped, cross-cohort evaluation.', data:'GLOBEM · INS-W_1–4', status:'Active fusion weight 0.0', evidence:'AUROC 0.5205 · 95% CI 0.485–0.560 · null 0.4991 · p=0.255', limitation:'Final held-out result was not distinguishable from chance; the graph model did not outperform simpler baselines.' },
-  { id:'C3', owner:'Kaushalya I.G.D.', title:'Patient-disjoint clinical NLP / TC-WPN', question:'Can few-shot clinical NLP learn from small support sets without patient leakage or label contamination?', method:'Bio_ClinicalBERT → 256-d projection → Temporal-Consistency Weighted Prototypical Network.', data:'MIMIC-IV · MIMIC-III transfer', status:'Deployment-relevant held-out AUROC ≈0.738', evidence:'Patient-disjoint episodes · leakage certificates · frozen episode plans.' },
-  { id:'C4', owner:'Seneviratne K.A.U.A.', title:'Reliability-weighted fusion + CARE-AnxRAG', question:'How should heterogeneous evidence be combined when modalities differ in recency, reliability and validation quality?', method:'Contextual prior + eligible modality outputs → reliability-weighted fusion → evidence-aware retrieval and abstention.', data:'Component outputs · contextual variables · evidence corpus', status:'Research decision-support layer', evidence:'Missing/unreliable modalities can be masked; insufficient evidence can abstain.' },
-]
+import { components } from './components'
+import { findings } from './findings'
+import { people, supervisors } from './people'
+export { components, findings, people, supervisors }
 
-export const evidence = [
-  { component:'C2', metric:'Held-out AUROC', value:'0.5205', context:'GLOBEM / GATv2', note:'Participant-grouped external evaluation.' },
-  { component:'C2', metric:'95% clustered CI', value:'0.485–0.560', context:'Participant-clustered interval', note:'Interval overlaps chance-level discrimination.' },
-  { component:'C2', metric:'Permutation null', value:'0.4991', context:'50 permutations', note:'Empirical p-value 0.255.' },
-  { component:'C2', metric:'Active fusion weight', value:'0.0', context:'Current evidence gate', note:'Excluded from active fusion under the current validation rule.' },
-  { component:'C3', metric:'Held-out AUROC', value:'≈0.738', context:'Deployment-relevant clinical-note setting', note:'Patient-disjoint few-shot benchmark.' },
-]
+export const researchMeta = {
+  id:'R26—DS—012', institution:'SLIIT', year:'2026',
+  title:'A Multimodal Digital Biomarker Framework for Personalized Vulnerability Mapping and Acute Escalation Forecasting in Young Adults with Anxiety Disorders',
+  boundary:'Research and clinical decision support prototype · not a diagnostic device',
+}
 
-export const people = [
-  ['Sendanayake H.D.','IT22107596','C1 · Wearable physiological forecasting'],
-  ['Layathma B.M.A.S.','IT22171542','C2 · Behavioural graph learning'],
-  ['Kaushalya I.G.D.','IT22130648','C3 · Clinical NLP / TC-WPN'],
-  ['Seneviratne K.A.U.A.','IT22093950','C4 · Fusion + CARE-AnxRAG'],
-]
-
-export const supervisors = [
-  ['Prof. Samantha Thelijjagoda','Research Supervisor','SLIIT'],
-  ['Dr. Mahima Weerasinghe','Co-Supervisor','SLIIT'],
-  ['Dr. Chathurie Suraweera','External / Clinical Supervisor','University of Colombo / NHSL'],
-]
+export const researchNarrative = {
+  hero:{ headline:'Understanding anxiety beyond a single moment.', supporting:'A multimodal digital-biomarker research framework investigating how physiological, behavioural, clinical and contextual evidence can contribute to personalized vulnerability mapping and escalation assessment.' },
+  context:{ label:'01 / THE CONTEXT', headline:'Anxiety is not a single moment.', body:'In this research, anxiety-related change is considered across people and time. Relevant evidence may appear through physiology, everyday behaviour, clinical documentation and personal context rather than through one isolated observation.' },
+  timescales:[['NOW','Physiological measurements'],['DAYS / WEEKS','Behavioural patterns'],['CLINICAL ENCOUNTERS','Documented clinical language'],['BACKGROUND','Contextual factors']],
+  snapshot:{ headline:'Important observations can happen between snapshots.', body:'Clinical encounters provide valuable assessments. The research question is whether additional digital evidence can help characterize change between encounters without replacing clinical judgment.' },
+  gap:{ headline:'The challenge is not collecting more signals. It is understanding how much each signal should be trusted.', challenges:['Anxiety-related change is continuous and multimodal.','People have different physiological baselines.','Behavioural sensing may fail to generalize.','Clinical NLP has limited labelled data and leakage risks.','Modalities operate at different timescales.','Unavailable information is common.','Weak information should not be treated as certainty.'] },
+  thesis:{ question:'Can heterogeneous digital biomarkers be combined responsibly to build a more personalized and temporally aware picture of anxiety vulnerability?' },
+  interpretation:['Personalization matters.','Leakage-free validation matters.','Complex models are not automatically superior.','Modalities should not receive equal influence simply because they exist.','Missing evidence is not evidence of low anxiety.','Uncertainty must be represented explicitly.'],
+  methodology:['Problem formulation','Literature review','Dataset / signal selection','Component research','Leakage-aware evaluation','Integration','Reliability-aware fusion','System validation','Research outputs'],
+  limitations:['Research prototype; not a diagnostic device.','Datasets do not represent every population.','Modalities may be absent, stale or unreliable.','Behavioural generalization remains limited under current evidence.','Forecasting scope is defined and should not be exaggerated.','Further external and prospective validation is required where applicable.'],
+}
