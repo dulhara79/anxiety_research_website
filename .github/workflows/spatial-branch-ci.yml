@@ -1,0 +1,42 @@
+name: Spatial branch CI
+
+on:
+  push:
+    branches:
+      - redesign/spatial-3d-research-2026
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: research-website/package-lock.json
+      - name: Refresh lockfile metadata without lifecycle scripts
+        working-directory: research-website
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Report lockfile drift
+        working-directory: research-website
+        shell: bash
+        run: |
+          if ! git diff --quiet -- package-lock.json; then
+            echo 'LOCKFILE_DRIFT=true'
+            printf 'LOCK_B64=' && base64 -w0 package-lock.json && echo
+            exit 1
+          fi
+      - name: Install exact dependencies
+        working-directory: research-website
+        run: npm ci --ignore-scripts
+      - name: Run spatial tests
+        working-directory: research-website
+        run: npm test --if-present
+      - name: Build website
+        working-directory: research-website
+        run: npm run build
