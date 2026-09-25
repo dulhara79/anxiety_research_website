@@ -75,6 +75,8 @@ const required = [
   'video.playbackRate = HERO_PLAYBACK_RATE', 'fadeMediaSeconds', 'loopEnd',
   'hero-heading-safe', 'nav-shell--compact', 'SCROLL_COMPACT_THRESHOLD',
   'useScroll', 'useMotionValueEvent', 'layout="position"',
+  'context-longitudinal-art', 'contextWaveGradient', 'context-observation-node',
+  'context-visual-wrap', 'context-wave-path',
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
