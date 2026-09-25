@@ -48,6 +48,7 @@ const requiredFiles = [
   'src/components/documents/DocumentCollection.jsx',
   'src/components/team/ResearchTeam.jsx',
   'src/components/motion/MotionReveal.jsx',
+  'src/components/motion/TextReveal.jsx',
   'src/hooks/useSectionNavigation.js',
   'public/media/context-longitudinal-field.svg',
 ];
@@ -61,6 +62,7 @@ const forbidden = [
   '!failed && !reduced && <video',
   'loop={!reduced}',
   'const SEAMLESS_LOOP_FADE_SECONDS = 1\n',
+  'viewport={{ once: true',
 ];
 const required = [
   'Understanding anxiety beyond a single moment.',
@@ -80,6 +82,8 @@ const required = [
   'context-longitudinal-art', 'contextWaveGradient', 'context-observation-node',
   'context-visual-wrap', 'context-wave-path',
   'context-section-endcap', 'context-art-anchor', 'context-visual-wrap{position:absolute',
+  'text-reveal--eyebrow', 'text-reveal--heading', 'text-reveal--body',
+  'viewport={{ once: false', 'data-text-reveal',
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
