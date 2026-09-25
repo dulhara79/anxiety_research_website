@@ -1,6 +1,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import TextReveal from "../motion/TextReveal";
+import DiagonalMediaBand from "../media/DiagonalMediaBand";
 import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
 
 const ComponentScene = React.lazy(() => import("../three/ComponentScene"));
@@ -22,14 +23,16 @@ export default function ComponentFeature({ component, index }) {
         transition={{ type: "spring", stiffness: 220, damping: 24 }}
       >
         <span>{component.id}</span>
-        <SpatialSceneBoundary
-          scene={ComponentScene}
-          fallbackVariant="component"
-          className="component-spatial-stage"
-          minHeight="100%"
-          camera={{ position: [0, 0, 5.7], fov: 41 }}
-          sceneProps={{ componentId: component.id }}
-        />
+        <DiagonalMediaBand variant="component" className="component-diagonal-media">
+          <SpatialSceneBoundary
+            scene={ComponentScene}
+            fallbackVariant="component"
+            className="component-spatial-stage"
+            minHeight="100%"
+            camera={{ position: [0, 0, 5.7], fov: 41 }}
+            sceneProps={{ componentId: component.id }}
+          />
+        </DiagonalMediaBand>
       </motion.div>
       <div className="component-body">
         <TextReveal preset="support" className="component-meta">
