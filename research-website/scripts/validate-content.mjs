@@ -12,10 +12,11 @@ function collect(target) {
     for (const name of fs.readdirSync(target)) collect(path.join(target, name));
     return;
   }
-  if (/\.(js|jsx|css|html)$/.test(target)) files.push(target);
+  if (/\.(js|jsx|css|html|svg)$/.test(target)) files.push(target);
 }
 
 collect(src);
+collect(path.resolve('public/media/context-longitudinal-field.svg'));
 collect(path.resolve('tailwind.config.js'));
 collect(path.resolve('index.html'));
 const text = files.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
@@ -48,6 +49,7 @@ const requiredFiles = [
   'src/components/team/ResearchTeam.jsx',
   'src/components/motion/MotionReveal.jsx',
   'src/hooks/useSectionNavigation.js',
+  'public/media/context-longitudinal-field.svg',
 ];
 
 const absentFiles = requiredFiles.filter((file) => !fs.existsSync(path.resolve(file)));
