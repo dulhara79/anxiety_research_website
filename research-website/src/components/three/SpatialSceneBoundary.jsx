@@ -1,10 +1,11 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
-import SpatialCanvas from './SpatialCanvas'
 import SpatialErrorBoundary from './SpatialErrorBoundary'
 import SceneFallback from './SceneFallback'
 import useSpatialMotion from './useSpatialMotion'
 import { getSpatialQuality, readSpatialEnvironment } from './spatialQuality'
+
+const SpatialCanvas = React.lazy(() => import('./SpatialCanvas'))
 
 export default function SpatialSceneBoundary({ scene: Scene, fallbackVariant = 'context', className = '', minHeight = 360, camera, pointerParallax = true, sceneProps = {} }) {
   const hostRef = useRef(null)
