@@ -58,6 +58,7 @@ const forbidden = [
   'flow.google.com/project/', 'flow.google.com/shared/video/',
   '!failed && !reduced && <video',
   'loop={!reduced}',
+  'const SEAMLESS_LOOP_FADE_SECONDS = 1\n',
 ];
 const required = [
   'Understanding anxiety beyond a single moment.',
@@ -70,6 +71,8 @@ const required = [
   'data-media-state', 'onLoadedData',
   'SEAMLESS_LOOP_FADE_SECONDS', 'motion.video', 'onTimeUpdate', 'seamless-video-layer',
   'activeLayer', 'transitioningRef',
+  'HERO_PLAYBACK_RATE = 0.7', 'LOOP_START_SECONDS', 'LOOP_END_TRIM_SECONDS',
+  'video.playbackRate = HERO_PLAYBACK_RATE', 'fadeMediaSeconds', 'loopEnd',
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
