@@ -29,7 +29,8 @@ export default function SpatialSceneBoundary({ scene: Scene, fallbackVariant = '
       return undefined
     }
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setNearViewport(true)
+      setNearViewport(entry.isIntersecting)
+      if (!entry.isIntersecting) setReady(false)
     }, { rootMargin: '40% 0px' })
     observer.observe(node)
     return () => observer.disconnect()
