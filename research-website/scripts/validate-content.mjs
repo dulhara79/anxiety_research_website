@@ -46,6 +46,8 @@ const requiredFiles = [
   'src/components/evidence/FindingsPreview.jsx',
   'src/components/documents/DocumentCollection.jsx',
   'src/components/team/ResearchTeam.jsx',
+  'src/components/motion/MotionReveal.jsx',
+  'src/hooks/useSectionNavigation.js',
 ];
 
 const absentFiles = requiredFiles.filter((file) => !fs.existsSync(path.resolve(file)));
@@ -54,6 +56,7 @@ const forbidden = [
   'Adaptive Intervention Engine', 'KNN BallTree', 'grad-multi', 'float-badge', 'ring-glow',
   'glow-blue', 'glow-teal', 'glow-violet', 'spin-slow', 'pulse-soft',
   'flow.google.com/project/', 'flow.google.com/shared/video/',
+  '!failed && !reduced && <video',
 ];
 const required = [
   'Understanding anxiety beyond a single moment.',
@@ -62,6 +65,8 @@ const required = [
   'GLOBEM', 'CARE-AnxRAG', '0.5205', 'TC-WPN', 'Active fusion weight 0.0',
   'Clinical NLP signal', 'not overall patient risk', 'insufficient evidence',
   'CURRENT', 'FORWARD', '/media/research-hero.mp4', 'prefers-reduced-motion',
+  'whileHover', 'whileInView', 'layoutId="nav-active-indicator"', 'scrollIntoView',
+  'data-media-state', 'onLoadedData',
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
