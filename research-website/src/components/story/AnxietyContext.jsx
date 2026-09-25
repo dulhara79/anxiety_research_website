@@ -19,11 +19,11 @@ export default function AnxietyContext() {
         </MotionReveal>
 
         <motion.figure
-          className="context-visual-wrap"
-          initial={reduced ? false : { opacity: 0, y: 34, scale: 0.985 }}
+          className="context-visual-wrap context-art-anchor"
+          initial={reduced ? false : { opacity: 0, y: 28, scale: 0.988 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.22 }}
-          transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           aria-hidden="true"
         >
           <div className="context-art-glow"/>
@@ -36,6 +36,8 @@ export default function AnxietyContext() {
           />
         </motion.figure>
       </div>
+
+      <div className="context-section-endcap" aria-hidden="true"/>
     </div>
   </section>
 }
