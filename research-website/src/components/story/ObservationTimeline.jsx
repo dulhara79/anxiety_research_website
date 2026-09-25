@@ -2,6 +2,7 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { researchNarrative } from "../../data/research";
 import TextReveal from "../motion/TextReveal";
+import DiagonalMediaBand from "../media/DiagonalMediaBand";
 import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
 
 const TimescaleScene = React.lazy(() => import("../three/TimescaleScene"));
@@ -19,13 +20,17 @@ export default function ObservationTimeline() {
             What we can observe is only part of the picture.
           </TextReveal>
         </div>
-        <SpatialSceneBoundary
-          scene={TimescaleScene}
-          fallbackVariant="timescale"
-          className="observation-spatial-stage"
-          minHeight={330}
-          camera={{ position: [0, 0, 6.8], fov: 42 }}
-        />
+
+        <DiagonalMediaBand variant="timescale" className="observation-diagonal-media">
+          <SpatialSceneBoundary
+            scene={TimescaleScene}
+            fallbackVariant="timescale"
+            className="observation-spatial-stage"
+            minHeight={330}
+            camera={{ position: [0, 0, 6.8], fov: 42 }}
+          />
+        </DiagonalMediaBand>
+
         <div className="observation-tracks">
           {researchNarrative.timescales.map(([time, label], i) => (
             <motion.article
