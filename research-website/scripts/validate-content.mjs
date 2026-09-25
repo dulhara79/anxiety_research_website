@@ -57,6 +57,7 @@ const forbidden = [
   'glow-blue', 'glow-teal', 'glow-violet', 'spin-slow', 'pulse-soft',
   'flow.google.com/project/', 'flow.google.com/shared/video/',
   '!failed && !reduced && <video',
+  'loop={!reduced}',
 ];
 const required = [
   'Understanding anxiety beyond a single moment.',
@@ -67,6 +68,8 @@ const required = [
   'CURRENT', 'FORWARD', '/media/research-hero.mp4', 'prefers-reduced-motion',
   'whileHover', 'whileInView', 'layoutId="nav-active-indicator"', 'scrollIntoView',
   'data-media-state', 'onLoadedData',
+  'SEAMLESS_LOOP_FADE_SECONDS', 'motion.video', 'onTimeUpdate', 'seamless-video-layer',
+  'activeLayer', 'transitioningRef',
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
