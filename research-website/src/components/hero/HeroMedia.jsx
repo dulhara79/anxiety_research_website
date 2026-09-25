@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
-const HERO_PLAYBACK_RATE = 0.7
-const SEAMLESS_LOOP_FADE_SECONDS = 3
+const HERO_PLAYBACK_RATE = 0.3
+const SEAMLESS_LOOP_FADE_SECONDS = 4
 const LOOP_START_SECONDS = 0.9
 const LOOP_END_TRIM_SECONDS = 0.9
 const HANDOFF_BUFFER_MS = 140
