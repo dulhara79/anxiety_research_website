@@ -25,7 +25,7 @@ export default function AnxietyContext() {
 
         <DiagonalMediaBand
           variant="context"
-          className="context-diagonal-media"
+          className="context-diagonal-media context-full-width-polygon"
           imageSrc="/media/context-diagonal-image.svg"
         />
 
