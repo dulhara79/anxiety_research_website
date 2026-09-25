@@ -1,28 +1,42 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import HeroMedia from "./HeroMedia";
 import AnimatedHeading from "./AnimatedHeading";
+import SpatialSceneBoundary from "../three/SpatialSceneBoundary";
 import { researchNarrative } from "../../data/research";
+
+const HeroSpatialField = React.lazy(() => import("../three/HeroSpatialField"));
 
 export default function ResearchHero() {
   const reduced = useReducedMotion();
   const scrollToResearch = () =>
     document
       .getElementById("context")
-      ?.scrollIntoView({
-        behavior: reduced ? "auto" : "smooth",
-        block: "start",
-      });
+      ?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
   const entrance = reduced
     ? {}
     : {
         initial: { opacity: 0, y: 26 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] },
+        transition: {
+          duration: 0.8,
+          delay: 0.2,
+          ease: [0.22, 1, 0.36, 1],
+        },
       };
   return (
     <section className="research-hero" id="overview">
       <HeroMedia />
+      <div className="hero-spatial-layer" aria-hidden="true">
+        <SpatialSceneBoundary
+          scene={HeroSpatialField}
+          fallbackVariant="hero"
+          minHeight="100%"
+          camera={{ position: [0, 0, 6.4], fov: 42 }}
+          pointerParallax
+        />
+      </div>
       <div className="hero-inner shell">
         <motion.div className="hero-copy-panel" {...entrance}>
           <p className="eyebrow hero-eyebrow">R26—DS—012 · SLIIT · 2026</p>
