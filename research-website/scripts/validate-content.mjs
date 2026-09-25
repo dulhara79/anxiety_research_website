@@ -17,6 +17,7 @@ function collect(target) {
 
 collect(src);
 collect(path.resolve('public/media/context-longitudinal-field.svg'));
+collect(path.resolve('public/media/context-diagonal-image.svg'));
 collect(path.resolve('tailwind.config.js'));
 collect(path.resolve('index.html'));
 collect(path.resolve('package.json'));
@@ -28,7 +29,8 @@ const requiredFiles = [
   'src/components/story/AnxietyContext.jsx','src/components/story/ObservationTimeline.jsx','src/components/story/SnapshotProblem.jsx','src/components/story/LiteratureLandscape.jsx','src/components/story/ResearchGap.jsx','src/components/story/ResearchThesis.jsx',
   'src/components/research/ModalityOverview.jsx','src/components/research/ComponentsStory.jsx','src/components/research/FusionStory.jsx','src/components/research/ArchitectureStory.jsx','src/components/research/CurrentForecastSplit.jsx',
   'src/components/evidence/FindingsPreview.jsx','src/components/documents/DocumentCollection.jsx','src/components/team/ResearchTeam.jsx','src/components/motion/MotionReveal.jsx','src/components/motion/TextReveal.jsx','src/hooks/useSectionNavigation.js',
-  'public/media/context-longitudinal-field.svg',
+  'public/media/context-longitudinal-field.svg','public/media/context-diagonal-image.svg',
+  'src/components/media/DiagonalMediaBand.jsx',
   'src/components/three/SpatialCanvas.jsx','src/components/three/SpatialSceneBoundary.jsx','src/components/three/SpatialErrorBoundary.jsx','src/components/three/SceneFallback.jsx','src/components/three/spatialQuality.js',
   'src/components/three/HeroSpatialField.jsx','src/components/three/LongitudinalField3D.jsx','src/components/three/TimescaleScene.jsx','src/components/three/ModalityScene.jsx','src/components/three/ComponentScene.jsx','src/components/three/FusionScene.jsx','src/components/three/ArchitectureScene.jsx'
 ];
@@ -39,7 +41,8 @@ const forbidden = [
 ];
 const required = [
   'Understanding anxiety beyond a single moment.','Anxiety is not a single moment.','What we can observe is only part of the picture.','GLOBEM','CARE-AnxRAG','0.5205','TC-WPN','Active fusion weight 0.0','Clinical NLP signal','not overall patient risk','insufficient evidence','CURRENT','FORWARD','/media/research-hero.mp4','prefers-reduced-motion','whileHover','whileInView','layoutId="nav-active-indicator"','scrollIntoView','data-media-state','onLoadedData','SEAMLESS_LOOP_FADE_SECONDS','motion.video','onTimeUpdate','seamless-video-layer','activeLayer','transitioningRef','HERO_PLAYBACK_RATE = 0.3','LOOP_START_SECONDS','LOOP_END_TRIM_SECONDS','video.playbackRate = HERO_PLAYBACK_RATE','fadeMediaSeconds','loopEnd','hero-heading-safe','nav-shell--compact','SCROLL_COMPACT_THRESHOLD','useScroll','useMotionValueEvent','layout="position"','context-longitudinal-art','contextWaveGradient','context-observation-node','context-visual-wrap','context-wave-path','context-section-endcap','context-art-anchor','text-reveal--eyebrow','text-reveal--heading','text-reveal--body','viewport={{ once: false','data-text-reveal',
-  '@react-three/fiber','@react-three/drei','SpatialSceneBoundary','SceneFallback','React.lazy','hero-spatial-layer','fallbackVariant="context"','fallbackVariant="fusion"','fallbackVariant="architecture"','physiology','behaviour','clinical','context','strong','stale','incomplete','unavailable','excluded','Participant','Signals','Component models','Canonical backend state','Quality / eligibility checks','Reliability-aware fusion','Current research assessment','Evidence support','Audience-specific interfaces'
+  '@react-three/fiber','@react-three/drei','SpatialSceneBoundary','SceneFallback','React.lazy','hero-spatial-layer','fallbackVariant="context"','fallbackVariant="fusion"','fallbackVariant="architecture"','physiology','behaviour','clinical','context','strong','stale','incomplete','unavailable','excluded','Participant','Signals','Component models','Canonical backend state','Quality / eligibility checks','Reliability-aware fusion','Current research assessment','Evidence support','Audience-specific interfaces',
+  'DiagonalMediaBand','diagonal-media-band','diagonal-media-band--context','diagonal-media-band--timescale','diagonal-media-band--modality','diagonal-media-band--component','diagonal-media-band--fusion','diagonal-media-band--architecture','/media/context-diagonal-image.svg','clip-path:polygon('
 ];
 
 const bad = forbidden.filter((term) => text.includes(term));
