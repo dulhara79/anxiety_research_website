@@ -1,0 +1,2 @@
+import { researchNarrative } from '../../data/research'
+export default function Limitations(){return <section className="limitations-section"><div className="shell limitations-grid"><div><p className="eyebrow">LIMITATIONS & RESEARCH BOUNDARY</p><h2>Credibility depends on saying what the prototype does not establish.</h2></div><ul>{researchNarrative.limitations.map(x=><li key={x}>{x}</li>)}</ul></div></section>}

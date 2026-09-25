@@ -1,0 +1,2 @@
+import { timeline } from '../../data/timeline'
+export default function ResearchTimeline(){return <section className="story-section journey-section"><div className="shell"><p className="eyebrow">RESEARCH JOURNEY</p><h2>A project timeline that only uses verified public timing.</h2><div className="journey-line">{timeline.map((x,i)=><article key={`${x.year}-${x.title}`}><span>{x.year}</span><i aria-hidden="true"/><h3>{x.title}</h3><p>{x.note}</p></article>)}</div></div></section>}

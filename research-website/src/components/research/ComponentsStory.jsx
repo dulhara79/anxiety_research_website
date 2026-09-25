@@ -1,0 +1,3 @@
+import { components } from '../../data/components'
+import ComponentFeature from './ComponentFeature'
+export default function ComponentsStory(){return <section className="research-section components-story" id="components" data-section="components"><div className="shell"><p className="eyebrow">THE FOUR RESEARCH STREAMS</p><div className="section-title"><h2>Four components, each with its own research question and evidence contract.</h2><p>The streams are introduced only after the research problem and conceptual approach are clear.</p></div>{components.map((component,index)=><ComponentFeature component={component} index={index} key={component.id}/>)}</div></section>}

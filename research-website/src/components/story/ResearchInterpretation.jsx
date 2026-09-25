@@ -1,0 +1,2 @@
+import { researchNarrative } from '../../data/research'
+export default function ResearchInterpretation(){return <section className="story-section interpretation-section"><div className="shell"><p className="eyebrow">WHAT THE FINDINGS MEAN</p><div className="interpretation-grid">{researchNarrative.interpretation.map((x,i)=><article key={x}><span>{String(i+1).padStart(2,'0')}</span><h3>{x}</h3></article>)}</div></div></section>}

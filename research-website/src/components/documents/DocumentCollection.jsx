@@ -1,0 +1,2 @@
+import { documents } from '../../data/documents'
+export default function DocumentCollection({compact=false}){const groups=[...new Set(documents.map(d=>d.category))];return <div className="document-collections">{groups.map(group=><section key={group}><h3>{group}</h3>{documents.filter(d=>d.category===group).slice(0,compact?2:99).map(d=><article key={d.title}><div><small>{d.type} · {d.year}</small><h4>{d.title}</h4><p>{d.authors} · {d.status}</p></div>{d.url&&<a href={d.url} target="_blank" rel="noreferrer">View ↗</a>}</article>)}</section>)}</div>}

@@ -1,0 +1,2 @@
+import { researchMeta,researchNarrative } from '../../data/research'
+export default function ResearchThesis(){return <section className="story-section thesis-section" data-section="thesis"><div className="shell thesis-inner"><p className="eyebrow">THE RESEARCH QUESTION</p><h2>{researchNarrative.thesis.question}</h2><div className="title-reveal"><small>R26—DS—012 · SLIIT · 2026</small><h3>{researchMeta.title}</h3></div></div></section>}

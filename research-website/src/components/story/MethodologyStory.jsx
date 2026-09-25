@@ -1,0 +1,2 @@
+import { researchNarrative } from '../../data/research'
+export default function MethodologyStory(){return <section className="story-section methodology-story"><div className="shell"><p className="eyebrow">RESEARCH METHODOLOGY</p><h2>Evaluation first, integration second.</h2><div className="methodology-flow">{researchNarrative.methodology.map((x,i)=><div key={x}><span>{String(i+1).padStart(2,'0')}</span><strong>{x}</strong></div>)}</div></div></section>}
