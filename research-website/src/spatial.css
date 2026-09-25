@@ -9,13 +9,22 @@
 .fallback-field span{--x:calc(12% + (var(--dot) * 9%));position:absolute;left:var(--x);top:calc(26% + ((var(--dot) % 4) * 14%));width:7px;height:7px;border-radius:50%;background:rgba(120,183,181,.62);box-shadow:0 0 0 8px rgba(120,183,181,.06)}
 .fallback-field span:nth-of-type(3n){background:rgba(184,180,221,.72)}
 .fallback-field span:nth-of-type(5n){background:rgba(227,164,135,.72)}
-.hero-spatial-layer{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-spatial-layer{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:normal}
 .hero-inner{z-index:2}
 .spatial-inline{min-height:300px}
+.observation-spatial-layout{position:relative}
+.observation-copy{position:relative;z-index:2;max-width:980px}
+.observation-spatial-stage{position:absolute;right:-3vw;top:100px;width:min(54vw,760px);height:360px;opacity:.9;z-index:0;mask-image:linear-gradient(90deg,transparent 0%,#000 24%,#000 100%)}
+.observation-tracks,.section-note{position:relative;z-index:2}
 .modality-spatial-stage{height:150px;margin:14px 0 8px;border-radius:18px}
+.component-visual--spatial{isolation:isolate}
+.component-visual--spatial>span{z-index:3}
 .component-spatial-stage{height:100%;min-height:360px}
-.fusion-spatial-stage{min-height:430px;border-radius:28px}
-.architecture-spatial-stage{min-height:360px;margin:40px 0 28px;border-radius:28px}
-@media(max-width:900px){.modality-spatial-stage{height:120px}.component-spatial-stage{min-height:280px}.fusion-spatial-stage,.architecture-spatial-stage{min-height:300px}}
-@media(max-width:640px){.spatial-canvas{display:none!important}.spatial-fallback{display:grid!important}}
-@media(prefers-reduced-motion:reduce){.spatial-canvas{display:none!important}.spatial-fallback{display:grid!important;opacity:1!important}}
+.fusion-spatial-stage{min-height:430px;border-radius:28px;margin-bottom:18px;background:radial-gradient(circle at 60% 45%,rgba(120,183,181,.09),transparent 44%)}
+.architecture-spatial-stage{min-height:360px;margin:40px 0 28px;border-radius:28px;background:radial-gradient(circle at 55% 45%,rgba(140,201,211,.09),transparent 55%)}
+.snapshot-grid{perspective:1200px}
+.snapshot-grid article{transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+@media(hover:hover) and (pointer:fine){.snapshot-grid article:first-child:hover{transform:translateZ(8px) rotateY(.7deg)}.snapshot-grid article:last-child:hover{transform:translateZ(12px) rotateY(-.7deg)}}
+@media(max-width:900px){.observation-spatial-stage{position:relative;right:auto;top:auto;width:100%;height:280px;margin:22px 0 -20px;mask-image:none}.modality-spatial-stage{height:120px}.component-spatial-stage{min-height:280px}.fusion-spatial-stage,.architecture-spatial-stage{min-height:300px}}
+@media(max-width:640px){.spatial-canvas{display:none!important}.spatial-fallback{display:grid!important}.observation-spatial-stage{height:220px}.component-spatial-stage{min-height:240px}}
+@media(prefers-reduced-motion:reduce){.spatial-canvas{display:none!important}.spatial-fallback{display:grid!important;opacity:1!important}.snapshot-grid article{transform:none!important;transition:none!important}}
