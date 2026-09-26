@@ -1,10 +1,5 @@
 import ResearchHero from "../components/hero/ResearchHero";
-import AnxietyContext from "../components/story/AnxietyContext";
-import ObservationTimeline from "../components/story/ObservationTimeline";
-import SnapshotProblem from "../components/story/SnapshotProblem";
-import LiteratureLandscape from "../components/story/LiteratureLandscape";
-import ResearchGap from "../components/story/ResearchGap";
-import ResearchThesis from "../components/story/ResearchThesis";
+import ImmersiveIntroduction from "../components/story/ImmersiveIntroduction";
 import ModalityOverview from "../components/research/ModalityOverview";
 import ComponentsStory from "../components/research/ComponentsStory";
 import FusionStory from "../components/research/FusionStory";
@@ -19,16 +14,12 @@ import ResearchTimeline from "../components/story/ResearchTimeline";
 import ResearchTeam from "../components/team/ResearchTeam";
 import Limitations from "../components/story/Limitations";
 import MotionReveal from "../components/motion/MotionReveal";
+
 export default function Home() {
   return (
     <main>
       <ResearchHero />
-      <AnxietyContext />
-      <ObservationTimeline />
-      <SnapshotProblem />
-      <LiteratureLandscape />
-      <ResearchGap />
-      <ResearchThesis />
+      <ImmersiveIntroduction />
       <ModalityOverview />
       <ComponentsStory />
       <FusionStory />
