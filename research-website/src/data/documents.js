@@ -71,9 +71,9 @@ export const milestones = [
   },
   {
     date: "April 2026",
-    title: "Component 1 Phase 1 benchmarks completed",
+    title: "Component 1 physiological evaluation reported",
     detail:
-      "LSTM-AE, masked variant and forecasting module evaluated on four public datasets.",
+      "Corrected 13-participant WESAD LOSO evaluation and external AffectiveROAD evaluation, with direct +5 and +10 minute Ridge forecasting.",
   },
   {
     date: "2026",
