@@ -123,9 +123,9 @@ export default function ComponentDetail() {
                 <h3 className="serif-title detail-sub">
                   10-feature physiological window
                 </h3>
-                <div className="pill-list">
+                <div className="feature-grid">
                   {c.features.map((feature) => (
-                    <span className="pill" key={feature}>
+                    <span className="feature-item" key={feature}>
                       {feature}
                     </span>
                   ))}
