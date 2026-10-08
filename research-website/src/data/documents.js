@@ -9,7 +9,10 @@ export const documents = [
     type: "Proposal report",
     title: component.proposalTitle,
     meta: `${component.id} · ${component.owner} · March 2026`,
-    url: null,
+    url:
+      component.owner === "Sendanayake H.D."
+        ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22107596%5FSendanayake%20H%20D%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
+        : null,
   })),
   {
     group: "Progress Presentation 1",
