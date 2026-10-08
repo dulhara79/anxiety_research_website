@@ -116,6 +116,11 @@ export default function ComponentDetail() {
                   head={["Sensor", "Component", "Measures"]}
                   rows={c.hardware}
                 />
+                <p className="source-note">
+                  The custom wearable combines ECG-derived cardiac measures, thoracic impedance respiration,
+                  motion and skin temperature sensing in one low-power ESP32-C3 platform for continuous
+                  physiological data collection.
+                </p>
               </Reveal>
             )}
             {c.features && (
