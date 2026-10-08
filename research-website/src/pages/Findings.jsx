@@ -10,10 +10,10 @@ const byId = Object.fromEntries(components.map((component) => [component.id, com
 const findings = [
   {
     component: byId.C3,
-    eyebrow: "C3 · Clinical NLP · Kaushalya",
+    eyebrow: "C3 · Clinical NLP",
     title: "Clinical text was the strongest validated signal.",
     lead:
-      "Kaushalya's publication-clean TC-WPN benchmark used patient-disjoint few-shot episodes and strict index-time rules. Across five seeds, the final K=5 model remained stable while avoiding patient and label leakage.",
+      "The publication-clean TC-WPN benchmark used patient-disjoint few-shot episodes and strict index-time rules. Across five seeds, the final K=5 model remained stable while avoiding patient and label leakage.",
     results: [
       ["0.7377", "Mean AUROC across five seeds"],
       ["0.0031", "AUROC standard deviation"],
@@ -25,10 +25,10 @@ const findings = [
   },
   {
     component: byId.C2,
-    eyebrow: "C2 · Behavioural Phenotyping · Senuvi",
+    eyebrow: "C2 · Behavioural Phenotyping",
     title: "The behavioural graph did not survive the validation gate.",
     lead:
-      "Senuvi's final GLOBEM study used 28 days of passive sensing, participant-grouped evaluation and a prevalence-preserving permutation null. The GATv2 graph representation did not outperform simpler flat behavioural baselines.",
+      "The final GLOBEM study used 28 days of passive sensing, participant-grouped evaluation and a prevalence-preserving permutation null. The GATv2 graph representation did not outperform simpler flat behavioural baselines.",
     results: [
       ["0.5205", "Held-out GATv2 AUROC"],
       ["0.485–0.560", "95% participant-clustered CI"],
@@ -41,7 +41,7 @@ const findings = [
   },
   {
     component: byId.C1,
-    eyebrow: "C1 · Physiology · Dewdu",
+    eyebrow: "C1 · Physiology",
     title: "Personalized physiology showed strong benchmark discrimination and usable short-horizon forecasting.",
     lead:
       "The final physiological pipeline learns a participant-specific baseline from a three-minute seated calibration, then uses self-supervised reconstruction anomalies and two consecutive five-minute history blocks for direct +5 and +10 minute forecasting.",
@@ -56,7 +56,7 @@ const findings = [
   },
   {
     component: byId.C4,
-    eyebrow: "C4 · Fusion + RAG · Senuvi",
+    eyebrow: "C4 · Fusion + RAG",
     title: "Fusion is selective, and evidence is allowed to abstain.",
     lead:
       "Component 4 combines eligible signals using informativeness, recency and reliability/coverage rather than treating every modality as equally trustworthy. The contextual prior is kept separate from live escalation signals, while CARE-AnxRAG adds evidence-aware retrieval and safety checks.",
