@@ -101,7 +101,7 @@ export default function ComponentDetail() {
                 alt="Custom chest strap wearable used for physiological sensing"
                 style={{
                   display: "block",
-                  width: "min(760px, 100%)",
+                  width: "min(680px, 100%)",
                   margin: "28px auto 48px",
                   borderRadius: 20,
                 }}
