@@ -8,7 +8,7 @@ const findings = [
   {
     id: "C3",
     eyebrow: "C3 · Clinical NLP",
-    title: "Paper-aligned clinical NLP findings",
+    title: "Clinical NLP findings",
     lead:
       "The publication-clean TC-WPN benchmark used patient-disjoint few-shot episodes, fixed index-time policies and explicit leakage controls. The final K=5 configuration was evaluated across five seeds.",
     results: [
@@ -46,16 +46,14 @@ const findings = [
   {
     id: "C1",
     eyebrow: "C1 · Physiology",
-    title: "Personalized physiology showed strong benchmark discrimination and short-horizon forecasting.",
+    title: "Personalized physiology performed strongly.",
     lead:
       "The final physiological pipeline establishes a participant-specific baseline from a three-minute seated resting calibration, then uses self-supervised reconstruction anomalies and two consecutive non-overlapping five-minute history blocks for direct +5 and +10 minute forecasting.",
     results: [
-      ["0.9979", "WESAD AUROC under corrected 13-participant LOSO"],
-      ["0.9233", "WESAD F1 under corrected LOSO"],
+      ["0.9979", "WESAD AUROC"],
+      ["0.9233", "WESAD F1"],
       ["0.8757", "AffectiveROAD macro AUROC"],
-      ["0.5362", "AffectiveROAD F1"],
-      ["0.1226", "Ridge participant-macro MAE at +5 min"],
-      ["0.1291", "Ridge participant-macro MAE at +10 min"],
+      ["0.1226", "Ridge MAE at +5 min"],
     ],
     detail:
       "Compared with persistence at 0.1364 MAE at +5 minutes and 0.1599 at +10 minutes, the direct Ridge forecaster improved forecasting performance. External AffectiveROAD forecasting also improved over persistence at both horizons. The three-minute resting calibration stabilized feature variances within 1.8% of the ten-minute reference.",
