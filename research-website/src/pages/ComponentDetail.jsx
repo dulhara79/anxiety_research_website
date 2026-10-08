@@ -94,6 +94,20 @@ export default function ComponentDetail() {
             }
             title={c.dataTitle}
           />
+          {c.id === "C1" && (
+            <Reveal>
+              <img
+                src="/images/components/Chest%20Strap.jpg"
+                alt="Custom chest strap wearable used for physiological sensing"
+                style={{
+                  display: "block",
+                  width: "min(760px, 100%)",
+                  margin: "28px auto 48px",
+                  borderRadius: 20,
+                }}
+              />
+            </Reveal>
+          )}
           <div className="detail-grid">
             {c.hardware && (
               <Reveal>
