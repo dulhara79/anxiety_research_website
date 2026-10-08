@@ -41,7 +41,7 @@ export const supervisors = [
   {
     name: "Prof. Samantha Thelijjagoda",
     role: "Supervisor",
-    affiliation: "SLIIT",
+    affiliation: "Provides academic supervision and research guidance throughout the project.",
     photo: "sup-1",
     profile: "https://www.sliit.lk/academic/academic-staff/samantha.t",
     email: "samantha.t@my.sliit.lk",
@@ -49,7 +49,7 @@ export const supervisors = [
   {
     name: "Dr. Mahima Weerasinghe",
     role: "Co-Supervisor",
-    affiliation: "SLIIT",
+    affiliation: "Supports the research team with academic guidance throughout the project.",
     photo: "sup-2",
     profile: "https://www.sliit.lk/academic/academic-staff/mahima.w",
     email: "mahima.w@my.sliit.lk",
