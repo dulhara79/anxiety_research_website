@@ -1,9 +1,9 @@
 // Component detail. Sources, per component:
-//   C1: root README + "Self-supervised Physiological Biosensors/README.md" (Phase 1, April 2026)
+//   C1: model details from R26-DS-012 + current hardware/physiology contract from Aura-Biomonitor and the mobile app
 //   C2: root README + "graph-behavioral-phenotyping-FULL-v8/README.md" (final v8 source of truth)
 //   C3: root README + "Anxiety_Detection_TC_WPN/README_CLEAN_BENCHMARK.md"
 //   C4: root README + "Care-AnxRAG/README.md" + C4 integration notes (DCAR inputs)
-// Numbers must match those files exactly; label benchmark-stage results as such.
+// C1 paper is the authoritative source for the final physiological methodology and results.
 
 const repo = "https://github.com/dulhara79/R26-DS-012/tree/main/";
 
@@ -11,7 +11,7 @@ export const components = [
   {
     id: "C1",
     headline: "Learn the person, then notice change.",
-    dataTitle: "A custom chest strap and four public benchmarks.",
+    dataTitle: "A custom chest strap evaluated on WESAD and AffectiveROAD.",
     slug: "wearable-forecasting",
     modality: "Physiology",
     timescale: "Seconds to minutes",
@@ -27,18 +27,18 @@ export const components = [
     image: "c1",
     source: `${repo}Self-supervised%20Physiological%20Biosensors`,
     hardware: [
-      ["ECG / HRV", "AD8232", "Cardiac rhythm and R-R intervals"],
+      ["ECG / HRV", "ADS1292R", "ECG acquisition and R-R interval-based HRV"],
       [
         "Respiration",
-        "BF350-3AA strain gauge",
-        "Thoracic expansion and breathing rate",
+        "ADS1292R Channel 1",
+        "Thoracic impedance respiration and breathing rate",
       ],
-      ["Inertial motion", "BMI160 IMU", "3-axis acceleration"],
-      ["Skin temperature", "DS18B20", "Peripheral temperature"],
+      ["Inertial motion", "MPU6500 6-axis IMU", "3-axis acceleration"],
+      ["Skin temperature", "DS18B20", "Body temperature"],
       [
         "Microcontroller",
-        "ESP32-C3",
-        "Data acquisition and wearable communication",
+        "ESP32-C3 Super Mini",
+        "Data acquisition and Bluetooth Low Energy communication",
       ],
     ],
     features: [
@@ -54,37 +54,37 @@ export const components = [
       "Acceleration variability",
     ],
     pipeline: [
+      "Three-minute seated resting calibration",
       "60-second physiological feature window",
-      "LSTM autoencoder",
-      "Reconstruction error",
-      "Anomaly signal",
-      "Short-horizon forecasting",
-      "Physiological risk trajectory",
+      "Unmasked LSTM autoencoder",
+      "Reconstruction error and anomaly score",
+      "Two consecutive non-overlapping 5-minute history blocks",
+      "Direct multi-output Ridge forecasting at +5 and +10 minutes",
     ],
     datasets: [
-      ["WESAD", "Laboratory stress"],
-      ["AffectiveROAD", "Real-world driving stress"],
-      ["PPG-DaLiA", "Daily activities"],
-      ["EmoWear", "Video-elicited emotions"],
+      ["WESAD", "Laboratory-induced stress"],
+      ["AffectiveROAD", "External real-world driving evaluation"],
     ],
     evaluation: [
-      "Strict leave-one-subject-out (LOSO) evaluation.",
-      "Global LSTM autoencoder trained only on baseline data.",
-      "Masked LSTM-AE variant compared in an ablation.",
-      "Secondary LSTM forecasts onset probability from recent anomaly scores.",
+      "Corrected 13-participant WESAD leave-one-subject-out (LOSO) evaluation.",
+      "Unmasked LSTM autoencoder trained on baseline sequences with self-supervised reconstruction.",
+      "Frozen autoencoder scores two consecutive non-overlapping five-minute history blocks.",
+      "Direct multi-output Ridge model predicts risk at +5 and +10 minutes; AffectiveROAD is reserved for external evaluation.",
     ],
-    resultsLabel:
-      "Phase 1 benchmark results reported in the Component 1 repository (April 2026)",
+    resultsLabel: "Final paper results",
     results: [
-      ["0.99", "AUROC on WESAD, with 0% false alarm rate"],
-      ["0.97", "Combined AUROC across 25 subjects / drives"],
-      ["0.88", "Combined forecasting AUROC"],
-      ["11.83 min", "Average early warning time"],
-      ["+20.7%", "F1 gain from the masked variant on noisier wrist PPG"],
+      ["0.9979", "WESAD AUROC under corrected 13-participant LOSO evaluation"],
+      ["0.9233", "WESAD F1 under corrected 13-participant LOSO evaluation"],
+      ["0.8757", "AffectiveROAD macro AUROC"],
+      ["0.5362", "AffectiveROAD F1"],
+      ["0.1226", "Ridge participant-macro MAE at +5 min, vs 0.1364 persistence"],
+      ["0.1291", "Ridge participant-macro MAE at +10 min, vs 0.1599 persistence"],
+      ["+0.0055 / +0.0406", "External AffectiveROAD forecasting improvement over persistence at +5 / +10 min"],
     ],
     status: [
-      "Personalization (per-subject fine-tuning of the global model) was listed as the next Phase 1 step.",
-      "Phase 2 plans ethics clearance, a deployable strap, and a 4 to 6 week naturalistic study with 10 to 15 young adults.",
+      "A three-minute seated resting calibration establishes participant-specific baseline means and standard deviations for the ten features.",
+      "The baseline is adapted during passively verified stationary intervals, with a scheduled morning resting recalibration prompt; population models initialize newly enrolled users and personalization is refined over accumulated participant data.",
+      "Formal clinical-cohort validation remains future work, particularly to address the domain shift between laboratory-induced stress and naturalistic anxiety escalation.",
     ],
     fusionRole: "Eligible physiological input to fusion.",
   },
