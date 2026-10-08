@@ -42,16 +42,56 @@ export const components = [
       ],
     ],
     features: [
-      "Mean heart rate",
-      "Mean R-R interval",
-      "SDNN",
-      "RMSSD",
-      "Mean breathing rate",
-      "Breathing-rate variability",
-      "Mean temperature",
-      "Temperature variability",
-      "Mean acceleration magnitude",
-      "Acceleration variability",
+      {
+        name: "Mean heart rate",
+        why: "Captures overall cardiac activation during the window.",
+        how: "Average heart rate derived from the R-R intervals in the 60-second window.",
+      },
+      {
+        name: "Mean R-R interval",
+        why: "Provides a complementary measure of cardiac timing and autonomic state.",
+        how: "Mean time between consecutive R-peaks in the 60-second window.",
+      },
+      {
+        name: "SDNN",
+        why: "Measures overall heart-rate variability across the window.",
+        how: "Standard deviation of the normal-to-normal (NN) intervals.",
+      },
+      {
+        name: "RMSSD",
+        why: "Captures short-term beat-to-beat variability linked to autonomic regulation.",
+        how: "Root mean square of successive differences between NN intervals.",
+      },
+      {
+        name: "Mean breathing rate",
+        why: "Tracks respiratory changes associated with arousal and stress.",
+        how: "Average breathing rate estimated from the thoracic impedance respiration signal.",
+      },
+      {
+        name: "Breathing-rate variability",
+        why: "Captures changes in respiratory pacing rather than only its average level.",
+        how: "Variability of the estimated breathing rate within the 60-second window.",
+      },
+      {
+        name: "Mean temperature",
+        why: "Tracks the participant's thermal state, which can shift with physiological arousal.",
+        how: "Average skin/body temperature readings from the temperature sensor over the window.",
+      },
+      {
+        name: "Temperature variability",
+        why: "Captures short-term thermal fluctuations that a mean alone can miss.",
+        how: "Variability of temperature readings within the 60-second window.",
+      },
+      {
+        name: "Mean acceleration magnitude",
+        why: "Provides a compact measure of overall movement and activity.",
+        how: "Mean acceleration magnitude computed from the three-axis IMU signal.",
+      },
+      {
+        name: "Acceleration variability",
+        why: "Captures how much movement changes during the window.",
+        how: "Variability of acceleration magnitude across the 60-second window.",
+      },
     ],
     pipeline: [
       "Three-minute seated resting calibration",
