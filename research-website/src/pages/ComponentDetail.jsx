@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
@@ -7,6 +8,57 @@ import SectionHead from "../components/ui/SectionHead";
 import FusionStates from "../components/research/FusionStates";
 import NotFound from "./NotFound";
 import { componentBySlug, components } from "../data/components";
+
+function FeatureExplorer({ features }) {
+  const [selected, setSelected] = useState(null);
+
+  return (
+    <>
+      <div className="feature-grid">
+        {features.map((feature) => {
+          const isSelected = selected?.name === feature.name;
+          return (
+            <button
+              className={"feature-item" + (isSelected ? " is-selected" : "")}
+              type="button"
+              key={feature.name}
+              aria-expanded={isSelected}
+              onClick={() => setSelected(isSelected ? null : feature)}
+            >
+              {feature.name}
+            </button>
+          );
+        })}
+      </div>
+
+      {selected && (
+        <div className="feature-info" role="region" aria-label={selected.name}>
+          <div className="feature-info-head">
+            <h4>{selected.name}</h4>
+            <button
+              className="feature-info-close"
+              type="button"
+              aria-label={"Close " + selected.name + " explanation"}
+              onClick={() => setSelected(null)}
+            >
+              ×
+            </button>
+          </div>
+          <div className="feature-info-grid">
+            <div>
+              <span>Why</span>
+              <p>{selected.why}</p>
+            </div>
+            <div>
+              <span>How</span>
+              <p>{selected.how}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 function Table({ head, rows, numeric = [], highlight }) {
   return (
@@ -128,13 +180,7 @@ export default function ComponentDetail() {
                 <h3 className="serif-title detail-sub">
                   10-feature physiological window
                 </h3>
-                <div className="feature-grid">
-                  {c.features.map((feature) => (
-                    <span className="feature-item" key={feature}>
-                      {feature}
-                    </span>
-                  ))}
-                </div>
+                <FeatureExplorer features={c.features} />
                 <h3
                   className="serif-title detail-sub"
                   style={{ marginTop: 36 }}
