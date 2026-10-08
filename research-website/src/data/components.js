@@ -1,5 +1,5 @@
 // Component detail. Sources, per component:
-//   C1: root README + "Self-supervised Physiological Biosensors/README.md" (Phase 1, April 2026)
+//   C1: model details from R26-DS-012 + current hardware/physiology contract from Aura-Biomonitor and the mobile app
 //   C2: root README + "graph-behavioral-phenotyping-FULL-v8/README.md" (final v8 source of truth)
 //   C3: root README + "Anxiety_Detection_TC_WPN/README_CLEAN_BENCHMARK.md"
 //   C4: root README + "Care-AnxRAG/README.md" + C4 integration notes (DCAR inputs)
@@ -27,18 +27,18 @@ export const components = [
     image: "c1",
     source: `${repo}Self-supervised%20Physiological%20Biosensors`,
     hardware: [
-      ["ECG / HRV", "AD8232", "Cardiac rhythm and R-R intervals"],
+      ["ECG / HRV", "ADS1292R", "ECG acquisition and R-R interval-based HRV"],
       [
         "Respiration",
-        "BF350-3AA strain gauge",
-        "Thoracic expansion and breathing rate",
+        "ADS1292R Channel 1",
+        "Thoracic impedance respiration and breathing rate",
       ],
-      ["Inertial motion", "BMI160 IMU", "3-axis acceleration"],
-      ["Skin temperature", "DS18B20", "Peripheral temperature"],
+      ["Inertial motion", "MPU6500 6-axis IMU", "3-axis acceleration"],
+      ["Skin temperature", "DS18B20", "Body temperature"],
       [
         "Microcontroller",
-        "ESP32-C3",
-        "Data acquisition and wearable communication",
+        "ESP32-C3 Super Mini",
+        "Data acquisition and Bluetooth Low Energy communication",
       ],
     ],
     features: [
