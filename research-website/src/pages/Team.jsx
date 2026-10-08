@@ -85,7 +85,27 @@ export default function Team() {
                   {person.role}
                 </span>
                 <h3 className="card-title">{person.name}</h3>
-                <p>{person.affiliation}</p>
+                <p>
+                  {person.name === "Prof. Samantha Thelijjagoda" ? (
+                    <>
+                      <span style={{ display: "block" }}>
+                        Senior Professor, Department of Computer Systems
+                      </span>
+                      <span style={{ display: "block" }}>
+                        Engineering, Faculty of Computing
+                      </span>
+                    </>
+                  ) : person.name === "Dr. Mahima Weerasinghe" ? (
+                    <>
+                      <span style={{ display: "block" }}>
+                        Senior Lecturer (Higher Grade), Department of Computer Science,
+                      </span>
+                      <span style={{ display: "block" }}>Faculty of Computing</span>
+                    </>
+                  ) : (
+                    person.affiliation
+                  )}
+                </p>
                 <a
                   className="contact-link"
                   href={person.profile}
