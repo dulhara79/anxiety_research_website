@@ -12,7 +12,13 @@ export const documents = [
     url:
       component.owner === "Sendanayake H.D."
         ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22107596%5FSendanayake%20H%20D%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
-        : null,
+        : component.owner === "Seneviratne K.A.U.A."
+          ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22093950%5FSeneviratne%20K%20A%20U%20A%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
+          : component.owner === "Kaushalya I.G.D."
+            ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22130648%5FKaushalya%20I%20G%20D%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
+            : component.owner === "Layathma B.M.A.S."
+              ? "https://mysliit.sharepoint.com/:b:/s/CDAPSubmissionCloud/IQA4fMHw38dITIa0c2ui1f1xAf36Ajem9_lXL4Cm5_9YcV4?e=b6H0U2"
+              : null,
   })),
   {
     group: "Progress Presentation 1",
