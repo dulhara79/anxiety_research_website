@@ -81,7 +81,7 @@ export const roles = [
     slug: "wearable-forecasting",
     title: "Wearable Biosensor Forecasting",
     input: "Chest-strap ECG, respiration, motion and skin temperature, summarised into 60-second windows of 10 features after participant-specific calibration.",
-    process: "A three-minute seated resting calibration establishes the participant baseline. An unmasked LSTM autoencoder uses self-supervised reconstruction to produce an anomaly score, and a direct multi-output Ridge model forecasts risk at +5 and +10 minutes from two consecutive non-overlapping five-minute history blocks.",
+    process: "A three-minute resting calibration establishes the baseline. An LSTM autoencoder detects anomalies, while Ridge forecasts risk at +5 and +10 minutes.",
     output: "A physiological anomaly score with direct +5 and +10 minute forecasts.",
     fusion: "Eligible input, weighted by informativeness, recency and coverage.",
   },
