@@ -152,6 +152,18 @@ export const components = [
       ["INS-W_3", "2020", "Held-out evaluation"],
       ["INS-W_4", "2021", "Held-out evaluation"],
     ],
+    nodeFeatures: [
+      {
+        name: "Behavioural values (40)",
+        why: "Describe what the participant's passive smartphone sensing recorded in a given day segment.",
+        how: "Behavioural measures aggregated into one value per feature for each day × segment node.",
+      },
+      {
+        name: "Missingness indicators (40)",
+        why: "Passive sensing has gaps; whether data is missing can itself be informative, and must not be hidden from the model.",
+        how: "One binary indicator per behavioural value marking whether it was observed, so the model can tell real zeros from absent data.",
+      },
+    ],
     target:
       "Released binary anx_weekly_subscale: the PHQ-4 anxiety subscale / GAD-2-derived label in GLOBEM.",
     pipeline: [

@@ -62,7 +62,7 @@ function FeatureExplorer({ features }) {
   );
 }
 
-function Table({ head, rows, numeric = [], highlight }) {
+function Table({ head, rows, numeric = [], highlight, chipCol }) {
   return (
     <div className="table-wrap">
       <table className="data-table">
@@ -90,7 +90,20 @@ function Table({ head, rows, numeric = [], highlight }) {
                   key={index}
                   className={numeric.includes(index) ? "num" : undefined}
                 >
-                  {cell}
+                  {index === chipCol ? (
+                    <span
+                      className={
+                        "role-chip " +
+                        (/held-out/i.test(cell)
+                          ? "role-chip--heldout"
+                          : "role-chip--select")
+                      }
+                    >
+                      {cell}
+                    </span>
+                  ) : (
+                    cell
+                  )}
                 </td>
               ))}
             </tr>
@@ -195,7 +208,11 @@ export default function ComponentDetail() {
             {c.cohorts && (
               <Reveal>
                 <h3 className="serif-title detail-sub">GLOBEM cohorts</h3>
-                <Table head={["Cohort", "Year", "Role"]} rows={c.cohorts} />
+                <Table
+                  head={["Cohort", "Year", "Role"]}
+                  rows={c.cohorts}
+                  chipCol={2}
+                />
                 <p className="source-note">Target: {c.target}</p>
               </Reveal>
             )}
@@ -207,6 +224,14 @@ export default function ComponentDetail() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
+              </Reveal>
+            )}
+            {c.nodeFeatures && (
+              <Reveal delay={0.08}>
+                <h3 className="serif-title detail-sub">
+                  80 features per node
+                </h3>
+                <FeatureExplorer features={c.nodeFeatures} />
               </Reveal>
             )}
             {c.policies && (
