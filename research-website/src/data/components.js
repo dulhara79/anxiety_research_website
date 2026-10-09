@@ -175,6 +175,7 @@ export const components = [
       ["0.4991", "50-permutation null mean (p = 0.255)"],
       ["0.2270", "AUPRC"],
     ],
+    permutationNullMean: 0.4991,
     baselines: [
       ["Logistic Regression", "0.5458"],
       ["Random Forest", "0.5617"],

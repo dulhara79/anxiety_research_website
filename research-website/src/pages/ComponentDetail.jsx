@@ -6,6 +6,7 @@ import Reveal from "../components/ui/Reveal";
 import ImageSlot from "../components/ui/ImageSlot";
 import SectionHead from "../components/ui/SectionHead";
 import FusionStates from "../components/research/FusionStates";
+import AurocChart from "../components/research/AurocChart";
 import NotFound from "./NotFound";
 import { componentBySlug, components } from "../data/components";
 
@@ -302,6 +303,15 @@ export default function ComponentDetail() {
                 </div>
               ))}
             </Reveal>
+            {c.baselines && (
+              <Reveal>
+                <AurocChart
+                  rows={c.baselines}
+                  highlight="GATv2"
+                  nullMean={c.permutationNullMean}
+                />
+              </Reveal>
+            )}
             {c.baselines && (
               <div className="grid-2" style={{ marginTop: 56 }}>
                 <Reveal>

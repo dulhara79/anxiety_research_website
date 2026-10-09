@@ -1401,3 +1401,113 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* C2 · AUROC comparison chart */
+
+.auroc-chart {
+  margin: 28px 0 0;
+}
+
+.auroc-title {
+  margin-bottom: 14px;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+}
+
+.auroc-plot {
+  position: relative;
+  padding-top: 22px;
+}
+
+.auroc-plot ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.auroc-plot li {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) 64px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.92rem;
+}
+
+.auroc-track {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.auroc-bar {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--teal-mid);
+  opacity: 0.55;
+}
+
+.auroc-plot li.is-highlight .auroc-bar {
+  opacity: 1;
+}
+
+.auroc-plot li.is-highlight .auroc-label {
+  font-weight: 600;
+}
+
+.auroc-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Overlay aligned with the track column (label 160px + gap 12; value 64 + gap 12). */
+.auroc-markers {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 172px;
+  right: 76px;
+  pointer-events: none;
+}
+
+.auroc-chance,
+.auroc-null {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+}
+
+.auroc-chance {
+  border-left: 2px dashed var(--ink-soft);
+}
+
+.auroc-null {
+  border-left: 1px dotted var(--ink-soft);
+}
+
+.auroc-chance em {
+  position: absolute;
+  top: -2px;
+  left: 6px;
+  font-size: 0.72rem;
+  font-style: normal;
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+  .auroc-plot li {
+    grid-template-columns: minmax(0, 1fr) 64px;
+  }
+  .auroc-label {
+    grid-column: 1 / -1;
+  }
+  .auroc-markers {
+    display: none;
+  }
+}
