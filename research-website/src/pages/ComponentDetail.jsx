@@ -6,6 +6,7 @@ import Reveal from "../components/ui/Reveal";
 import ImageSlot from "../components/ui/ImageSlot";
 import SectionHead from "../components/ui/SectionHead";
 import FusionStates from "../components/research/FusionStates";
+import GraphDiagram from "../components/research/GraphDiagram";
 import AurocChart from "../components/research/AurocChart";
 import NotFound from "./NotFound";
 import { componentBySlug, components } from "../data/components";
@@ -225,6 +226,11 @@ export default function ComponentDetail() {
               </Reveal>
             )}
           </div>
+          {c.cohorts && (
+            <Reveal>
+              <GraphDiagram />
+            </Reveal>
+          )}
           {c.formula && (
             <div style={{ marginTop: 48 }}>
               <FusionStates />
@@ -356,6 +362,12 @@ export default function ComponentDetail() {
             >
               Where {c.id} stands.
             </h2>
+            {c.fusionWeight && (
+              <p className="fusion-weight">
+                <strong>{c.fusionWeight}</strong>
+                <span>current fusion weight</span>
+              </p>
+            )}
             <p className="lead">{c.fusionRole}</p>
             <div className="button-row">
               <a

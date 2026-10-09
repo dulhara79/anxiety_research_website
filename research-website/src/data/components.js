@@ -193,6 +193,7 @@ export const components = [
       "The pre-registered cohort-shift robustness hypothesis for the graph was not supported.",
       "Earlier vulnerability scores, hourly high-risk windows and phenotype outputs are historical exploratory work, not validated clinical outputs.",
     ],
+    fusionWeight: "0.0",
     fusionRole:
       "Active fusion weight 0.0. Retained for research logging, data-quality monitoring and future model development.",
   },

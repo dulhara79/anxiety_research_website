@@ -1511,3 +1511,90 @@
     display: none;
   }
 }
+
+/* C2 · graph construction diagram */
+
+.graph-diagram {
+  margin: 48px 0 0;
+}
+
+.graph-diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+}
+
+.gd-label,
+.gd-day,
+.gd-more {
+  fill: var(--ink-soft);
+  font-size: 11px;
+}
+
+.gd-edge {
+  stroke-width: 1.5;
+}
+
+.gd-edge--within,
+.gd-key--within {
+  stroke: var(--teal-mid);
+  background: var(--teal-mid);
+}
+
+.gd-edge--across,
+.gd-key--across {
+  stroke: #aaa7d6;
+  background: #aaa7d6;
+}
+
+.gd-node {
+  fill: var(--paper);
+  stroke: var(--teal-mid);
+  stroke-width: 2;
+}
+
+.graph-diagram figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin-top: 12px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.gd-key {
+  display: inline-block;
+  width: 22px;
+  height: 3px;
+  margin-right: -10px;
+  border-radius: 2px;
+}
+
+.gd-note {
+  flex-basis: 100%;
+}
+
+/* Fusion weight callout (shown when a component defines fusionWeight) */
+
+.fusion-weight {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 8px 0 20px;
+  padding: 12px 18px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+}
+
+.fusion-weight strong {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.fusion-weight span {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
