@@ -180,7 +180,7 @@ export const components = [
       "Each test fold is evaluated once, after every choice is fixed.",
       "Compared against a prevalence-preserving, participant-level permutation null.",
     ],
-    resultsLabel: "Final v8 held-out results",
+    resultsLabel: "Final held-out results",
     results: [
       ["0.5205", "Held-out GATv2 AUROC"],
       ["0.485–0.560", "95% participant-clustered CI"],
