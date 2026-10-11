@@ -112,3 +112,6 @@
 @media (prefers-reduced-motion: reduce) {
  .site-search-dialog *, .site-search-dialog *::before, .site-search-dialog *::after { scroll-behavior: auto; transition: none; }
 }
+
+/* Deep-link targets stay visible below the fixed research navbar. */
+main [id] { scroll-margin-top: 100px; }
