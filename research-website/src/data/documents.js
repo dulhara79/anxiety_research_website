@@ -4,6 +4,13 @@
 import { components } from "./components.js";
 
 export const documents = [
+  {
+    group: "Shared research library",
+    type: "Google Drive folder",
+    title: "Public research media and documents",
+    meta: "Externally hosted assets and documents · opens Google Drive",
+    url: "https://drive.google.com/drive/folders/1rZO2JY0AXn-8hMcWATE3dAFqUXSGwaPd?usp=sharing",
+  },
   ...components.map((component) => ({
     group: "Project proposals",
     type: "Proposal report",
