@@ -63,6 +63,15 @@ export const documents = [
   },
 ];
 
+// Requirements named by Website.pdf. These files have not been verified in
+// the supplied Drive archive. Never point to an unrelated document or folder.
+export const pendingDocuments = [
+  { title: "Project Charter", description: "One project charter document", url: null },
+  { title: "Project Checklists", description: "Completed checklist documents", url: null },
+  { title: "Final Individual Reports", description: "Four individual final reports", url: null },
+  { title: "Final Group Report", description: "One main final report", url: null },
+];
+
 export const publicationNote =
   "Published papers will be listed only after their publication status and links are verified.";
 
