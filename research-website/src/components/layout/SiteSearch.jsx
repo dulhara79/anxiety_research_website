@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowRight, Command, FileText, Search, X } from "lucide-react";
+import { ArrowRight, FileText, Search, X } from "lucide-react";
 import { searchCategories, searchSite, suggestedSearches } from "../../data/search.js";
 import "./site-search.css";
 
@@ -50,11 +50,25 @@ export default function SiteSearch() {
 
   useEffect(() => {
     if (!open) return undefined;
-    const prior = document.activeElement;
     const onKey = (event) => {
       if (event.key === "Escape") {
         event.preventDefault();
         close();
+      }
+      if (event.key === "Tab") {
+        const focusable = [...(panelRef.current?.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? [])];
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       }
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
@@ -68,9 +82,6 @@ export default function SiteSearch() {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previousOverflow;
-      if (prior?.isConnected && prior !== triggerRef.current) {
-        // Do not steal focus if a result navigated to another page.
-      }
     };
   }, [open]);
 
