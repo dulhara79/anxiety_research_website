@@ -118,7 +118,7 @@ function HeroVideo({ sectionRef }) {
             videos.current[index] = node;
           }}
           className={index === active ? "is-active" : undefined}
-          src={heroVideo.src}
+          src={`${import.meta.env.BASE_URL}${heroVideo.src.replace(/^\//, "")}`}
           poster={heroVideo.poster}
           muted
           playsInline
