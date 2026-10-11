@@ -110,7 +110,7 @@ function HeroVideo({ sectionRef }) {
   };
 
   return (
-    <div className="hero-video" aria-hidden="true">
+    <div className="hero-video" aria-hidden="true" style={{ backgroundImage: `url("${heroVideo.poster}")` }}>
       {[0, 1].map((index) => (
         <video
           key={index}
