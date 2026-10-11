@@ -57,7 +57,7 @@ export default function Documents() {
                 {documents
                   .filter((doc) => doc.group === group)
                   .map((doc) => (
-                    <li key={doc.title}>
+                    <li key={doc.title} id={`document-${documents.indexOf(doc)}`}>
                       <FileText size={20} aria-hidden="true" />
                       <div>
                         <span className="card-kicker">{doc.type}</span>
