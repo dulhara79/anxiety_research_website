@@ -7,7 +7,6 @@ import {
   documents,
   milestones,
   publicationNote,
-  scopeChanges,
 } from "../data/documents";
 
 // Citation block from the R26-DS-012 README.
@@ -39,8 +38,8 @@ export default function Documents() {
     <>
       <PageHero
         eyebrow="Documents"
-        title="Proposals, sources and milestones."
-        lead="The written record of the project, including how its scope changed between the proposals and the final components."
+        title="Research documents and milestones."
+        lead="Research assessment records, from the topic assessment form through the final presentation."
         image="bannerDocuments"
       />
 
@@ -96,42 +95,6 @@ export default function Documents() {
             </div>
           ))}
           <p className="source-note">{publicationNote}</p>
-        </div>
-      </section>
-
-      <section
-        className="section section--paper2"
-        aria-labelledby="scope-title"
-      >
-        <div className="shell">
-          <SectionHead
-            id="scope-title"
-            eyebrow="From proposal to final scope"
-            title="What changed, and why it is stated openly."
-            lead="The repository is the source of truth. Where a component's final design differs from its March 2026 proposal, both are named."
-          />
-          <Reveal className="table-wrap">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th scope="col">Component</th>
-                  <th scope="col">In the proposal</th>
-                  <th scope="col">In the final repository</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scopeChanges.map((row) => (
-                  <tr key={row.id}>
-                    <td>
-                      <strong>{row.id}</strong>
-                    </td>
-                    <td className="muted">{row.before}</td>
-                    <td>{row.after}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Reveal>
         </div>
       </section>
 
