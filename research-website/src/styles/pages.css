@@ -1692,3 +1692,95 @@
 .contact-email-fields input,.contact-email-fields textarea {width:100%;padding:13px 15px;border:1px solid rgba(253,241,225,.3);border-radius:12px;background:rgba(253,241,225,.96);color:var(--ink);font:inherit;}
 .contact-email-fields .contact-email-message {grid-column:1 / -1;}
 @media(max-width:680px){.assessment-facts,.slide-grid,.contact-email-fields{grid-template-columns:1fr;}}
+
+
+/* Interactive research milestone map trail */
+.milestone-trail-intro { max-width: 65ch; margin-top: 18px; }
+.milestone-trail-layout {
+  display: grid;
+  grid-template-columns: minmax(290px, 420px) minmax(0, 1fr);
+  gap: clamp(22px, 3vw, 40px);
+  align-items: start;
+  margin-top: 38px;
+}
+.milestone-trail {
+  position: relative;
+  padding: 25px 20px 28px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(94,170,160,.09), transparent 70%), var(--paper);
+  overflow: hidden;
+}
+.milestone-trail-head { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 28px; }
+.milestone-trail-head > svg { color: var(--teal-mid); flex: none; margin-top: 2px; }
+.milestone-trail-head strong { color: var(--ink); font-size: 1.05rem; }
+.milestone-trail-head p { margin: 5px 0 0; color: var(--ink-soft); font-size: .87rem; }
+.milestone-trail-list { position: relative; list-style: none; margin: 0; padding: 0; }
+.milestone-trail-list::before {
+  content: "";
+  position: absolute;
+  top: 20px; bottom: 20px; left: 23px;
+  width: 2px;
+  background: repeating-linear-gradient(to bottom, rgba(58,129,120,.65) 0 9px, transparent 9px 18px);
+}
+.trail-stop { position: relative; }
+.trail-stop + .trail-stop { margin-top: 9px; }
+.trail-stop-button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 9px 12px 9px 0;
+  border: 0;
+  border-radius: 15px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.trail-stop-button:hover, .trail-stop.is-active .trail-stop-button { background: rgba(58,129,120,.09); }
+.trail-stop-button:focus-visible { outline: 3px solid var(--teal-bright); outline-offset: 2px; }
+.trail-stop-marker {
+  z-index: 1; position: relative;
+  display: grid; place-items: center;
+  width: 35px; height: 35px; margin-left: 6px;
+  border-radius: 999px;
+  background: var(--teal-deep);
+  box-shadow: 0 0 0 5px var(--paper);
+  color: var(--paper);
+  font-size: .78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.trail-stop.is-active .trail-stop-marker { background: var(--ink); box-shadow: 0 0 0 5px var(--paper), 0 0 0 7px var(--teal-mid); }
+.trail-stop-copy { min-width: 0; display: grid; gap: 4px; }
+.trail-stop-copy strong { font-size: .91rem; font-weight: 600; line-height: 1.35; }
+.trail-stop-copy span { color: var(--ink-soft); font-size: .8rem; line-height: 1.4; }
+.trail-footprints { display: flex; gap: 15px; margin: 28px 0 0 12px; color: rgba(58,129,120,.45); transform: rotate(-14deg); }
+.trail-footprints svg:nth-child(2) { transform: translateY(12px); }
+.trail-footprints svg:nth-child(3) { transform: translateY(2px); }
+.milestone-detail-panel { position: sticky; top: 104px; max-width: none; }
+.milestone-detail-panel .assessment-detail-heading { display: grid; justify-items: start; gap: 12px; }
+.assessment-step-badge {
+  display: inline-flex; padding: 7px 13px;
+  background: rgba(58,129,120,.12); color: var(--teal-deep);
+  border-radius: 999px; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.milestone-detail-panel .assessment-facts { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.milestone-detail-disclaimer { margin-top: 26px; }
+.assessment-sources { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: .86rem; line-height: 1.5; }
+.assessment-sources p { margin: 8px 0 0; }
+@media (max-width: 980px) {
+  .milestone-trail-layout { grid-template-columns: minmax(0, 1fr); }
+  .milestone-detail-panel { position: static; }
+}
+@media (max-width: 640px) {
+  .milestone-trail { padding: 20px 13px 22px; }
+  .trail-stop-button { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trail-stop-button { transition: none; }
+}
