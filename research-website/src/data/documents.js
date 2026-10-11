@@ -3,45 +3,35 @@
 
 import { components } from "./components.js";
 
+const driveFile = (id) => `https://drive.google.com/file/d/${id}/view`;
+const proposalPdf = {
+ C1: "1YMUy37Rg4co5sEGKX2eTDBJT4hJbrBN2",
+ C2: "1QIXzKF3jqaezolvh8-jrY03ZYKJDNaee",
+ C3: "1X35rkxxdf6gfhgKRdqVXt6EoNX80NY0d",
+ C4: "1YbCryp0gpOo79RnUZbWPb5vuY1_ClPUe",
+};
 export const documents = [
   ...components.map((component) => ({
-    group: "Project proposals",
-    type: "Proposal report",
+    group: "Project proposals", type: "Proposal report",
     title: component.proposalTitle,
     meta: `${component.id} · ${component.owner} · March 2026`,
-    url:
-      component.owner === "Sendanayake H.D."
-        ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22107596%5FSendanayake%20H%20D%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
-        : component.owner === "Seneviratne K.A.U.A."
-          ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22093950%5FSeneviratne%20K%20A%20U%20A%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
-          : component.owner === "Kaushalya I.G.D."
-            ? "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336&id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports%2FR26%2DDS%2D012%5FIT22130648%5FKaushalya%20I%20G%20D%2Epdf&parent=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F1%2E%20Project%20Proposal%2FIndividual%20Reports"
-            : component.owner === "Layathma B.M.A.S."
-              ? "https://mysliit.sharepoint.com/:b:/s/CDAPSubmissionCloud/IQA4fMHw38dITIa0c2ui1f1xAf36Ajem9_lXL4Cm5_9YcV4?e=b6H0U2"
-              : null,
+    url: proposalPdf[component.id] ? driveFile(proposalPdf[component.id]) : null,
   })),
-  {
-    group: "Progress Presentation 1",
-    type: "Presentation slides",
-    title: "R26-DS-012 progress presentation 1",
-    meta: "March 2026",
-    url: "https://mysliit.sharepoint.com/:p:/r/sites/CDAPSubmissionCloud/_layouts/15/Doc.aspx?sourcedoc=%7B2BF82E73-41A4-4E6A-BE72-827E8C072C2B%7D&file=Progress%20Presentation%2001.pptx&action=edit&mobileredirect=true&wdwpf=doclib-t",
-  },
-  {
-    group: "Progress Presentation 2",
-    type: "Presentation slides",
-    title: "R26-DS-012 progress presentation 2",
-    meta: "June 2026",
-    url: "https://mysliit.sharepoint.com/:p:/r/sites/CDAPSubmissionCloud/_layouts/15/Doc.aspx?sourcedoc=%7BD69672E9-7435-4131-93E9-DA031A9A71DF%7D&file=R26-DS-012_PP2.pptx&action=edit&mobileredirect=true&wdwpf=doclib-t",
-  },
-
-  {
-    group: "Final Presentation",
-    type: "Presentation slides",
+  { group: "Project proposals", type: "Presentation slides",
+    title: "R26-DS-012 proposal presentation", meta: "Proposal presentation",
+    url: driveFile("1ApTHMyhwy_7qyqKdU8I2nJRCmJH1xrsz") },
+  { group: "Project registration", type: "Approved form",
+    title: "Topic Assessment Form · R26-DS-012", meta: "Project registration",
+    url: driveFile("1-Bdz4Qmgo4yoitX5S87QHpEKhIWpM-q1") },
+  { group: "Progress Presentation 1", type: "Presentation slides",
+    title: "R26-DS-012 progress presentation 1", meta: "March 2026",
+    url: driveFile("1d0QkKTgOnnZ8BQhqOKrd6PtT-kcIIXmw") },
+  { group: "Progress Presentation 2", type: "Presentation slides",
+    title: "R26-DS-012 progress presentation 2", meta: "June 2026",
+    url: driveFile("1JXDryh9IUuU4EOtHUDQ9rJEmxSJaDY_v") },
+  { group: "Final Presentation", type: "Presentation slides",
     title: "R26-DS-012 final presentation",
-    meta: "September 2026",
-    url: "https://mysliit.sharepoint.com/sites/CDAPSubmissionCloud/2026RegCloud/Forms/AllItems.aspx?id=%2Fsites%2FCDAPSubmissionCloud%2F2026RegCloud%2FR26%2DDS%2D012%2DStudents%2F5%2E%20Final%20Report%20%26%20Presentation%2FFinal%20Presentation%20PPT&viewid=db9415e4%2Dec70%2D4c80%2Dac71%2Dbb61beebb336",
-  },
+    meta: "September 2026 · Not published in Drive yet", url: null },
   {
     group: "Source and artefacts",
     type: "Diagram",
