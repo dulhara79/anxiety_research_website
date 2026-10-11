@@ -2,7 +2,7 @@
 
 export const heroVideo = {
   src: "/media/research-hero.mp4",
-  poster: "/media/research-hero-poster.webp",
+  poster: "https://drive.google.com/thumbnail?id=16k7sGcoyFS-mbwLQsHacDtZA5vHz1Gi7&sz=w1600",
 };
 
 export const cinematicIntro = {
