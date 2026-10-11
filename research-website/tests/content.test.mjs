@@ -54,16 +54,12 @@ test("project's published documents use public Drive file URLs", () => {
   assert.equal(documents.find(d => d.group === "Final Presentation").url, null);
 });
 
-test("downloads and milestones follow the five required assessment stages", () => {
-  const expected = [
-    "TAF (Topic Assessment Form)",
-    "Proposal",
-    "Progress Presentation 1",
-    "Progress Presentation 2",
-    "Final Presentation",
-  ];
-  assert.deepEqual(documentStages, expected);
-  assert.deepEqual([...new Set(documents.map((d) => d.group))], expected);
-  assert.deepEqual(milestones.map((m) => m.title), expected);
-  assert.ok(milestones.every((m) => m.date && m.detail));
+test("university navigation and milestones have honest placeholders", async () => {
+  const { navigation } = await import("../src/data/site.js");
+  assert.deepEqual(navigation.map((item) => item.label), ["Home","Domain","Milestones","Documents","Slides","About Us","Contact Us"]);
+  assert.deepEqual(documentStages, ["TAF (Topic Assessment Form)","Proposal","Progress Presentation 1","Progress Presentation 2","Final Presentation"]);
+  assert.deepEqual([...new Set(documents.map((item) => item.group))], documentStages);
+  assert.deepEqual(milestones.map((item) => item.id), ["taf","proposal","pp1","pp2","final","viva"]);
+  assert.ok(milestones.every((item) => item.assessmentDate === null && item.marks === null));
+  assert.ok(milestones.every((item) => typeof item.detail === "string" && item.detail.length > 10));
 });
