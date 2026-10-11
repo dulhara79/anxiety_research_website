@@ -66,30 +66,63 @@ export const documents = [
 export const publicationNote =
   "Published papers will be listed only after their publication status and links are verified.";
 
+// The university asks for assessment details, assessment dates and marks.
+// Unknown values remain null until an official assessment scheme is provided.
+// Dates below identify DOCUMENT dates, NOT verified assessment dates.
 export const milestones = [
   {
-    date: "2026 · date unverified",
-    title: "TAF (Topic Assessment Form)",
-    detail: "The R26-DS-012 topic assessment document is available in the project archive. Its submission and approval dates have not been independently confirmed.",
+    id: "taf",
+    title: "Topic Assessment Form (TAF)",
+    detail: "R26-DS-012 topic assessment record is archived and linked under Documents. The date of formal assessment is not established in the reviewed records.",
+    documentDate: null,
+    assessmentDate: null,
+    marks: null,
+    href: "/documents#document-0",
   },
   {
-    date: "March 2026 · report date",
-    title: "Proposal",
-    detail: "Four individual research proposal reports are dated March 2026. The separate group slide deck has a later printed date.",
+    id: "proposal",
+    title: "Project Proposal",
+    detail: "Four individual proposal reports have March 2026 cover dates. A separate proposal slide deck exists, but its printed date differs.",
+    documentDate: "March 2026 (individual report cover dates)",
+    assessmentDate: null,
+    marks: null,
+    href: "/documents#docs-title",
   },
   {
-    date: "11 May 2026 · slide date",
+    id: "pp1",
     title: "Progress Presentation 1",
-    detail: "Progress Presentation 1 slides are available. This is the date shown on the slides, not an independently verified assessment date.",
+    detail: "The archived presentation displays 11 May 2026. This is evidence of a date printed on slides, not independently proof of the assessment date.",
+    documentDate: "11 May 2026 (printed on slides)",
+    assessmentDate: null,
+    marks: null,
+    href: "/slides#slide-0",
   },
   {
-    date: "2026 · date unverified",
+    id: "pp2",
     title: "Progress Presentation 2",
-    detail: "The Progress Presentation 2 deck is available. The assessment date and marks allocation were not confirmed from the reviewed materials.",
+    detail: "The presentation file is available. Neither the assessment date nor the allocated marks were established from the reviewed documents.",
+    documentDate: null,
+    assessmentDate: null,
+    marks: null,
+    href: "/slides#slide-1",
   },
   {
-    date: "Date unverified",
-    title: "Final Presentation",
-    detail: "The final presentation is included as an assessment stage; the shared Drive folder does not yet contain its slide deck.",
+    id: "final",
+    title: "Final Assessment / Presentation",
+    detail: "Listed as an assessment stage in the university website guidance. The project's final presentation has not yet been published in the shared Drive folder.",
+    documentDate: null,
+    assessmentDate: null,
+    marks: null,
+    href: "/slides#slide-2",
+  },
+  {
+    id: "viva",
+    title: "Viva (if applicable)",
+    detail: "The university website guidance lists viva as an example. Whether this project has a separate viva, its date and mark allocation must be confirmed from the official assessment schedule.",
+    documentDate: null,
+    assessmentDate: null,
+    marks: null,
+    href: null,
+    conditional: true,
   },
 ];
