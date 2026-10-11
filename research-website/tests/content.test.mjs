@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { components } from "../src/data/components.js";
 import { images, imageDriveIds, imageSrc } from "../src/data/images.js";
 import { supervisors, team } from "../src/data/team.js";
-import { documents } from "../src/data/documents.js";
+import { documents, documentStages, milestones } from "../src/data/documents.js";
 
 test("component slugs and ids are unique", () => {
   assert.equal(new Set(components.map((c) => c.slug)).size, components.length);
@@ -52,4 +52,18 @@ test("project's published documents use public Drive file URLs", () => {
     assert.match(item.url, /^https:\/\/drive\.google\.com\/file\/d\//);
   }
   assert.equal(documents.find(d => d.group === "Final Presentation").url, null);
+});
+
+test("downloads and milestones follow the five required assessment stages", () => {
+  const expected = [
+    "TAF (Topic Assessment Form)",
+    "Proposal",
+    "Progress Presentation 1",
+    "Progress Presentation 2",
+    "Final Presentation",
+  ];
+  assert.deepEqual(documentStages, expected);
+  assert.deepEqual([...new Set(documents.map((d) => d.group))], expected);
+  assert.deepEqual(milestones.map((m) => m.title), expected);
+  assert.ok(milestones.every((m) => m.date && m.detail));
 });
