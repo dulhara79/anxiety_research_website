@@ -8,6 +8,7 @@ import {
   milestones,
   publicationNote,
   pendingDocuments,
+  publishedAdditionalDocuments,
 } from "../data/documents";
 
 // Citation block from the R26-DS-012 README.
@@ -95,11 +96,31 @@ export default function Documents() {
               </Reveal>
             </div>
           ))}
+          {[...new Set(publishedAdditionalDocuments.map((doc) => doc.group))].map((group) => (
+            <div className="doc-group" key={group}>
+              <h3 className="serif-title detail-sub">{group}</h3>
+              <ul className="doc-list">
+                {publishedAdditionalDocuments.filter((doc) => doc.group === group).map((doc) => (
+                  <li key={doc.url}>
+                    <FileText size={20} aria-hidden="true" />
+                    <div>
+                      <span className="card-kicker">{doc.type}</span>
+                      <strong>{doc.title}</strong>
+                      <span className="muted">{doc.meta}</span>
+                    </div>
+                    <a className="button button--ghost" href={doc.url} target="_blank" rel="noopener noreferrer">
+                      Open <ArrowUpRight size={16} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           <div className="doc-group" aria-labelledby="pending-documents-title">
             <h3 id="pending-documents-title" className="serif-title detail-sub">Pending project documents</h3>
-            <p className="muted">The university guidance lists the records below. Public links will be added only when the exact documents have been verified.</p>
+            <p className="muted">The Project Charter remains pending until an actual document is uploaded and publicly accessible.</p>
             <ul className="doc-list">
-              {pendingDocuments.map((doc) => <li key={doc.title}>
+              {pendingDocuments.filter((doc) => doc.title === "Project Charter").map((doc) => <li key={doc.title}>
                 <FileText size={20} aria-hidden="true" />
                 <div><strong>{doc.title}</strong><span className="muted">{doc.description}</span></div>
                 <span className="pill pill--outline">Not yet published</span>
