@@ -51,7 +51,7 @@ test("project's published documents use public Drive file URLs", () => {
   for (const item of publicationFiles) {
     assert.match(item.url, /^https:\/\/drive\.google\.com\/file\/d\//);
   }
-  assert.equal(documents.find(d => d.group === "Final Presentation").url, null);
+  assert.match(documents.find(d => d.group === "Final Presentation").url, /^https:\/\/drive\.google\.com\/file\/d\//);
 });
 
 test("university navigation and milestones have honest placeholders", async () => {
@@ -91,4 +91,15 @@ test("group methodology uses continuous IEEE citations and external published re
   assert.ok(methodologyReferences.every(r => r.url.startsWith("https://")));
   assert.ok(methodologyReferences.every(r => !/thesis|draft/i.test(r.citation)));
   assert.match(inline, /behavioural model score from active fusion/);
+});
+
+test("replaced team photographs and final PPTX resolve to refreshed Drive assets", async () => {
+  const { driveImageFiles, driveFinalPresentation } = await import("../src/data/driveAssets.generated.js");
+  assert.equal(driveImageFiles["team-c1"].id, "1MAP0Alp3ucGCa-TyMGEt9fckz9kivMay");
+  assert.equal(driveImageFiles["team-c2"].id, "1MAAxUv_hSmEY_UZTZKnuOdLfCu-Idvx1");
+  assert.equal(driveFinalPresentation.id, "1TmXYrnLGQUQ-4KWPSDHCgw2rNxJqnOCr");
+  const { imageSrc } = await import("../src/data/images.js");
+  const url = imageSrc("team-c1");
+  assert.match(url, /&v=/);
+  assert.ok(url.includes(driveImageFiles["team-c1"].id));
 });
