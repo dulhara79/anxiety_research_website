@@ -65,3 +65,30 @@ test("university navigation and milestones have honest placeholders", async () =
   assert.ok(milestones.every((item) => Object.prototype.hasOwnProperty.call(item, "deadline")));
   assert.ok(milestones.every((item) => typeof item.detail === "string" && item.detail.length > 10));
 });
+
+test("researcher contacts and profiles match requested public details", () => {
+  const expected = {
+    IT22130648: ["dulhara.kaushalya79@gmail.com", "https://github.com/dulhara79"],
+    IT22171542: ["senuvilayathma20@gmail.com", "https://github.com/SENUVI20"],
+    IT22107596: ["hdsendanayake01@gmail.com", "https://github.com/DewduSendanayake"],
+    IT22093950: ["uvisends24946@gmail.com", "https://github.com/UVINDUSEN"],
+  };
+  for (const person of team) assert.deepEqual([person.email, person.github], expected[person.id]);
+  assert.deepEqual(supervisors.map(s => new URL(s.scholar).searchParams.get("user")), [
+    "_I6MLzcAAAAJ", "_8a_hOEAAAAJ", "Pn5cuN0AAAAJ",
+  ]);
+});
+
+test("each component methodology has referenced draft and published evidence", async () => {
+  const { componentMethodologies, methodologyReferences, integratedPrinciples } = await import("../src/data/methodologyDetail.js");
+  assert.deepEqual(componentMethodologies.map(m => m.id), ["C1", "C2", "C3", "C4"]);
+  const referenceIds = new Set(methodologyReferences.map(r => r.id));
+  for (const m of componentMethodologies) {
+    assert.ok(m.refs.some(id => id.startsWith("D-")));
+    assert.ok(m.refs.every(id => referenceIds.has(id)));
+    for (const key of ["data", "preparation", "model", "evaluation", "finding", "limit"])
+      assert.ok(m[key].length > 40, m.id + " " + key);
+  }
+  assert.match(componentMethodologies[1].limit, /zero weight/);
+  assert.ok(integratedPrinciples.length >= 3);
+});
