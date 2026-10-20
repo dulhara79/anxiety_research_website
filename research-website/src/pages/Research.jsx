@@ -194,7 +194,7 @@ export default function Research() {
 
       <section className="section" aria-labelledby="component-method-title">
         <div className="shell">
-          <SectionHead id="component-method-title" eyebrow="Component methodologies" title="Four distinct experiments, evaluated on their own terms." lead="Reported procedures and results from the team's October 2026 unpublished thesis drafts. These are not evidence of clinically validated multimodal event prediction." />
+          <SectionHead id="component-method-title" eyebrow="Component methodologies" title="Four distinct experiments, evaluated on their own terms." lead="Reported procedures and results from the team's October 2026 unpublished thesis drafts. These are not evidence of validated multimodal clinical-event prediction." />
           <div className="methodology-grid">
             {componentMethodologies.map((method, index) => (
               <Reveal className="methodology-card" key={method.id} delay={(index % 2) * 0.06}>
