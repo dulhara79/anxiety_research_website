@@ -15,6 +15,7 @@ import {
   timescales,
 } from "../data/research";
 import { componentBySlug, components } from "../data/components";
+import { componentMethodologies, integratedPrinciples, methodologyReferences } from "../data/methodologyDetail";
 
 export default function Research() {
   const slugFor = (id) =>
@@ -190,6 +191,55 @@ export default function Research() {
         </div>
       </section>
 
+
+      <section className="section" aria-labelledby="component-method-title">
+        <div className="shell">
+          <SectionHead id="component-method-title" eyebrow="Component methodologies" title="Four distinct experiments, evaluated on their own terms." lead="Reported procedures and results from the team's October 2026 unpublished thesis drafts. These are not evidence of clinically validated multimodal event prediction." />
+          <div className="methodology-grid">
+            {componentMethodologies.map((method, index) => (
+              <Reveal className="methodology-card" key={method.id} delay={(index % 2) * 0.06}>
+                <div className="methodology-heading">
+                  <span className="fusion-id">{method.id}</span>
+                  <div><h3 className="card-title" id={`method-${method.id.toLowerCase()}`}>{method.title}</h3><p className="muted">{method.author}</p></div>
+                </div>
+                <dl className="methodology-details">
+                  {[
+                    ["Data and participants", method.data],
+                    ["Preprocessing and validity controls", method.preparation],
+                    ["Model and procedure", method.model],
+                    ["Evaluation", method.evaluation],
+                    ["Reported outcome", method.finding],
+                  ].map(([label, detail]) => <div key={label}><dt>{label}</dt><dd>{detail}</dd></div>)}
+                </dl>
+                <p className="methodology-boundary"><strong>Interpretation boundary:</strong> {method.limit}</p>
+                <p className="methodology-citations">References: {method.refs.map((ref, i) => (
+                  <span key={ref}>{i ? ", " : ""}<a href={`#reference-${ref.toLowerCase()}`}>[{ref}]</a></span>
+                ))}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section section--paper2" aria-labelledby="integrated-method-title">
+        <div className="shell">
+          <SectionHead id="integrated-method-title" eyebrow="Integration methodology" title="One system without confusing the scientific targets." />
+          <div className="methodology-grid">{integratedPrinciples.map(item => (
+            <Reveal className="card" key={item.title}><h3 className="card-title">{item.title}</h3><p>{item.detail}</p></Reveal>
+          ))}</div>
+        </div>
+      </section>
+      <section className="section" aria-labelledby="method-references-title">
+        <div className="shell">
+          <SectionHead id="method-references-title" eyebrow="Source register" title="Methodology references and provenance." lead="The five project reports are unpublished draft documents, cited by their exact filenames. External sources link to their original publications. Draft download links will be added only after public sharing is approved." />
+          <ol className="methodology-references">{methodologyReferences.map(ref => (
+            <li id={`reference-${ref.id.toLowerCase()}`} key={ref.id}>
+              <span className="card-kicker">[{ref.id}]</span><strong>{ref.title}</strong>
+              <p className="muted">{ref.detail}</p>
+              {ref.url && <a className="contact-link" href={ref.url} target="_blank" rel="noopener noreferrer">Read publication <ArrowRight size={16} /></a>}
+            </li>
+          ))}</ol>
+        </div>
+      </section>
       <section className="section" aria-labelledby="tech-title">
         <div className="shell">
           <SectionHead
