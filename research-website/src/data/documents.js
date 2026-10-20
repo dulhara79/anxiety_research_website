@@ -1,3 +1,4 @@
+import { driveFinalPresentation } from "./driveAssets.generated.js";
 // Assessment-stage records. Only link exact files present in the shared
 // project Drive folder; do not infer assessment dates from upload timestamps.
 import { components } from "./components.js";
@@ -58,8 +59,8 @@ export const documents = [
     group: documentStages[4],
     type: "Group presentation slides",
     title: "R26-DS-012 final presentation",
-    meta: "Presentation file not yet available in shared Drive",
-    url: null,
+    meta: "Final presentation PPTX · October 2026",
+    url: driveFinalPresentation?.id ? driveFile(driveFinalPresentation.id) : null,
   },
 ];
 
