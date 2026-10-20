@@ -73,6 +73,18 @@ export const pendingDocuments = [
   { title: "Final Group Report", description: "One main final report", url: null },
 ];
 
+export const publishedAdditionalDocuments = [
+  { group: "Project Checklists", type: "Checklist evidence", title: "Research-paper master sheet", url: driveFile("1sk5KqAuHIwiRpk8eALrz1mOdozjvonxA"), meta: "Checklist 1 · Excel workbook" },
+  { group: "Project Checklists", type: "Checklist evidence", title: "Data Analysis Report", url: driveFile("1tMMLm79HJ3BbSWL6t5fjge_kYmr0hYm7"), meta: "Checklist 2 · Word document" },
+  { group: "Project Checklists", type: "Checklist evidence", title: "Ethical Analysis Report", url: driveFile("17VnKTTedkRSQy6hiGM2W8Ljnpqt7ywCe"), meta: "Checklist 3 · Word document" },
+  { group: "Project Checklists", type: "Checklist evidence", title: "MLOps Report", url: driveFile("1mQpCBTro7Qdv_cVyWffBLmUcGgHTgi2z"), meta: "Checklist 4 · PDF" },
+  { group: "Final Individual Reports", type: "Draft report", title: "IT22130648 draft report", url: driveFile("1MQtKVWmsgCmU1m5UGApDLUetgTTT3sjh"), meta: "October 2026 · Draft" },
+  { group: "Final Individual Reports", type: "Draft report", title: "IT22171542 draft report", url: driveFile("1Zbiz_uGHt4PtcRo2MvsMp7fake8zRdeQ"), meta: "October 2026 · Draft" },
+  { group: "Final Individual Reports", type: "Draft report", title: "IT22107596 draft report", url: driveFile("1beh1ZdJceaAtNsMFh5UOEK9LMPebfW2j"), meta: "October 2026 · Draft" },
+  { group: "Final Individual Reports", type: "Draft report", title: "IT22093950 draft report", url: driveFile("1ldETZqTbNAZQySrahpnLDGHceE59UreU"), meta: "October 2026 · Draft" },
+  { group: "Final Group Report", type: "Draft report", title: "R26-DS-012 group report draft", url: driveFile("1fbC7q_hvMMiJWNE7qjp19znk3b3kSHZF"), meta: "October 2026 · Draft" },
+];
+
 export const publicationNote =
   "Published papers will be listed only after their publication status and links are verified.";
 
