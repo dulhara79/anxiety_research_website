@@ -97,7 +97,7 @@ export default function Documents() {
           ))}
           <div className="doc-group" aria-labelledby="pending-documents-title">
             <h3 id="pending-documents-title" className="serif-title detail-sub">Pending project documents</h3>
-            <p className="muted">The university guidance lists the records below. They are not present in the reviewed Drive folder, so no links are invented.</p>
+            <p className="muted">The university guidance lists the records below. Public links will be added only when the exact documents have been verified.</p>
             <ul className="doc-list">
               {pendingDocuments.map((doc) => <li key={doc.title}>
                 <FileText size={20} aria-hidden="true" />
