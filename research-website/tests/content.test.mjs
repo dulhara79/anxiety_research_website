@@ -85,7 +85,7 @@ test("group methodology uses continuous IEEE citations and external published re
   assert.ok(groupMethodology.stages.length >= 5);
   assert.deepEqual(methodologyReferences.map(r => r.number), Array.from({length: methodologyReferences.length}, (_, i) => i + 1));
   const inline = groupMethodology.stages.flatMap(s => s.paragraphs).join(" ");
-  const cited = [...inline.matchAll(/\\[(\\d+)\\]/g)].map(match => Number(match[1]));
+  const cited = [...inline.matchAll(/\[(\d+)\]/g)].map(match => Number(match[1]));
   assert.ok(cited.length >= 10);
   assert.ok(cited.every(n => methodologyReferences.some(r => r.number === n)));
   assert.ok(methodologyReferences.every(r => r.url.startsWith("https://")));
