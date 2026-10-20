@@ -185,5 +185,5 @@ export function imageSrc(name, baseUrl = "/") {
     return `https://drive.google.com/thumbnail?id=${encodeURIComponent(file.id)}&sz=w${size}&v=${encodeURIComponent(file.modifiedTime || file.id)}`;
   }
   const slot = images[name];
-  return slot ? `${baseUrl}${slot.path.replace(/^\\//, "")}` : null;
+  return slot ? baseUrl + slot.path.slice(1) : null;
 }
