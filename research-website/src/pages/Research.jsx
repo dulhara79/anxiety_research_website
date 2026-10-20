@@ -190,8 +190,8 @@ export default function Research() {
                 <div className="body-copy group-method-body">
                   {stage.paragraphs.map((paragraph, paragraphIndex) => (
                     <p key={paragraphIndex}>
-                      {paragraph.split(/(\\[\\d+\\])/g).map((part, partIndex) => {
-                        const match = /^\\[(\\d+)\\]$/.exec(part);
+                      {paragraph.split(/(\[\d+\])/g).map((part, partIndex) => {
+                        const match = /^\[(\d+)\]$/.exec(part);
                         return match ? (
                           <a key={partIndex} className="ieee-inline-citation" href={`#reference-${match[1]}`} aria-label={`Reference ${match[1]}`}>{part}</a>
                         ) : part;
