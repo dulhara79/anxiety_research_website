@@ -108,7 +108,7 @@ export const objectives = {
 export const methodology = [
   ["Problem formulation", "Define anxiety-related change as continuous, multimodal and person-specific."],
   ["Literature review", "Identify what each modality can show and how each one fails."],
-  ["Dataset and signal selection", "C1: WESAD and AffectiveROAD; C2: GLOBEM; C3: MIMIC-IV and MIMIC-IV-Note; C4: contextual survey data and controlled fusion-policy fixtures. The ESP32-C3 strap is a research prototype, not a clinically validated benchmark device."],
+  ["Dataset and signal selection", "C1: WESAD and AffectiveROAD; C2: GLOBEM; C3: MIMIC-IV and MIMIC-IV-Note; C4: contextual survey data and controlled fusion-policy fixtures. The ESP32-C3 strap is a research prototype, not a device independently evaluated for clinical use."],
   ["Component research", "C1 LSTM anomaly modelling and Ridge forecasting; C2 leakage-audited GATv2 with negative held-out results; C3 Bio_ClinicalBERT episodic prototypes; C4 DCAR, RAGF, CARE-X and CARE-AnxRAG."],
   ["Leakage-aware evaluation", "Subject-level, participant-grouped and patient-disjoint protocols with permutation nulls."],
   ["Integration", "Components publish outputs and status metadata to a central backend."],
