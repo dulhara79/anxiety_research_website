@@ -8,7 +8,7 @@ import {
   researchQuestion, objectives, methodology, techStack, commitments,
 } from "./research.js";
 import { architecture, aura, clinanx } from "./system.js";
-import { componentMethodologies, integratedPrinciples, methodologyReferences } from "./methodologyDetail.js";
+import { groupMethodology, methodologyReferences } from "./methodologyDetail.js";
 import { team, supervisors } from "./team.js";
 import { cinematicIntro, cinematicPanels } from "./cinematicStory.js";
 
@@ -49,7 +49,7 @@ export const searchIndex = [
     [site.title, cinematicIntro, cinematicPanels, overview, problems, researchQuestion],
     "home research introduction research prototype"),
   page("Research", "/research", "Research domain, literature, objectives and methodology.",
-    [overview, problems, timescales, literatureThemes, researchGap, objectives, methodology, componentMethodologies, integratedPrinciples, methodologyReferences, techStack],
+    [overview, problems, timescales, literatureThemes, researchGap, objectives, methodology, groupMethodology, methodologyReferences, techStack],
     "domain literature survey research gap objectives technologies"),
   page("Components", "/components", "The four research components and how their signals connect.",
     components, "C1 C2 C3 C4"),
@@ -84,10 +84,9 @@ export const searchIndex = [
     "Main research question and component-specific objectives.", [researchQuestion, objectives],
     "research question specific objectives"),
   section("Research methodology", "/research#method-title",
-    "Research process, datasets, leakage controls and evaluation.", [methodology, componentMethodologies, integratedPrinciples],
+    "Research process, datasets, leakage controls and evaluation.", [groupMethodology, methodologyReferences],
     "method design approach dataset validation"),
-  ...componentMethodologies.map(m => section(`${m.id} methodology`, `/research#method-${m.id.toLowerCase()}`, m.title, m, "methodology component research")),
-  section("Methodology references", "/research#method-references-title", "Draft theses and published sources.", methodologyReferences),
+  section("Methodology references", "/research#method-references-title", "Published IEEE-style external sources.", methodologyReferences),
   section("Technologies used", "/research#tech-title",
     "Technical tools and modelling technologies.", techStack),
   section("Fusion and eligibility", "/components#integration-title",
