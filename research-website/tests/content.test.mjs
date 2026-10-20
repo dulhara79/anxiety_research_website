@@ -79,16 +79,16 @@ test("researcher contacts and profiles match requested public details", () => {
   ]);
 });
 
-test("each component methodology has referenced draft and published evidence", async () => {
-  const { componentMethodologies, methodologyReferences, integratedPrinciples } = await import("../src/data/methodologyDetail.js");
-  assert.deepEqual(componentMethodologies.map(m => m.id), ["C1", "C2", "C3", "C4"]);
-  const referenceIds = new Set(methodologyReferences.map(r => r.id));
-  for (const m of componentMethodologies) {
-    assert.ok(m.refs.some(id => id.startsWith("D-")));
-    assert.ok(m.refs.every(id => referenceIds.has(id)));
-    for (const key of ["data", "preparation", "model", "evaluation", "finding", "limit"])
-      assert.ok(m[key].length > 40, m.id + " " + key);
-  }
-  assert.match(componentMethodologies[1].limit, /zero weight/);
-  assert.ok(integratedPrinciples.length >= 3);
+test("group methodology uses continuous IEEE citations and external published references", async () => {
+  const { groupMethodology, methodologyReferences } = await import("../src/data/methodologyDetail.js");
+  assert.ok(groupMethodology.introduction.length > 100);
+  assert.ok(groupMethodology.stages.length >= 5);
+  assert.deepEqual(methodologyReferences.map(r => r.number), Array.from({length: methodologyReferences.length}, (_, i) => i + 1));
+  const inline = groupMethodology.stages.flatMap(s => s.paragraphs).join(" ");
+  const cited = [...inline.matchAll(/\\[(\\d+)\\]/g)].map(match => Number(match[1]));
+  assert.ok(cited.length >= 10);
+  assert.ok(cited.every(n => methodologyReferences.some(r => r.number === n)));
+  assert.ok(methodologyReferences.every(r => r.url.startsWith("https://")));
+  assert.ok(methodologyReferences.every(r => !/thesis|draft/i.test(r.citation)));
+  assert.match(inline, /behavioural model score from active fusion/);
 });
