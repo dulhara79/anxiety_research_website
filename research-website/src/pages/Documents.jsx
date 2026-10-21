@@ -101,7 +101,7 @@ export default function Documents() {
               <h3 className="serif-title detail-sub">{group}</h3>
               <ul className="doc-list">
                 {publishedAdditionalDocuments.filter((doc) => doc.group === group).map((doc) => (
-                  <li key={doc.url}>
+                  <li key={doc.url} id={`additional-document-${publishedAdditionalDocuments.indexOf(doc)}`}>
                     <FileText size={20} aria-hidden="true" />
                     <div>
                       <span className="card-kicker">{doc.type}</span>
