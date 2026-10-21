@@ -64,11 +64,6 @@ export const documents = [
   },
 ];
 
-// Only the Project Charter remains awaiting a verified uploaded file.
-export const pendingDocuments = [
-  { title: "Project Charter", description: "One project charter document", url: null },
-];
-
 export const publishedAdditionalDocuments = [
   { group: "Project Checklists", type: "Checklist evidence", title: "Research-paper master sheet", url: driveFile("1sk5KqAuHIwiRpk8eALrz1mOdozjvonxA"), meta: "Checklist 1 · Excel workbook" },
   { group: "Project Checklists", type: "Checklist evidence", title: "Data Analysis Report", url: driveFile("1tMMLm79HJ3BbSWL6t5fjge_kYmr0hYm7"), meta: "Checklist 2 · Word document" },
@@ -139,7 +134,7 @@ export const milestones = [
     deadline: "13 May 2026",
     from: "2026-05-13", to: "2026-05-13", weights: [],
     detail: "Scheduled checklist submission. No separate percentage is specified for this step in the supplied module outline.",
-    href: "/documents#pending-documents-title",
+    href: "/documents#docs-title",
   },
   {
     id: "pp1",
@@ -163,7 +158,7 @@ export const milestones = [
     deadline: "11 October 2026",
     from: "2026-10-11", to: "2026-10-11", weights: ["final-report"],
     detail: "Draft thesis submission deadline. The module outline's 19% refers to the Final Report category, not an independent draft-thesis mark.",
-    href: "/documents#pending-documents-title",
+    href: "/documents#docs-title",
   },
   {
     id: "website-submission",
@@ -179,7 +174,7 @@ export const milestones = [
     deadline: "14 October 2026",
     from: "2026-10-14", to: "2026-10-14", weights: [],
     detail: "Scheduled final checklist submission. No separate percentage is listed for the checklist in the supplied module outline.",
-    href: "/documents#pending-documents-title",
+    href: "/documents#docs-title",
   },
   {
     id: "final-presentation-viva",
@@ -203,7 +198,7 @@ export const milestones = [
     deadline: "23 October 2026",
     from: "2026-10-23", to: "2026-10-23", weights: ["paper"],
     detail: "Scheduled paper submission deadline. The older module outline calls the assessed category 'Research Paper (published)' (10%); submission alone should not be represented as verified publication.",
-    href: "/documents#pending-documents-title",
+    href: "/documents#docs-title",
   },
   {
     id: "final-thesis",
@@ -211,7 +206,7 @@ export const milestones = [
     deadline: "28 October 2026",
     from: "2026-10-28", to: "2026-10-28", weights: ["final-report"],
     detail: "Scheduled final thesis submission deadline. The module outline lists Final Report as 19%. Draft individual and group reports are linked on the Documents page.",
-    href: "/documents#pending-documents-title",
+    href: "/documents#docs-title",
   },
   {
     id: "publication-evidence",
@@ -219,6 +214,6 @@ export const milestones = [
     deadline: "1 December 2026",
     from: "2026-12-01", to: "2026-12-01", weights: ["paper"],
     detail: "Scheduled publication-evidence submission deadline. The module outline's 10% is for the published Research Paper category; acceptance or publication of the team's paper is not established by this timetable.",
-    href: "/documents#pending-documents-title",
+    href: "/documents#docs-title",
   },
 ];
