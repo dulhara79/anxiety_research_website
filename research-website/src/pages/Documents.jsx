@@ -7,7 +7,6 @@ import {
   documents,
   milestones,
   publicationNote,
-  pendingDocuments,
   publishedAdditionalDocuments,
 } from "../data/documents";
 
@@ -116,17 +115,6 @@ export default function Documents() {
               </ul>
             </div>
           ))}
-          <div className="doc-group" aria-labelledby="pending-documents-title">
-            <h3 id="pending-documents-title" className="serif-title detail-sub">Pending project documents</h3>
-            <p className="muted">The Project Charter remains pending until an actual document is uploaded and publicly accessible.</p>
-            <ul className="doc-list">
-              {pendingDocuments.filter((doc) => doc.title === "Project Charter").map((doc) => <li key={doc.title}>
-                <FileText size={20} aria-hidden="true" />
-                <div><strong>{doc.title}</strong><span className="muted">{doc.description}</span></div>
-                <span className="pill pill--outline">Not yet published</span>
-              </li>)}
-            </ul>
-          </div>
           <p className="source-note">{publicationNote}</p>
         </div>
       </section>
