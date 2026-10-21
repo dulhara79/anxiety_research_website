@@ -33,7 +33,15 @@ async function list(folder) {
     const params=new URLSearchParams({q:"'"+folder+"' in parents and trashed = false",fields:"nextPageToken,files(id,name,mimeType,modifiedTime,webContentLink)",pageSize:"1000"});
     if(token)params.set("pageToken",token);
     const res=await fetch("https://www.googleapis.com/drive/v3/files?"+params,{headers:{Authorization:"Bearer "+access_token}});
-    if(!res.ok) throw new Error("Drive listing failed ("+folder+"): "+res.status);
+    if (!res.ok) {
+      const detail = await res.json().catch(() => ({}));
+      const reason = detail.error?.errors?.[0]?.reason || detail.error?.status || "unknown";
+      const message = detail.error?.message || "No details returned by Google Drive API";
+      const hint = res.status === 403
+        ? "Check that the Google Drive API is enabled and the service account client_email has Viewer access to the shared folder and its contents."
+        : "Verify the service-account configuration and Drive folder permissions.";
+      throw new Error(`Drive listing failed (${folder}): HTTP ${res.status}; reason=${reason}; message=${message}. ${hint}`);
+    }
     const data=await res.json();files.push(...(data.files||[]));token=data.nextPageToken;
   }while(token);
   return files;
