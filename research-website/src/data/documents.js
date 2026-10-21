@@ -64,13 +64,9 @@ export const documents = [
   },
 ];
 
-// Requirements named by Website.pdf. These files have not been verified in
-// the supplied Drive archive. Never point to an unrelated document or folder.
+// Only the Project Charter remains awaiting a verified uploaded file.
 export const pendingDocuments = [
   { title: "Project Charter", description: "One project charter document", url: null },
-  { title: "Project Checklists", description: "Completed checklist documents", url: null },
-  { title: "Final Individual Reports", description: "Four individual final reports", url: null },
-  { title: "Final Group Report", description: "One main final report", url: null },
 ];
 
 export const publishedAdditionalDocuments = [
@@ -214,7 +210,7 @@ export const milestones = [
     title: "Final Thesis Submission",
     deadline: "28 October 2026",
     from: "2026-10-28", to: "2026-10-28", weights: ["final-report"],
-    detail: "Scheduled final thesis submission deadline. The module outline lists Final Report as 19%. Final reports are not yet available in the reviewed Drive folder.",
+    detail: "Scheduled final thesis submission deadline. The module outline lists Final Report as 19%. Draft individual and group reports are linked on the Documents page.",
     href: "/documents#pending-documents-title",
   },
   {
