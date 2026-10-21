@@ -4,6 +4,4 @@ The website now links directly to the verified public Google Drive files. No Goo
 
 The verified URLs are kept in `src/data/driveAssets.generated.js` (images and PPTX) and `src/data/documents.js` (project documents). These are static data; uploading a *new* file with a new Drive ID requires a code change and Vercel redeployment. Replacing file contents using Google Drive **Manage versions** keeps the same file ID, but Drive thumbnail/browser caches may delay updated image previews.
 
-Project Charter stays pending until its actual file is uploaded and its ID and public reader permissions are verified. Add that file link in `src/data/documents.js`, then redeploy. Do not publish sensitive or identifying patient records.
-
 The former hourly Drive API polling workflow was disabled because service-account folder listing repeatedly returned HTTP 403. Re-enable only if authenticated automation is separately repaired and tested.
