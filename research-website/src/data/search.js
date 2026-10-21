@@ -2,7 +2,7 @@
 // component evidence and linked-document metadata. No remote search service.
 import { navigation, site } from "./site.js";
 import { components } from "./components.js";
-import { documents, milestones } from "./documents.js";
+import { documents, milestones, publishedAdditionalDocuments } from "./documents.js";
 import {
   overview, problems, timescales, literatureThemes, researchGap,
   researchQuestion, objectives, methodology, techStack, commitments,
@@ -61,7 +61,7 @@ export const searchIndex = [
   page("Milestones", "/milestones", "Assessment stages, recorded dates and pending marks.", milestones, "timeline viva final assessment marks"),
   page("Slides", "/slides", "Proposal, progress and final presentation slides.", documents.filter(d => d.type.includes("slides")), "downloads presentations pptx"),
   page("Documents", "/documents", "TAF, proposals, progress presentations, final presentation and citation.",
-    [documents, milestones], "downloads files reports slides PDF milestones"),
+    [documents, publishedAdditionalDocuments, milestones], "downloads files reports slides PDF milestones"),
   page("Team", "/team", "The researchers and their academic and clinical supervisors.",
     [team, supervisors], "people authors researchers"),
   page("Contact", "/contact", "Project repository, SLIIT and research-team contact information.",
@@ -160,6 +160,7 @@ export const searchIndex = [
         [c.title, c.modality, c.fusionRole]),
     ];
   }),
+  ...publishedAdditionalDocuments.map((doc, i) => record("Document", doc.title, "/documents#additional-document-" + i, doc.meta, [doc.group, doc.type, doc.meta], "checklist report draft", doc.url)),
   ...documents.map((doc, i) => record(
     "Document", doc.title,
     "/documents#document-" + i,
