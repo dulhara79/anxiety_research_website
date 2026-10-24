@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { components } from "../src/data/components.js";
 import { images, imageDriveIds, imageSrc } from "../src/data/images.js";
 import { supervisors, team } from "../src/data/team.js";
-import { documents, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
+import { documents, presentationSlides, presentationStages, publishedAdditionalDocuments, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
 
 test("component slugs and ids are unique", () => {
   assert.equal(new Set(components.map((c) => c.slug)).size, components.length);
@@ -47,17 +47,31 @@ test("each declared image slot has its Drive file ID", () => {
 
 test("project's published documents use public Drive file URLs", () => {
   const publicationFiles = documents.filter(d => d.url && !["Repository","Diagram"].includes(d.type));
-  assert.ok(publicationFiles.length >= 8);
+  assert.ok(publicationFiles.length >= 5);
   for (const item of publicationFiles) {
     assert.match(item.url, /^https:\/\/drive\.google\.com\/file\/d\//);
   }
-  assert.match(documents.find(d => d.group === "Final Presentation").url, /^https:\/\/drive\.google\.com\/file\/d\//);
+  assert.match(presentationSlides.find(d => d.stage === "Final Presentation").url, /^https:\/\/drive\.google\.com\/file\/d\//);
+});
+
+test("presentation decks live only on Slides, with no duplicate document links", () => {
+  assert.equal(presentationSlides.length, 4);
+  assert.ok(documents.every((doc) => doc.type !== "Group presentation slides"));
+  assert.ok(publishedAdditionalDocuments.every((doc) => doc.type !== "Group presentation slides"));
+  assert.deepEqual(new Set(documents.map((doc) => doc.group)), new Set(documentStages));
+  const documentUrls = new Set([...documents, ...publishedAdditionalDocuments].map((doc) => doc.url).filter(Boolean));
+  for (const slide of presentationSlides) {
+    assert.match(slide.url, /^https:\/\/drive\.google\.com\/file\/d\//);
+    assert.equal(documentUrls.has(slide.url), false, "Presentation duplicated in Documents: " + slide.title);
+  }
 });
 
 test("university navigation and milestones have honest placeholders", async () => {
   const { navigation } = await import("../src/data/site.js");
   assert.deepEqual(navigation.map((item) => item.label), ["Home","Domain","Milestones","Documents","Slides","About Us","Contact Us"]);
-  assert.deepEqual(documentStages, ["TAF (Topic Assessment Form)","Proposal","Progress Presentation 1","Progress Presentation 2","Final Presentation"]);
+  assert.deepEqual(documentStages, ["TAF (Topic Assessment Form)", "Proposal"]);
+  assert.deepEqual(presentationStages, ["Proposal", "Progress Presentation 1", "Progress Presentation 2", "Final Presentation"]);
+  assert.deepEqual(presentationSlides.map((slide) => slide.stage), presentationStages);
   assert.deepEqual([...new Set(documents.map((item) => item.group))], documentStages);
   assert.deepEqual(milestones.map((item) => item.id), ["taf","proposal-submission","proposal-presentation","checklist-submission","pp1","pp2","draft-thesis","website-submission","final-checklist","final-presentation-viva","website-evaluation-logbook","research-paper-submission","final-thesis","publication-evidence"]);
   assert.equal(assessmentWeights.reduce((sum, item) => sum + item.percent, 0), 100);

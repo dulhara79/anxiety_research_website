@@ -5,7 +5,6 @@ import Reveal from "../components/ui/Reveal";
 import SectionHead from "../components/ui/SectionHead";
 import {
   documents,
-  milestones,
   publicationNote,
   publishedAdditionalDocuments,
 } from "../data/documents";
@@ -40,7 +39,7 @@ export default function Documents() {
       <PageHero
         eyebrow="Documents"
         title="Research documents and milestones."
-        lead="Research assessment records, from the topic assessment form through the final presentation."
+        lead="Topic assessment, written proposals, checklists and research reports. Slide decks are organized separately under Slides."
         image="bannerDocuments"
       />
 
@@ -49,7 +48,7 @@ export default function Documents() {
           <SectionHead
             id="docs-title"
             eyebrow="Documents"
-            title="The project record."
+            title="Written research records."
           />
           {groups.map((group) => (
             <div className="doc-group" key={group}>
