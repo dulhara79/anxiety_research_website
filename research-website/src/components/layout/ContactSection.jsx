@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Building2, Github, GraduationCap, Mail } from "lucide-react";
 import Reveal from "../ui/Reveal";
+import TurnstileField from "../ui/TurnstileField";
 import { site } from "../../data/site";
 import { supervisors, team } from "../../data/team";
 
@@ -14,11 +15,44 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const submitEmail = (event) => {
+  const [token, setToken] = useState("");
+  const [resetChallenge, setResetChallenge] = useState(0);
+  const [busy, setBusy] = useState(false);
+  const [feedback, setFeedback] = useState({ type: "", text: "" });
+  const isConfigured = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY);
+
+  const submitEmail = async (event) => {
     event.preventDefault();
-    if (!team.some((person) => person.email === recipient)) return;
-    const body = "From: " + name + " (" + email + ")\n\n" + message;
-    window.location.href = "mailto:" + recipient + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    if (busy || !isConfigured) return;
+    if (!token) {
+      setFeedback({ type: "error", text: "Complete the security check before sending." });
+      return;
+    }
+    setBusy(true);
+    setFeedback({ type: "", text: "" });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          recipient, name: name.trim(), email: email.trim(),
+          subject: subject.trim(), message: message.trim(), token,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "Could not send the message. Try again later.");
+      setFeedback({ type: "success", text: "Your message was accepted for sending. Thank you for contacting the team." });
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+    } catch (error) {
+      setFeedback({ type: "error", text: error instanceof Error ? error.message : "Something went wrong. Try again." });
+    } finally {
+      setBusy(false);
+      setToken("");
+      setResetChallenge((value) => value + 1);
+    }
   };
 
   if (variant !== "full") {
@@ -83,8 +117,8 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
               <h3 className="serif-title">Research &amp; collaboration</h3>
               <p>Reach the research team for project questions, or find supervisors through their institutional profiles.</p>
               <div className="button-row">
-                <a className="button button--paper" href={"mailto:" + team[0].email}>
-                  Email the team <Mail size={17} aria-hidden="true" />
+                <a className="button button--paper" href="#contact-compose">
+                  Message the team <Mail size={17} aria-hidden="true" />
                 </a>
                 <Link className="contact-route-link" to="/team">
                   Meet the researchers <ArrowRight size={16} aria-hidden="true" />
@@ -156,12 +190,12 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
         <div className="shell contact-compose-grid">
           <Reveal>
             <p className="eyebrow">Write to the team</p>
-            <h2 className="display" id="contact-compose-title">Prepare an email.</h2>
+            <h2 className="display" id="contact-compose-title">Send a message.</h2>
             <p className="lead">
-              Select a team member and draft a message. Your email application opens so you can review it before sending.
+              Select a team member and send your message directly from this website, without opening an email app.
             </p>
             <p className="contact-form-explainer">
-              This form does not upload your message to a website server or send it automatically.
+              When you press Send message, your enquiry is transmitted to our email delivery provider. Do not include sensitive patient information.
             </p>
             <p className="contact-note">
               Research information only, not clinical advice. In a crisis, contact local emergency services or a mental-health helpline.
@@ -194,8 +228,19 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
                 <textarea rows={5} value={message} onChange={(event) => setMessage(event.target.value)} required />
               </label>
             </div>
-            <button type="submit" className="button button--ink">
-              Open email app <ArrowUpRight size={17} aria-hidden="true" />
+            <TurnstileField siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onToken={setToken} resetCounter={resetChallenge} />
+            {!isConfigured && (
+              <p className="contact-feedback contact-feedback--error" role="alert">
+                Direct email sending is not configured yet. Use the listed email addresses until it is enabled.
+              </p>
+            )}
+            {feedback.text && (
+              <p className={"contact-feedback contact-feedback--" + feedback.type} role={feedback.type === "error" ? "alert" : "status"} aria-live="polite">
+                {feedback.text}
+              </p>
+            )}
+            <button type="submit" className="button button--ink" disabled={busy || !isConfigured || !token}>
+              {busy ? "Sending…" : "Send message"} <ArrowUpRight size={17} aria-hidden="true" />
             </button>
           </Reveal>
         </div>
