@@ -1285,121 +1285,75 @@
   }
 }
 
-/* Contact */
+/* Compact contact CTAs; the directory and composer live only on Contact Us. */
+.contact-cta-layout { display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);align-items:center;gap:clamp(24px,5vw,72px); }
+.contact-cta .display { max-width:15ch; }
+.contact-cta .lead { max-width:54ch; }
+.contact-cta-actions { display:flex;flex-direction:column;align-items:flex-start;gap:14px; }
+.contact-cta-actions .button { justify-content:center; }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+.contact-hub-heading { max-width:780px;margin-bottom:clamp(32px,5vw,54px); }
+.contact-route-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px; }
+.contact-route { display:flex;flex-direction:column;align-items:flex-start;min-width:0;min-height:350px;padding:clamp(24px,3vw,42px);border:1px solid var(--rule-light);border-radius:var(--radius);background:rgba(253,241,225,.07); }
+.contact-route-icon { display:grid;place-items:center;width:48px;height:48px;margin-bottom:26px;border-radius:14px;color:var(--peach);background:rgba(253,241,225,.12); }
+.contact-route-kicker { margin:0 0 12px;color:var(--peach);font-size:.76rem;font-weight:650;text-transform:uppercase;letter-spacing:.1em; }
+.contact-route > p:not(.contact-route-kicker) { max-width:52ch;margin:18px 0 0;line-height:1.65;color:rgba(253,241,225,.78); }
+.contact-route .button-row { align-items:center;margin-top:auto;padding-top:30px; }
+.contact-route-link { display:inline-flex;align-items:center;gap:6px;padding:10px 0;color:var(--paper);text-underline-offset:4px;text-decoration-color:rgba(253,241,225,.5); }
+.contact-route-link:hover { text-decoration-color:currentColor; }
+.contact-affiliation { display:flex;align-items:center;flex-wrap:wrap;gap:16px 22px;margin-top:clamp(32px,5vw,48px);padding-top:28px;border-top:1px solid var(--rule-light); }
+.contact-affiliation > svg { color:var(--peach);flex:0 0 auto; }
+.contact-affiliation > div { display:grid;gap:5px;min-width:0;flex:1 1 360px; }
+.contact-affiliation strong { font-size:1rem; }
+.contact-affiliation span { color:rgba(253,241,225,.72);font-size:.9rem;line-height:1.5; }
+.contact-affiliation > a { display:inline-flex;align-items:center;gap:6px;color:var(--paper);text-underline-offset:4px; }
+
+.contact-directory-heading { max-width:850px;margin-bottom:clamp(36px,5vw,64px); }
+.contact-directory-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,5vw,76px); }
+.contact-directory-panel { min-width:0; }
+.contact-directory-panel > p { min-height:3em;max-width:52ch;color:var(--ink-soft);line-height:1.6; }
+.contact-person-list { list-style:none;padding:0;margin:22px 0 0; }
+.contact-person-row { display:flex;align-items:flex-start;justify-content:space-between;gap:14px;min-width:0;padding:21px 0;border-top:1px solid var(--rule); }
+.contact-person-info { display:grid;gap:7px;min-width:0; }
+.contact-person-info strong { font-family:var(--serif);font-size:1.16rem;font-weight:500;line-height:1.28; }
+.contact-person-info span { color:var(--ink-soft);font-size:.86rem;line-height:1.5; }
+.contact-person-info a { width:fit-content;max-width:100%;color:var(--teal);font-size:.85rem;overflow-wrap:anywhere;text-underline-offset:3px; }
+.contact-person-action { display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;margin-top:3px;color:var(--teal);font-size:.88rem;font-weight:600;text-decoration:none; }
+.contact-person-action:hover { text-decoration:underline;text-underline-offset:4px; }
+
+.contact-compose-grid { display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,100px);align-items:start; }
+.contact-form-explainer { max-width:50ch;margin:26px 0 0;color:var(--ink-soft);line-height:1.65; }
+.contact-form { min-width:0;padding:clamp(24px,3vw,40px);border:1px solid var(--rule);border-radius:var(--radius);background:var(--paper); }
+.contact-form-fields { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px;margin-bottom:28px; }
+.contact-form-fields label { display:grid;gap:9px;min-width:0;color:var(--ink);font-size:.89rem;font-weight:600; }
+.contact-form-fields .contact-form-wide { grid-column:1 / -1; }
+.contact-form-fields input,.contact-form-fields select,.contact-form-fields textarea { display:block;width:100%;min-width:0;min-height:48px;padding:12px 14px;border:1px solid rgba(19,32,31,.23);border-radius:12px;background:#fffaf3;color:var(--ink);font:inherit;font-weight:400; }
+.contact-form-fields textarea { resize:vertical;line-height:1.5; }
+.contact-form-fields input:focus-visible,.contact-form-fields select:focus-visible,.contact-form-fields textarea:focus-visible { outline-offset:2px; }
+.contact-note { max-width:54ch;margin:32px 0 0;padding-top:22px;border-top:1px solid var(--rule);color:var(--ink-soft);font-size:.87rem;line-height:1.65; }
+
+/* Shared links still used on the About Us people cards. */
+.contact-link { display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--teal-mid);font-weight:500;text-decoration:none; }
+.contact-link:hover { text-decoration:underline; }
+.section--dark .contact-link { color:var(--peach); }
+.person-chip--link { color:inherit;text-decoration:none;transition:background .3s ease; }
+.person-chip--link:hover { background:var(--paper-2); }
+
+@media (max-width:950px) {
+  .contact-cta-layout,.contact-compose-grid,.contact-directory-grid { grid-template-columns:minmax(0,1fr); }
+  .contact-cta-actions { flex-direction:row;flex-wrap:wrap; }
+  .contact-directory-panel > p { min-height:0; }
 }
-
-.contact-card {
-  display: grid;
-  align-content: start;
-  gap: 12px;
-  padding: clamp(24px, 2.6vw, 36px);
-  border: 1px solid var(--rule-light);
-  border-radius: var(--radius);
-  background: rgba(253, 241, 225, 0.05);
+@media (max-width:760px) {
+  .contact-route-grid { grid-template-columns:minmax(0,1fr); }
+  .contact-route { min-height:0; }
+  .contact-route .button-row { margin-top:14px; }
 }
-
-.contact-card > svg {
-  color: var(--peach);
-}
-
-.contact-card p {
-  margin: 0;
-  color: rgba(253, 241, 225, 0.76);
-  line-height: 1.6;
-}
-
-.contact-card--primary {
-  background:
-    radial-gradient(ellipse 70% 80% at 100% 0%, rgba(113, 185, 198, 0.2), transparent 70%),
-    rgba(253, 241, 225, 0.07);
-}
-
-.contact-people {
-  display: grid;
-  margin: 4px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.contact-people li > a,
-.contact-people li > div {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: 12px;
-  padding: 12px 0;
-  border-top: 1px solid var(--rule-light);
-  color: inherit;
-  text-decoration: none;
-}
-
-.contact-people strong {
-  font-family: var(--serif);
-  font-size: 1.08rem;
-  font-weight: 500;
-}
-
-.contact-people span {
-  grid-column: 1;
-  color: rgba(253, 241, 225, 0.66);
-  font-size: 0.86rem;
-}
-
-.contact-people svg {
-  grid-row: 1 / 3;
-  grid-column: 2;
-  color: var(--peach);
-}
-
-.contact-people a:hover strong {
-  color: var(--peach);
-}
-
-.contact-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  color: var(--teal-mid);
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.contact-link:hover {
-  text-decoration: underline;
-}
-
-.section--dark .contact-link {
-  color: var(--peach);
-}
-
-.contact-note {
-  margin: 36px 0 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--rule-light);
-  color: rgba(253, 241, 225, 0.6);
-  font-size: 0.88rem;
-}
-
-.person-chip--link {
-  color: inherit;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.person-chip--link:hover {
-  background: var(--paper-2);
-}
-
-@media (max-width: 760px) {
-  .contact-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
+@media (max-width:560px) {
+  .contact-form-fields { grid-template-columns:minmax(0,1fr); }
+  .contact-person-row { flex-direction:column; }
+  .contact-cta-actions { align-items:stretch;flex-direction:column; }
+  .contact-cta-actions .button { width:100%; }
 }
 
 /* C2 · AUROC comparison chart */
@@ -1685,13 +1639,7 @@
 .slide-card {display:grid;justify-items:start;align-content:start;gap:14px;scroll-margin-top:120px;}
 .slide-card > svg {color:var(--teal-mid);}
 .slide-card p {margin:0 0 12px;line-height:1.6;}
-.contact-email-form {margin-top:45px;padding:clamp(24px,3vw,40px);border:1px solid var(--rule-light);border-radius:var(--radius);background:rgba(253,241,225,.07);}
-.contact-email-form > p {color:rgba(253,241,225,.8);margin:14px 0 26px;line-height:1.6;}
-.contact-email-fields {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px;margin-bottom:26px;}
-.contact-email-fields label {display:grid;gap:8px;font-size:.92rem;color:var(--paper);}
-.contact-email-fields input,.contact-email-fields textarea {width:100%;padding:13px 15px;border:1px solid rgba(253,241,225,.3);border-radius:12px;background:rgba(253,241,225,.96);color:var(--ink);font:inherit;}
-.contact-email-fields .contact-email-message {grid-column:1 / -1;}
-@media(max-width:680px){.assessment-facts,.slide-grid,.contact-email-fields{grid-template-columns:1fr;}}
+@media(max-width:680px){.assessment-facts,.slide-grid{grid-template-columns:1fr;}}
 
 
 
@@ -1811,3 +1759,18 @@
 .ieee-reference-list li p { margin: 0 0 10px; line-height: 1.65; }
 .ieee-reference-number { font-weight: 700; font-variant-numeric: tabular-nums; }
 @media (max-width: 750px) { .group-method-stage { grid-template-columns: 1fr; gap: 14px; } }
+
+/* Direct EmailJS sending */
+.contact-turnstile { margin: 0 0 24px; max-width: 100%; }
+.contact-security-label { margin: 0 0 10px; font-size: .86rem; font-weight: 600; color: var(--ink-soft); }
+.contact-feedback { margin: 0 0 20px; padding: 14px 16px; border-radius: 12px; font-size: .92rem; line-height: 1.55; }
+.contact-feedback--success { color: #174d31; background: #eaf4e9; border: 1px solid #a4cba8; }
+.contact-feedback--error { color: #7c2626; background: #fff0eb; border: 1px solid #e4b6aa; }
+.contact-form button:disabled { opacity: .58; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* reCAPTCHA load diagnostics for local development and production failures */
+.contact-captcha-status { margin: 12px 0 0; font-size: .86rem; color: var(--ink-soft); }
+.contact-captcha-error { margin: 12px 0 0; max-width: 48ch; color: #7c2626; font-size: .86rem; line-height: 1.6; }
+.contact-captcha-error p { margin: 0 0 10px; }
+.contact-captcha-retry { padding: 8px 12px; border: 1px solid currentColor; border-radius: 10px; background: transparent; cursor: pointer; }
+.contact-captcha-retry:hover { text-decoration: underline; }
