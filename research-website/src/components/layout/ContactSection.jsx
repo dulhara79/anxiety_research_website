@@ -2,14 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Building2, Github, GraduationCap, Mail } from "lucide-react";
 import Reveal from "../ui/Reveal";
-import TurnstileField from "../ui/TurnstileField";
+import RecaptchaField from "../ui/RecaptchaField";
 import { site } from "../../data/site";
 import { supervisors, team } from "../../data/team";
 
 // Only Contact Us contains the full directory and composer.
 // Home and About Us use a focused invitation so existing team cards are not repeated.
+const recipients = [...team].filter((person) => person.email).sort((a, b) => a.component.localeCompare(b.component));
 export default function ContactSection({ id = "contact", variant = "full" }) {
-  const [recipient, setRecipient] = useState(team[0].email);
+  const [recipient, setRecipient] = useState("C1");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -19,35 +20,77 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
   const [resetChallenge, setResetChallenge] = useState(0);
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", text: "" });
-  const isConfigured = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY);
+
+  // Only public EmailJS configuration is stored in Vite variables.
+  // The email service credential and reCAPTCHA secret stay in the EmailJS dashboard.
+  const emailConfig = {
+    service: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    template: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    captchaSiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
+  };
+  const isConfigured = Object.values(emailConfig).every(Boolean);
 
   const submitEmail = async (event) => {
     event.preventDefault();
     if (busy || !isConfigured) return;
+
+    const selected = recipients.find((person) => person.component === recipient);
+    if (!selected) {
+      setFeedback({ type: "error", text: "Choose a valid research component." });
+      return;
+    }
+    if (name.trim().length < 2 || subject.trim().length < 3 || message.trim().length < 10) {
+      setFeedback({ type: "error", text: "Please enter a name, subject and a message of at least 10 characters." });
+      return;
+    }
     if (!token) {
       setFeedback({ type: "error", text: "Complete the security check before sending." });
       return;
     }
+
     setBusy(true);
     setFeedback({ type: "", text: "" });
     try {
-      const response = await fetch("/api/contact", {
+      // The To Email template field contains only four fixed, approved addresses
+      // in conditional sections. Never pass an arbitrary address from the browser.
+      const templateParams = {
+        component: selected.component,
+        component_name: selected.role,
+        researcher: selected.name,
+        to_c1: recipient === "C1",
+        to_c2: recipient === "C2",
+        to_c3: recipient === "C3",
+        to_c4: recipient === "C4",
+        from_name: name.trim(),
+        reply_to: email.trim(),
+        subject: subject.trim(),
+        message: message.trim(),
+        "g-recaptcha-response": token,
+      };
+      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          recipient, name: name.trim(), email: email.trim(),
-          subject: subject.trim(), message: message.trim(), token,
+          service_id: emailConfig.service,
+          template_id: emailConfig.template,
+          user_id: emailConfig.publicKey,
+          template_params: templateParams,
         }),
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || "Could not send the message. Try again later.");
-      setFeedback({ type: "success", text: "Your message was accepted for sending. Thank you for contacting the team." });
+      if (!response.ok) {
+        throw new Error("The email service could not accept your message. Please try again.");
+      }
+      setFeedback({
+        type: "success",
+        text: "Your message was accepted for sending to " + selected.name + " (" + selected.component + "). Thank you.",
+      });
       setName("");
       setEmail("");
       setSubject("");
       setMessage("");
-    } catch (error) {
-      setFeedback({ type: "error", text: error instanceof Error ? error.message : "Something went wrong. Try again." });
+    } catch {
+      setFeedback({ type: "error", text: "Unable to send your message right now. Please try again later." });
     } finally {
       setBusy(false);
       setToken("");
@@ -117,9 +160,9 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
               <h3 className="serif-title">Research &amp; collaboration</h3>
               <p>Reach the research team for project questions, or find supervisors through their institutional profiles.</p>
               <div className="button-row">
-                <a className="button button--paper" href="#contact-compose">
+                <button type="button" className="button button--paper" onClick={() => document.getElementById("contact-compose")?.scrollIntoView({ behavior: "smooth" })}>
                   Message the team <Mail size={17} aria-hidden="true" />
-                </a>
+                </button>
                 <Link className="contact-route-link" to="/team">
                   Meet the researchers <ArrowRight size={16} aria-hidden="true" />
                 </Link>
@@ -192,10 +235,10 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
             <p className="eyebrow">Write to the team</p>
             <h2 className="display" id="contact-compose-title">Send a message.</h2>
             <p className="lead">
-              Select a team member and send your message directly from this website, without opening an email app.
+              Choose C1, C2, C3 or C4. Your message will be sent to the selected researcher’s email inbox without opening an email app.
             </p>
             <p className="contact-form-explainer">
-              When you press Send message, your enquiry is transmitted to our email delivery provider. Do not include sensitive patient information.
+              When you press Send message, your enquiry is processed by EmailJS and the connected sending account. Do not include patient records or sensitive clinical information.
             </p>
             <p className="contact-note">
               Research information only, not clinical advice. In a crisis, contact local emergency services or a mental-health helpline.
@@ -204,31 +247,31 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
           <Reveal as="form" className="contact-form" onSubmit={submitEmail} delay={0.08}>
             <div className="contact-form-fields">
               <label className="contact-form-wide">
-                Recipient
+                Research component / recipient
                 <select value={recipient} onChange={(event) => setRecipient(event.target.value)} required>
-                  {team.filter((person) => person.email).map((person) => (
-                    <option key={person.id} value={person.email}>{person.name} · {person.component}</option>
+                  {recipients.map((person) => (
+                    <option key={person.id} value={person.component}>{person.component} · {person.role} — {person.name}</option>
                   ))}
                 </select>
               </label>
               <label>
                 Your name
-                <input type="text" autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} required />
+                <input type="text" minLength={2} maxLength={120} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} required />
               </label>
               <label>
                 Your email
-                <input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+                <input type="email" maxLength={254} autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
               </label>
               <label className="contact-form-wide">
                 Subject
-                <input type="text" value={subject} onChange={(event) => setSubject(event.target.value)} required />
+                <input type="text" minLength={3} maxLength={150} value={subject} onChange={(event) => setSubject(event.target.value)} required />
               </label>
               <label className="contact-form-wide">
                 Message
-                <textarea rows={5} value={message} onChange={(event) => setMessage(event.target.value)} required />
+                <textarea rows={5} minLength={10} maxLength={5000} value={message} onChange={(event) => setMessage(event.target.value)} required />
               </label>
             </div>
-            <TurnstileField siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onToken={setToken} resetCounter={resetChallenge} />
+            <RecaptchaField siteKey={emailConfig.captchaSiteKey} onToken={setToken} resetCounter={resetChallenge} />
             {!isConfigured && (
               <p className="contact-feedback contact-feedback--error" role="alert">
                 Direct email sending is not configured yet. Use the listed email addresses until it is enabled.

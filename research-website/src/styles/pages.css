@@ -1760,7 +1760,7 @@
 .ieee-reference-number { font-weight: 700; font-variant-numeric: tabular-nums; }
 @media (max-width: 750px) { .group-method-stage { grid-template-columns: 1fr; gap: 14px; } }
 
-/* Direct email sending */
+/* Direct EmailJS sending */
 .contact-turnstile { margin: 0 0 24px; max-width: 100%; }
 .contact-security-label { margin: 0 0 10px; font-size: .86rem; font-weight: 600; color: var(--ink-soft); }
 .contact-feedback { margin: 0 0 20px; padding: 14px 16px; border-radius: 12px; font-size: .92rem; line-height: 1.55; }
