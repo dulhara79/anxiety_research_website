@@ -1767,3 +1767,10 @@
 .contact-feedback--success { color: #174d31; background: #eaf4e9; border: 1px solid #a4cba8; }
 .contact-feedback--error { color: #7c2626; background: #fff0eb; border: 1px solid #e4b6aa; }
 .contact-form button:disabled { opacity: .58; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* reCAPTCHA load diagnostics for local development and production failures */
+.contact-captcha-status { margin: 12px 0 0; font-size: .86rem; color: var(--ink-soft); }
+.contact-captcha-error { margin: 12px 0 0; max-width: 48ch; color: #7c2626; font-size: .86rem; line-height: 1.6; }
+.contact-captcha-error p { margin: 0 0 10px; }
+.contact-captcha-retry { padding: 8px 12px; border: 1px solid currentColor; border-radius: 10px; background: transparent; cursor: pointer; }
+.contact-captcha-retry:hover { text-decoration: underline; }
