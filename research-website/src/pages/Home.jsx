@@ -222,7 +222,7 @@ export default function Home() {
         </div>
       </section>
 
-      <ContactSection />
+      <ContactSection variant="home" />
 
       <section
         className="section section--paper2 closing"
