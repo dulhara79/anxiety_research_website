@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Github, Menu, X } from "lucide-react";
 import LogoMark from "../ui/LogoMark";
 import SiteSearch from "./SiteSearch";
 import { navigation, site } from "../../data/site";
+import { navParentForPath } from "../../lib/navParent.js";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const activeParent = navParentForPath(location.pathname);
 
   useEffect(() => setOpen(false), [location.pathname]);
 
@@ -30,9 +32,13 @@ export default function Navbar() {
         <ul className={`nav-links ${open ? "open" : ""}`} id="primary-links">
           {navigation.map(({ to, label }) => (
             <li key={to}>
-              <NavLink to={to} end={to === "/"}>
+              <Link
+                to={to}
+                className={activeParent === to ? "active" : undefined}
+                aria-current={location.pathname === to ? "page" : activeParent === to ? "location" : undefined}
+              >
                 {label}
-              </NavLink>
+              </Link>
             </li>
           ))}
         </ul>

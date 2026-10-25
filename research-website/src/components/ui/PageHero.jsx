@@ -3,17 +3,18 @@ import ImageSlot from "./ImageSlot";
 
 // Preserve the existing landscape photography. Keep the copy readable
 // with a dark, left-weighted overlay instead of a decorative ECG ridge.
-export default function PageHero({ eyebrow, title, lead, image, meta = [] }) {
+export default function PageHero({ eyebrow, title, lead, image, meta = [], featureImage, featureAlt = "" }) {
   const reduced = useReducedMotion();
 
   return (
-    <header className="page-hero">
+    <header className={"page-hero" + (featureImage ? " page-hero--component" : "")}>
       {image && (
         <div className="page-hero-media" aria-hidden="true">
           <ImageSlot name={image} />
         </div>
       )}
-      <div className="shell page-hero-content">
+      <div className={"shell page-hero-content" + (featureImage ? " page-hero-content--split" : "")}>
+        <div className="page-hero-copy">
         {eyebrow && <p className="eyebrow">{eyebrow}</p>}
         <motion.h1
           className="display display--xl"
@@ -44,6 +45,13 @@ export default function PageHero({ eyebrow, title, lead, image, meta = [] }) {
                 {item}
               </span>
             ))}
+          </div>
+        )}
+        </div>
+        {featureImage && (
+          <div className="page-hero-feature">
+            <ImageSlot key={featureImage} name={featureImage} alt={featureAlt} className="page-hero-feature-image" />
+            <span className="page-hero-feature-caption">Research component · R26-DS-012</span>
           </div>
         )}
       </div>
