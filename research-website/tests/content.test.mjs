@@ -6,6 +6,29 @@ import { supervisors, team } from "../src/data/team.js";
 import { documents, presentationSlides, presentationStages, publishedAdditionalDocuments, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
 
 
+
+test("homepage evidence showcase keeps three distinct streams and C4 integration", async () => {
+  const { homeEvidenceHighlights, homeFusionHighlight } =
+    await import("../src/data/homeResearch.js");
+  assert.deepEqual(Object.keys(homeEvidenceHighlights).sort(), ["C1", "C2", "C3"]);
+  for (const id of ["C1", "C2", "C3"]) {
+    assert.ok(components.some((component) => component.id === id));
+    assert.ok(homeEvidenceHighlights[id].title.length > 5);
+    assert.ok(homeEvidenceHighlights[id].status.length > 15);
+  }
+  assert.match(homeEvidenceHighlights.C2.status, /0\.5205.*0\.0/);
+  assert.match(homeEvidenceHighlights.C3.status, /leakage-audited verification/i);
+  assert.match(homeFusionHighlight.boundary, /C2.*weight 0\.0/i);
+  assert.match(homeFusionHighlight.boundary, /not a validated diagnostic/i);
+  const { readFileSync } = await import("node:fs");
+  const { fileURLToPath } = await import("node:url");
+  const homepage = readFileSync(fileURLToPath(new URL("../src/pages/Home.jsx", import.meta.url)), "utf8");
+  assert.match(homepage, /components\.filter\(\(component\) => component\.id !== "C4"\)/);
+  assert.match(homepage, /home-research-integration/);
+  assert.match(homepage, /to="\/components\/fusion-and-rag"/);
+  assert.match(homepage, /name=\{component\.image\}/);
+});
+
 test("homepage group context matches the current research export", async () => {
   const { homeContext, groupAbstract } = await import("../src/data/research.js");
   assert.ok(homeContext.lead.length > 60);
