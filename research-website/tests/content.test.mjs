@@ -5,6 +5,82 @@ import { images, imageDriveIds, imageSrc } from "../src/data/images.js";
 import { supervisors, team } from "../src/data/team.js";
 import { documents, presentationSlides, presentationStages, publishedAdditionalDocuments, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
 
+
+
+test("homepage gives C1–C4 equal visual treatment with correct evidence boundaries", async () => {
+  const { homeEvidenceHighlights } = await import("../src/data/homeResearch.js");
+  assert.deepEqual(Object.keys(homeEvidenceHighlights), ["C1", "C2", "C3", "C4"]);
+  for (const component of components) {
+    const highlight = homeEvidenceHighlights[component.id];
+    assert.ok(highlight.title.length > 5);
+    assert.ok(highlight.description.length > 25);
+    assert.ok(highlight.imageAlt.length > 10);
+    assert.ok(highlight.status.length > 15);
+  }
+  assert.match(homeEvidenceHighlights.C2.status, /0\.5205.*0\.0/);
+  assert.match(homeEvidenceHighlights.C3.status, /leakage-audited verification/i);
+  assert.match(homeEvidenceHighlights.C4.status, /not clinically validated/i);
+  const { readFileSync } = await import("node:fs");
+  const { fileURLToPath } = await import("node:url");
+  const homepage = readFileSync(fileURLToPath(new URL("../src/pages/Home.jsx", import.meta.url)), "utf8");
+  assert.match(homepage, /components\.map\(\(component, index\)/);
+  assert.doesNotMatch(homepage, /home-research-integration|home-research-bridge|homeFusionHighlight/);
+  assert.match(homepage, /name=\{component\.image\}/);
+  assert.match(homepage, /to=\{"\/components\/" \+ component\.slug\}/);
+});
+
+test("homepage group context matches the current research export", async () => {
+  const { homeContext, groupAbstract } = await import("../src/data/research.js");
+  assert.ok(homeContext.lead.length > 60);
+  assert.equal(homeContext.body.length, 2);
+  assert.match(homeContext.body.join(" "), /not a clinically validated diagnostic/i);
+  assert.equal(groupAbstract.paragraphs.length, 3);
+
+  const { readFileSync } = await import("node:fs");
+  const { fileURLToPath } = await import("node:url");
+  const homeFile = fileURLToPath(new URL("../src/pages/Home.jsx", import.meta.url));
+  const page = readFileSync(homeFile, "utf8");
+  assert.match(page, /import \{ homeContext, timescales \} from ["']\.\.\/data\/research["']/);
+  assert.doesNotMatch(page, /\boverview\.(?:lead|body)\b/);
+});
+
+test("group abstract preserves group-level evidence and clinical boundaries", async () => {
+  const { groupAbstract } = await import("../src/data/research.js");
+  assert.equal(groupAbstract.paragraphs.length, 3);
+  const content = groupAbstract.paragraphs.join(" ");
+  assert.match(content, /physiological|wearable/i);
+  assert.match(content, /behavioural graph|passive-sensing graph/i);
+  assert.match(content, /clinical-note classification/i);
+  assert.match(content, /reliability-aware fusion/i);
+  assert.match(content, /0\.5205/);
+  assert.match(content, /p = 0\.255/);
+  assert.match(content, /leakage risks/i);
+  assert.match(content, /eight patients/);
+  assert.match(content, /not a clinically validated diagnostic/i);
+  assert.ok(groupAbstract.keywords.length >= 5);
+});
+
+test("group literature review is an integrated, properly cited synthesis", async () => {
+  const { groupLiteratureReview } = await import("../src/data/research.js");
+  const { methodologyReferences } = await import("../src/data/methodologyDetail.js");
+  assert.equal(groupLiteratureReview.themes.length, 3);
+  assert.deepEqual(groupLiteratureReview.themes.map((theme) => theme.id),
+    ["observation", "validity", "integration"]);
+  const allParagraphs = [
+    ...groupLiteratureReview.introduction,
+    ...groupLiteratureReview.themes.flatMap((theme) => theme.paragraphs),
+  ];
+  assert.ok(allParagraphs.every((paragraph) => paragraph.length > 110));
+  assert.ok(allParagraphs.every((paragraph) => !/\bC[1-4]\b/.test(paragraph)),
+    "Group literature should not be organized as individual component reports.");
+  const citations = allParagraphs.flatMap((paragraph) =>
+    [...paragraph.matchAll(/\[(\d+)\]/g)].map((m) => Number(m[1])));
+  assert.ok(citations.length >= 10);
+  assert.ok(citations.every((number) =>
+    methodologyReferences.some((reference) => reference.number === number)));
+  assert.match(groupLiteratureReview.synthesis.boundary, /not establish prospective clinical effectiveness/i);
+});
+
 test("component slugs and ids are unique", () => {
   assert.equal(new Set(components.map((c) => c.slug)).size, components.length);
   assert.deepEqual(
