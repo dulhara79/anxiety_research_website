@@ -31,6 +31,13 @@ test("slide search results open their matching rows on Slides", () => {
   }
 });
 
+test("domain search indexes the group abstract and current literature synthesis", () => {
+  assert.ok(searchIndex.some(item => item.title === "Group research abstract" && item.href === "/research#overview-title"));
+  assert.ok(searchIndex.some(item => item.title === "Group literature review" && item.href === "/research#literature-title"));
+  assert.ok(searchSite("group abstract", { category: "Section" }).some(item => item.href === "/research#overview-title"));
+  assert.ok(searchSite("clinical observation longitudinal", { category: "Section" }).length > 0);
+});
+
 test("queries match pages, documents, people, and component evidence", () => {
   assert.ok(searchSite("TC-WPN").some(item => item.href.includes("/components/clinical-nlp")));
   assert.ok(searchSite("progress presentation 1").some(item => item.category === "Presentation" && item.href.startsWith("/slides")));

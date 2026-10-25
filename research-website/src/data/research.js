@@ -2,14 +2,24 @@
 // table, privacy commitments, tech stack) and the curated literature synthesis
 // carried over from the v1 site. Keep every statement traceable to those sources.
 
-export const overview = {
-  lead: "Anxiety disorders affect millions of people worldwide, while access to continuous and personalized mental-health monitoring remains limited.",
-  body: [
-    "Clinical appointments provide important but episodic snapshots, and anxiety-related changes can also appear in physiology, everyday behaviour and clinical documentation at different timescales.",
-    "This research investigates a multimodal alternative: four complementary components whose outputs are combined only when they are available, recent and validated.",
+// Website-ready group abstract, grounded in the October 2026 R26-DS-012
+// Final Group Report (abstract; chapters 3, 6 and 8). Retain the report's
+// uncertainty about clinical validity and audited benchmark performance.
+export const groupAbstract = {
+  paragraphs: [
+    "Anxiety-related vulnerability cannot be characterized adequately by isolated clinical observations or a single digital signal. Physiological activity, everyday behaviour, clinical narratives and contextual factors vary in measurement frequency, reliability and clinical meaning. This study presents R26-DS-012, a modular multimodal digital-biomarker research framework for investigating personalized vulnerability mapping and short-horizon physiological change in young adults with anxiety disorders. Its central premise is that evidence should contribute to an integrated assessment only when its provenance, recency and validation status support its use.",
+    "Using distinct retrospective research datasets rather than a jointly measured patient cohort, the group developed wearable-based physiological anomaly modelling with +5- and +10-minute anomaly-index forecasting; longitudinal passive-sensing graph analysis; few-shot anxiety-related clinical-note classification; and reliability-aware fusion supported by contextual inputs and source-grounded retrieval. The integration layer applies eligibility, freshness and coverage checks, preserves unavailable evidence as missing, and supports abstention and traceable explanations across participant- and clinician-facing research applications.",
+    "Evaluation provided component-specific rather than unified clinical evidence. The final behavioural graph model achieved a held-out AUROC of 0.5205 (permutation p = 0.255), resulting in its exclusion from active fusion. Archived clinical NLP experiments indicated note-classification potential, although a subsequent audit identified leakage risks requiring independently verified evaluation under corrected protocols. The group also reported data collection involving eight patients at the National Hospital of Sri Lanka; however, linked outcome records and prospective validation of the integrated score were not available for audit. The principal contribution is therefore an auditable, evidence-sensitive architecture with explicit failure safeguards, not a clinically validated diagnostic or acute-event prediction system.",
   ],
-  paradigms:
-    "The components do not all use the same learning paradigm. Component 1 is primarily self-supervised; Components 2 and 3 use labelled benchmark data for evaluation and training; Component 4 combines eligible component outputs with contextual information and evidence retrieval.",
+  keywords: [
+    "Anxiety disorders",
+    "Digital biomarkers",
+    "Multimodal fusion",
+    "Physiological anomaly forecasting",
+    "Clinical natural language processing",
+    "Evidence-aware decision support",
+  ],
+  source: "R26-DS-012 Final Group Report · October 2026",
 };
 
 export const problems = [

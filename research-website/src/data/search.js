@@ -4,7 +4,7 @@ import { navigation, site } from "./site.js";
 import { components } from "./components.js";
 import { documents, milestones, presentationSlides, publishedAdditionalDocuments } from "./documents.js";
 import {
-  overview, problems, timescales, literatureThemes, researchGap,
+  groupAbstract, problems, timescales, groupLiteratureReview, researchGap,
   researchQuestion, objectives, methodology, techStack, commitments,
 } from "./research.js";
 import { architecture, aura, clinanx } from "./system.js";
@@ -46,10 +46,10 @@ const section = (title, href, description, content, keywords = "") =>
 
 export const searchIndex = [
   page("Overview", "/", "Project introduction and the multimodal anxiety research story.",
-    [site.title, cinematicIntro, cinematicPanels, overview, problems, researchQuestion],
+    [site.title, cinematicIntro, cinematicPanels, groupAbstract, problems, researchQuestion],
     "home research introduction research prototype"),
   page("Research", "/research", "Research domain, literature, objectives and methodology.",
-    [overview, problems, timescales, literatureThemes, researchGap, objectives, methodology, groupMethodology, methodologyReferences, techStack],
+    [groupAbstract, problems, timescales, groupLiteratureReview, researchGap, objectives, methodology, groupMethodology, methodologyReferences, techStack],
     "domain literature survey research gap objectives technologies"),
   page("Components", "/components", "The four research components and how their signals connect.",
     components, "C1 C2 C3 C4"),
@@ -71,13 +71,14 @@ export const searchIndex = [
   section("Research challenge", "/#problem-title",
     "Why single observations do not describe anxiety across time.", problems,
     "anxiety problem motivation"),
-  section("Research overview", "/research#overview-title",
-    "Multiple signals and timescales.", [overview, timescales]),
+  section("Group research abstract", "/research#overview-title",
+    "Integrated purpose, methods, findings and clinical-validation boundaries.", groupAbstract,
+    "abstract summary group research anxiety biomarker"),
   section("Research problem", "/research#problem-title",
     "The limits of episodic assessment and isolated signals.", problems),
-  section("Literature survey", "/research#literature-title",
-    "The physiological, behavioural, clinical and evidence-aware literature.", literatureThemes,
-    "literature landscape related work review"),
+  section("Group literature review", "/research#literature-title",
+    "Published evidence synthesized across observation, validation and uncertainty.", groupLiteratureReview,
+    "literature landscape related work synthesis review"),
   section("Research gap", "/research#gap-title",
     researchGap.headline, researchGap, "validation uncertainty reliability"),
   section("Research objectives", "/research#question-title",
@@ -116,7 +117,7 @@ export const searchIndex = [
     "Written research records, proposal reports, checklists and draft theses.",
     [documents, publishedAdditionalDocuments], "download PDF reports proposal thesis checklist"),
   section("Presentation archive", "/slides#slides-title", "Presentation slides and their publication status.", presentationSlides),
-  section("Research milestones", "/milestones#assessment-title",
+  section("Research milestones", "/milestones#milestones-title",
     "Topic assessment, proposals, progress presentations and final presentation.", milestones,
     "timeline milestones assessment"),
   section("Cite this research", "/documents#cite-title",

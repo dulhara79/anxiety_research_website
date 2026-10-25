@@ -6,18 +6,17 @@ import SectionHead from "../components/ui/SectionHead";
 import {
   groupLiteratureReview,
   objectives,
-  overview,
+  groupAbstract,
   problems,
   researchGap,
   researchQuestion,
   techStack,
-  timescales,
 } from "../data/research";
 import { componentBySlug, components } from "../data/components";
 import { groupMethodology, methodologyReferences } from "../data/methodologyDetail";
 
 const domainSections = [
-  ["Overview", "overview-title"],
+  ["Abstract", "overview-title"],
   ["Problem", "problem-title"],
   ["Literature", "literature-title"],
   ["Research gap", "gap-title"],
@@ -75,31 +74,21 @@ export default function Research() {
         </div>
       </nav>
 
-      <section className="section" aria-labelledby="overview-title">
-        <div className="shell split" style={{ alignItems: "start" }}>
-          <Reveal>
-            <p className="eyebrow">Overview</p>
-            <h2 className="display" id="overview-title">
-              Change unfolds on different clocks.
-            </h2>
-          </Reveal>
-          <Reveal className="body-copy" delay={0.1}>
-            <p>{overview.lead}</p>
-            {overview.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            <p>{overview.paradigms}</p>
-          </Reveal>
-        </div>
+      <section className="section research-abstract" aria-labelledby="overview-title">
         <div className="shell">
-          <Reveal className="timescale-row">
-            {timescales.map((item) => (
-              <div className="timescale" key={item.stream}>
-                <span className="timescale-when">{item.when}</span>
-                <strong>{item.stream}</strong>
-                <span className="muted">{item.detail}</span>
-              </div>
+          <Reveal className="research-abstract-heading">
+            <p className="eyebrow">R26-DS-012 · Integrated group study</p>
+            <h2 className="display" id="overview-title">Abstract</h2>
+            <p className="research-abstract-source">{groupAbstract.source}</p>
+          </Reveal>
+          <Reveal as="article" className="research-abstract-body" delay={0.08}>
+            {groupAbstract.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
             ))}
+            <div className="research-abstract-keywords">
+              <strong>Keywords</strong>
+              <p>{groupAbstract.keywords.join(" · ")}</p>
+            </div>
           </Reveal>
         </div>
       </section>

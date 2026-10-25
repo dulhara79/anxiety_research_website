@@ -6,6 +6,22 @@ import { supervisors, team } from "../src/data/team.js";
 import { documents, presentationSlides, presentationStages, publishedAdditionalDocuments, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
 
 
+test("group abstract preserves group-level evidence and clinical boundaries", async () => {
+  const { groupAbstract } = await import("../src/data/research.js");
+  assert.equal(groupAbstract.paragraphs.length, 3);
+  const content = groupAbstract.paragraphs.join(" ");
+  assert.match(content, /physiological|wearable/i);
+  assert.match(content, /behavioural graph|passive-sensing graph/i);
+  assert.match(content, /clinical-note classification/i);
+  assert.match(content, /reliability-aware fusion/i);
+  assert.match(content, /0\.5205/);
+  assert.match(content, /p = 0\.255/);
+  assert.match(content, /leakage risks/i);
+  assert.match(content, /eight patients/);
+  assert.match(content, /not a clinically validated diagnostic/i);
+  assert.ok(groupAbstract.keywords.length >= 5);
+});
+
 test("group literature review is an integrated, properly cited synthesis", async () => {
   const { groupLiteratureReview } = await import("../src/data/research.js");
   const { methodologyReferences } = await import("../src/data/methodologyDetail.js");
