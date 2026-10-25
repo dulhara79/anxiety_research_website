@@ -92,7 +92,7 @@ export default function Navbar() {
       }}
     >
       <div className="site-nav-bar">
-        <Link className="brand" to="/" onClick={closeMenus}>
+        <Link className="brand" to="/" onClick={closeMenus} aria-label="R26-DS-012 — Home">
           <LogoMark />
           <div className="brand-text">
             <strong>{site.id}</strong>

@@ -18,7 +18,10 @@
   background: rgba(253, 241, 225, .94);
   box-shadow: 0 10px 32px rgba(19, 47, 47, .16);
 }
-.site-nav--compact .brand strong { font-size: 1rem; }
+/* Icon-only brand when the scroll-aware navbar is compact. */
+.site-nav--compact .brand-text { display: none; }
+.site-nav--compact .brand { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.site-nav--compact .logo-mark { flex: 0 0 auto; }
 .site-nav--compact .nav-links > .nav-item > a,
 .site-nav--compact .nav-primary-entry > a { min-height: 38px; }
 .site-nav--hidden {

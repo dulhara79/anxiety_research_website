@@ -49,6 +49,16 @@ test("page top and browser overscroll reset the state", () => {
   assert.equal(advanceNavScroll(initialNavScroll(500), Number.NaN).y, 0);
 });
 
+test("compact navigation keeps only the brand icon, with an accessible home link", () => {
+  const nav = readFileSync(fileURLToPath(new URL("../src/components/layout/Navbar.jsx", import.meta.url)), "utf8");
+  const css = readFileSync(fileURLToPath(new URL("../src/components/layout/nav-scroll.css", import.meta.url)), "utf8");
+  assert.match(nav, /className="brand" to="\/" onClick=\{closeMenus\} aria-label="R26-DS-012 — Home"/);
+  assert.match(nav, /<LogoMark \/>/);
+  assert.match(nav, /<div className="brand-text">/);
+  assert.match(css, /\.site-nav--compact \.brand-text \{ display: none; \}/);
+  assert.doesNotMatch(css, /\.site-nav--full \.brand-text \{ display: none; \}/);
+});
+
 test("navbar keeps focus, dropdown, mobile and reduced-motion safeguards", () => {
   const nav = readFileSync(fileURLToPath(new URL("../src/components/layout/Navbar.jsx", import.meta.url)), "utf8");
   const css = readFileSync(fileURLToPath(new URL("../src/components/layout/nav-scroll.css", import.meta.url)), "utf8");
