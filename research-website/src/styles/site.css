@@ -7,10 +7,10 @@
   --paper-3: #efdcc4;
   --ink: #13201f;
   --ink-soft: #4a5b59;
-  --ink-faint: #7b8a88;
+  --ink-faint: #566663;
   --teal-deep: #132f2f;
   --teal: #24524f;
-  --teal-mid: #3f7b77;
+  --teal-mid: #326762;
   --teal-bright: #4e9892;
   --sky: #86bdd4;
   --mist: #a9c8d5;
@@ -1025,3 +1025,7 @@ h3.card-title,
     display: none;
   }
 }
+
+/* Consistent accessible keyboard focus and in-page anchor clearance */
+[id] { scroll-margin-top: 110px; }
+:focus-visible { outline-color: #326762; }

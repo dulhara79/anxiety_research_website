@@ -60,7 +60,7 @@ export const searchIndex = [
     "results experiments AUROC F1 benchmark ablation evidence"),
   page("Milestones", "/milestones", "Assessment stages, recorded dates and pending marks.", milestones, "timeline viva final assessment marks"),
   page("Slides", "/slides", "Proposal, progress and final presentation slides.", presentationSlides, "downloads presentations pptx"),
-  page("Documents", "/documents", "TAF, proposal reports, checklists, draft theses and citation.",
+  page("Documents", "/documents", "Written reports, proposal records, checklists and citation.",
     [documents, publishedAdditionalDocuments], "downloads files reports proposals PDF thesis checklists"),
   page("Team", "/team", "The researchers and their academic and clinical supervisors.",
     [team, supervisors], "people authors researchers"),

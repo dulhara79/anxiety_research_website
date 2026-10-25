@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ArrowUpRight, Check, Copy, FileText } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, Check, Copy, FileText } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import Reveal from "../components/ui/Reveal";
 import SectionHead from "../components/ui/SectionHead";
@@ -38,7 +39,7 @@ export default function Documents() {
     <>
       <PageHero
         eyebrow="Documents"
-        title="Research documents and milestones."
+        title="Research documents."
         lead="Topic assessment, written proposals, checklists and research reports. Slide decks are organized separately under Slides."
         image="bannerDocuments"
       />
@@ -50,6 +51,10 @@ export default function Documents() {
             eyebrow="Documents"
             title="Written research records."
           />
+          <div className="archive-intro-actions">
+            <p>Written research records are grouped by assessment type. Presentation decks are kept in the separate Slides archive.</p>
+            <Link className="button button--ghost" to="/slides">Browse slides <ArrowRight size={17} aria-hidden="true" /></Link>
+          </div>
           {groups.map((group) => (
             <div className="doc-group" key={group}>
               <h3 className="serif-title detail-sub">{group}</h3>

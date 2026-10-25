@@ -6,6 +6,17 @@ export default function ScrollManager() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    const titles = {
+      "/": "Overview", "/research": "Research Domain", "/milestones": "Milestones",
+      "/documents": "Documents", "/slides": "Presentation Slides",
+      "/team": "About Us", "/contact": "Contact Us", "/components": "Components",
+      "/system": "System Architecture", "/findings": "Research Findings",
+    };
+    const section = titles[pathname] || (pathname.startsWith("/components/") ? "Research Component" : "Research Website");
+    document.title = section + " | R26-DS-012 · SLIIT";
+  }, [pathname]);
+
+  useEffect(() => {
     if (!hash) {
       window.scrollTo({ top: 0, behavior: "instant" });
       return undefined;

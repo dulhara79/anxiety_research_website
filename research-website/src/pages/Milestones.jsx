@@ -1,148 +1,136 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Footprints, MapPinned } from "lucide-react";
+import { ArrowRight, CalendarDays, ClipboardList } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import { milestones, assessmentWeights, milestoneSources } from "../data/documents";
 
 export default function Milestones() {
   const [selected, setSelected] = useState(milestones[0]?.id ?? null);
-  const detailsRef = useRef(null);
+  const detailRef = useRef(null);
   const activeIndex = Math.max(0, milestones.findIndex((item) => item.id === selected));
-  const milestone = milestones[activeIndex];
-  const weights = assessmentWeights.filter((item) => milestone.weights.includes(item.id));
+  const active = milestones[activeIndex];
+  const weights = assessmentWeights.filter((weight) => active.weights.includes(weight.id));
 
-  const selectStop = (id) => {
+  const choose = (id) => {
     setSelected(id);
-    // With 14 stops, the details panel is below the map. Bring it into view.
-    // Respect the visitor's reduced-motion preference.
-    window.requestAnimationFrame(() => {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      detailsRef.current?.scrollIntoView({
-        behavior: reduceMotion ? "instant" : "smooth",
-        block: "start",
+    // The details sit beside the list on desktop and below it on small screens.
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      window.requestAnimationFrame(() => {
+        detailRef.current?.scrollIntoView({
+          block: "start",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        });
       });
-    });
+    }
   };
 
   return (
     <>
       <PageHero
-        eyebrow="Milestones"
-        title="Research project trail."
-        lead="Explore the 2026 research-project schedule as a numbered journey, with assessment weights from the supplied IT4010 module outline."
+        eyebrow="Research milestones"
+        title="From proposal to publication evidence."
+        lead="Explore the 2026 assessment timeline, related research records and the historical module assessment weights—without confusing planned deadlines with verified completion."
         image="bannerDocuments"
       />
 
-      <section className="section" aria-labelledby="assessment-title">
+      <section className="section" aria-labelledby="milestones-title">
         <div className="shell">
-          <p className="eyebrow">Project pathway</p>
-          <h2 className="display" id="assessment-title">The research roadmap.</h2>
-          <p className="muted milestone-trail-intro">
-            Follow the zig-zag path from topic assessment to publication evidence.
-            Choose a numbered stop to see its deadline, assessment weight and supporting records.
-          </p>
-
-          <div className="zigzag-roadmap-wrap">
-            <div className="zigzag-roadmap-head">
-              <MapPinned size={23} aria-hidden="true" />
-              <div>
-                <strong>Research journey</strong>
-                <p>{milestones.length} scheduled and documented milestone stops</p>
-              </div>
+          <div className="milestone-heading">
+            <div>
+              <p className="eyebrow">Project timeline</p>
+              <h2 className="display" id="milestones-title">Explore the milestones.</h2>
+              <p className="lead">Select a stage to read its original schedule, assessment context and linked evidence.</p>
             </div>
+            <span className="milestone-count"><CalendarDays size={18} aria-hidden="true" /> 14 recorded stages</span>
+          </div>
 
-            <ol className="zigzag-roadmap" aria-label="Research project milestone trail">
-              {milestones.map((item, index) => {
-                const active = item.id === milestone.id;
-                const side = index % 2 === 0 ? "left" : "right";
+          <div className="milestone-selector">
+            <label htmlFor="milestone-stage">Select an assessment stage</label>
+            <select
+              id="milestone-stage"
+              value={selected}
+              onChange={(event) => choose(event.target.value)}
+            >
+              {milestones.map((item, i) => (
+                <option key={item.id} value={item.id}>
+                  {String(i + 1).padStart(2, "0")} · {item.title}
+                </option>
+              ))}
+            </select>
+          </div>
 
-                return (
-                  <li
-                    key={item.id}
-                    className={`road-stop road-stop--${side}${active ? " is-active" : ""}`}
-                  >
+          <div className="milestone-layout">
+            <nav className="milestone-rail" aria-label="Research milestone timeline">
+              <ol className="milestone-list">
+                {milestones.map((item, i) => (
+                  <li key={item.id}>
                     <button
+                      className={"milestone-select" + (item.id === selected ? " is-active" : "")}
                       type="button"
-                      className="road-stop-card"
-                      aria-current={active ? "step" : undefined}
+                      aria-current={item.id === selected ? "step" : undefined}
                       aria-controls="milestone-detail"
-                      onClick={() => selectStop(item.id)}
+                      onClick={() => choose(item.id)}
                     >
-                      <span className="road-stop-number" aria-hidden="true">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="road-stop-copy">
+                      <span className="milestone-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="milestone-select-copy">
                         <strong>{item.title}</strong>
                         <span>{item.deadline ?? "Date not specified"}</span>
                       </span>
+                      <ArrowRight size={16} aria-hidden="true" />
                     </button>
-                    <span className="road-stop-node" aria-hidden="true" />
-                    <Footprints className="road-stop-footprints" size={19} aria-hidden="true" />
                   </li>
-                );
-              })}
-            </ol>
+                ))}
+              </ol>
+            </nav>
 
-            <div className="roadmap-footprints" aria-hidden="true">
-              <Footprints size={21} />
-              <Footprints size={21} />
-              <Footprints size={21} />
-              <Footprints size={21} />
-            </div>
+            <article className="milestone-detail" id="milestone-detail" ref={detailRef} aria-live="polite" aria-atomic="true">
+              <p className="milestone-detail-kicker"><ClipboardList size={18} aria-hidden="true" /> Stage {String(activeIndex + 1).padStart(2, "0")} of {milestones.length}</p>
+              <h3 className="display milestone-detail-title">{active.title}</h3>
+              <dl className="milestone-facts">
+                <div>
+                  <dt>2026 scheduled deadline</dt>
+                  <dd>{active.deadline ?? "Not specified in the timeline"}</dd>
+                </div>
+                <div>
+                  <dt>Assessment weight · 2019 module outline</dt>
+                  <dd>{weights.length
+                    ? weights.map((item) => item.percent + "% · " + item.title).join("; ")
+                    : "No separate weighting specified"}</dd>
+                </div>
+              </dl>
+              <h4>Evidence and interpretation</h4>
+              <p>{active.detail}</p>
+              {active.href && (
+                <Link className="button button--ink" to={active.href}>
+                  View related records <ArrowRight size={17} aria-hidden="true" />
+                </Link>
+              )}
+              <p className="milestone-disclaimer">
+                Scheduled dates do not establish actual completion. Assessment weights come from the 2019 module outline and have not been independently confirmed for 2026.
+              </p>
+            </article>
           </div>
+        </div>
+      </section>
 
-          <article
-            ref={detailsRef}
-            className="card assessment-detail milestone-detail-panel"
-            id="milestone-detail"
-            aria-live="polite"
-            aria-atomic="true"
-            tabIndex={-1}
-          >
-            <div className="assessment-detail-heading">
-              <span className="assessment-step-badge">
-                Stop {String(activeIndex + 1).padStart(2, "0")} / {milestones.length}
-              </span>
-              <h3 className="serif-title">{milestone.title}</h3>
-            </div>
-            <p>{milestone.detail}</p>
-
-            <dl className="assessment-facts">
-              <div>
-                <dt>2026 scheduled deadline</dt>
-                <dd>{milestone.deadline ?? "Not specified"}</dd>
+      <section className="section section--paper2" aria-labelledby="assessment-weights-title">
+        <div className="shell">
+          <p className="eyebrow">Assessment reference</p>
+          <h2 className="display" id="assessment-weights-title">Module weightings.</h2>
+          <p className="lead">For reference only: the percentages below come from an older IT4010 module outline, not a verified 2026 grading announcement.</p>
+          <div className="assessment-weight-grid">
+            {assessmentWeights.map((weight) => (
+              <div className="assessment-weight" key={weight.id}>
+                <strong>{weight.percent}%</strong>
+                <span>{weight.title}</span>
               </div>
-              <div>
-                <dt>Assessment weight · 2019 outline</dt>
-                <dd>
-                  {weights.length
-                    ? weights.map((item) => item.percent + "% — " + item.title).join("; ")
-                    : "No separate weight specified"}
-                </dd>
-              </div>
-              <div>
-                <dt>Evidence sources</dt>
-                <dd>RP Team 2026 timeline · IT4010 module outline v2019-0</dd>
-              </div>
-            </dl>
-
-            {milestone.href && (
-              <Link className="button button--ink" to={milestone.href}>
-                View related records <ArrowUpRight size={16} aria-hidden="true" />
-              </Link>
-            )}
-
-            <p className="source-note milestone-detail-disclaimer">
-              Dates indicate scheduled deadlines, not verified completion. Assessment
-              percentages are from the 2019-0 outline and have not been independently
-              reconfirmed for 2026. Shared assessment categories are not counted twice.
-            </p>
-            <div className="assessment-sources">
-              <strong>Documented sources</strong>
-              <p>{milestoneSources.dates}</p>
-              <p>{milestoneSources.weights}</p>
-            </div>
-          </article>
+            ))}
+          </div>
+          <div className="assessment-provenance">
+            <strong>Source records</strong>
+            <p>{milestoneSources.dates}</p>
+            <p>{milestoneSources.weights}</p>
+          </div>
         </div>
       </section>
     </>

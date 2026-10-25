@@ -4,38 +4,35 @@ import CinematicHero from "../components/hero/CinematicHero";
 import Reveal from "../components/ui/Reveal";
 import ImageSlot from "../components/ui/ImageSlot";
 import SectionHead from "../components/ui/SectionHead";
-import FusionStates from "../components/research/FusionStates";
-import ArchitectureOverview from "../components/research/ArchitectureOverview";
+import ArchitectureDiagram from "../components/research/ArchitectureDiagram";
 import ContactSection from "../components/layout/ContactSection";
 import {
-  commitments,
   overview,
-  problems,
-  researchQuestion,
   timescales,
 } from "../data/research";
-import { supervisors, team } from "../data/team";
+import { team } from "../data/team";
+import { components } from "../data/components";
 
 const headlineResults = [
   {
     value: "0.9979",
     label: "C1 WESAD AUROC",
-    note: "Corrected 13-participant LOSO",
+    note: "WESAD laboratory evaluation · subject-held-out",
   },
   {
     value: "0.8757",
     label: "C1 AffectiveROAD macro AUROC",
-    note: "External real-world evaluation",
+    note: "AffectiveROAD · external evaluation",
   },
   {
     value: "0.5205",
     label: "C2 held-out GATv2 AUROC, not distinguishable from chance",
-    note: "Final v8, GLOBEM",
+    note: "GLOBEM held-out · weight 0.0 in fusion",
   },
   {
     value: "≈0.738",
     label: "C3 clinical-note AUROC",
-    note: "Deployment-relevant held-out setting",
+    note: "Patient-disjoint clinical-note evaluation",
   },
 ];
 
@@ -80,44 +77,45 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        className="section section--dark"
-        aria-labelledby="problem-title"
-      >
+      <section className="section section--paper2" id="components-overview" aria-labelledby="components-title">
         <div className="shell">
           <SectionHead
-            id="problem-title"
-            eyebrow="The problem"
-            title="Six reasons a single score is not enough."
-            lead="Each challenge below shaped a design decision in the framework."
+            id="components-title"
+            eyebrow="Explore the research"
+            title="Four components. Distinct evidence."
+            lead="Each stream has its own data, evaluation protocol and limitations. Explore the individual research before interpreting the combined framework."
           />
-          <Reveal as="ol" className="numbered-list">
-            {problems.map((item) => (
-              <li key={item.challenge}>
-                <strong>{item.challenge}</strong>
-                <span className="muted">{item.why}</span>
-              </li>
+          <div className="grid-2 home-component-grid">
+            {components.map((component) => (
+              <Reveal className="card home-component-card" key={component.id}>
+                <span className="card-kicker">{component.id} · {component.modality}</span>
+                <h3 className="serif-title">{component.title}</h3>
+                <p>{component.tagline}</p>
+                <p className="home-component-boundary">{component.fusionRole}</p>
+                <Link className="home-component-link" to={"/components/" + component.slug}>
+                  Explore {component.id} <ArrowRight size={17} aria-hidden="true" />
+                </Link>
+              </Reveal>
             ))}
-          </Reveal>
+          </div>
         </div>
       </section>
 
-      <ArchitectureOverview />
-
-      <section
-        className="section section--paper2"
-        aria-labelledby="fusion-title"
-      >
+      <section className="section" id="home-system" aria-labelledby="home-system-title">
         <div className="shell">
           <SectionHead
-            id="fusion-title"
-            eyebrow="How the evidence comes together"
-            title="Weighted by trust, not by availability."
-            lead="Reliability-weighted fusion combines only eligible outputs. A modality that fails its own validation gets no weight, and missing evidence is never read as zero risk."
+            id="home-system-title"
+            eyebrow="How the system connects"
+            title="From component evidence to supported output."
+            lead="A central integration layer checks signal availability and validation status before fusion. Unavailable evidence is not assumed to mean low risk."
           />
-          <FusionStates />
+          <Reveal><ArchitectureDiagram /></Reveal>
+          <div className="button-row">
+            <Link className="button button--ink" to="/system">Explore the system <ArrowRight size={18} aria-hidden="true" /></Link>
+          </div>
         </div>
       </section>
+
 
       <section className="section" aria-labelledby="results-title">
         <div className="shell">
@@ -129,13 +127,14 @@ export default function Home() {
           />
           <Reveal className="grid-4">
             {headlineResults.map((result) => (
-              <div className="stat" key={result.label}>
+              <div className="stat home-evidence-stat" key={result.label}>
                 <span className="stat-value">{result.value}</span>
                 <span className="stat-label">{result.label}</span>
                 <span className="stat-note">{result.note}</span>
               </div>
             ))}
           </Reveal>
+          <p className="home-evidence-note">Results are dataset-specific research findings, not clinical performance guarantees. The behavioural model remains excluded from active fusion.</p>
           <div className="button-row">
             <Link className="button button--ink" to="/findings">
               All findings <ArrowRight size={18} />
@@ -144,28 +143,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section--dark" aria-labelledby="safety-title">
-        <div className="shell split" style={{ alignItems: "start" }}>
-          <Reveal>
-            <p className="eyebrow">Privacy and research safety</p>
-            <h2 className="display" id="safety-title">
-              Built to withhold, not to guess.
-            </h2>
-            <p className="lead">
-              The integrated framework is research and clinical decision
-              support. It is not a diagnostic medical device.
-            </p>
-            <div className="button-row">
-              <Link className="button button--paper" to="/system">
-                See the system <ArrowRight size={18} />
-              </Link>
-            </div>
-          </Reveal>
-          <Reveal as="ul" className="check-list" delay={0.1}>
-            {commitments.slice(0, 6).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </Reveal>
+      <section className="section section--paper2" aria-labelledby="home-apps-title">
+        <div className="shell">
+          <SectionHead
+            id="home-apps-title"
+            eyebrow="Research applications"
+            title="Two interfaces, one research framework."
+            lead="Explore the participant and clinician application prototypes, their responsibilities, and their documented safety boundaries."
+          />
+          <div className="grid-2 home-app-grid">
+            <Reveal className="home-app-card">
+              <ImageSlot name="appAura" alt="Research participant application preview" />
+              <div>
+                <p className="card-kicker">Participant application</p>
+                <h3 className="serif-title">Aura</h3>
+                <p>Participant-side sensing and research data collection. Not a diagnostic app.</p>
+              </div>
+            </Reveal>
+            <Reveal className="home-app-card" delay={0.08}>
+              <ImageSlot name="appClinAnx" alt="Clinician application preview" />
+              <div>
+                <p className="card-kicker">Clinician application</p>
+                <h3 className="serif-title">ClinAnx</h3>
+                <p>Research decision-support interface for eligible signals and evidence review. Not a substitute for clinical judgment.</p>
+              </div>
+            </Reveal>
+          </div>
+          <div className="button-row">
+            <Link className="button button--ink" to="/system">View the applications <ArrowRight size={18} aria-hidden="true" /></Link>
+          </div>
         </div>
       </section>
 
@@ -174,10 +180,10 @@ export default function Home() {
           <SectionHead
             id="team-title"
             eyebrow="Team and supervision"
-            title="Four researchers, three supervisors."
+            title="Meet the four researchers."
           />
           <Reveal className="people-strip">
-            {[...team, ...supervisors].map((person) => {
+            {team.map((person) => {
               const content = (
                 <>
                   <ImageSlot
@@ -223,28 +229,6 @@ export default function Home() {
       </section>
 
       <ContactSection variant="home" />
-
-      <section
-        className="section section--paper2 closing"
-        aria-labelledby="question-title"
-      >
-        <div className="shell">
-          <Reveal>
-            <p className="eyebrow">The research question</p>
-            <h2 className="big-quote" id="question-title">
-              {researchQuestion}
-            </h2>
-            <div className="button-row">
-              <Link className="button button--ink" to="/components">
-                Explore the components <ArrowRight size={18} />
-              </Link>
-              <Link className="button button--ghost" to="/documents">
-                Documents <ArrowUpRight size={18} />
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </>
   );
 }

@@ -16,6 +16,17 @@ import {
 import { componentBySlug, components } from "../data/components";
 import { groupMethodology, methodologyReferences } from "../data/methodologyDetail";
 
+const domainSections = [
+  ["Overview", "overview-title"],
+  ["Problem", "problem-title"],
+  ["Literature", "literature-title"],
+  ["Research gap", "gap-title"],
+  ["Objectives", "question-title"],
+  ["Methodology", "method-title"],
+  ["References", "method-references-title"],
+  ["Technologies", "tech-title"],
+];
+
 export default function Research() {
   const slugFor = (id) =>
     components.find((component) => component.id === id)?.slug;
@@ -27,6 +38,24 @@ export default function Research() {
         lead="The context, the literature, the gap and the question that the four components set out to answer."
         image="bannerResearch"
       />
+
+
+      <nav className="section section--tight domain-index" aria-label="Explore the research domain">
+        <div className="shell">
+          <p className="eyebrow">On this page</p>
+          <div className="domain-index-links">
+            {domainSections.map(([label, id]) => (
+              <Link key={id} to={"/research#" + id}>{label} <ArrowRight size={15} aria-hidden="true" /></Link>
+            ))}
+          </div>
+          <div className="domain-next-links">
+            <span>Continue exploring</span>
+            <Link to="/components">Four components <ArrowRight size={16} aria-hidden="true" /></Link>
+            <Link to="/system">Architecture & apps <ArrowRight size={16} aria-hidden="true" /></Link>
+            <Link to="/findings">Experimental findings <ArrowRight size={16} aria-hidden="true" /></Link>
+          </div>
+        </div>
+      </nav>
 
       <section className="section" aria-labelledby="overview-title">
         <div className="shell split" style={{ alignItems: "start" }}>

@@ -30,6 +30,8 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
     captchaSiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
   };
   const isConfigured = Object.values(emailConfig).every(Boolean);
+  const primaryRecipient = recipients.find((person) => person.component === recipient);
+  const copiedRecipients = recipients.filter((person) => person.component !== recipient);
 
   const submitEmail = async (event) => {
     event.preventDefault();
@@ -235,10 +237,10 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
             <p className="eyebrow">Write to the team</p>
             <h2 className="display" id="contact-compose-title">Send a message.</h2>
             <p className="lead">
-              Choose C1, C2, C3 or C4. Your message will be sent to the selected researcher’s email inbox without opening an email app.
+              Choose C1, C2, C3 or C4. Your message will be addressed to the selected researcher. The other three team members will receive a CC copy.
             </p>
             <p className="contact-form-explainer">
-              When you press Send message, your enquiry is processed by EmailJS and the connected sending account. Do not include patient records or sensitive clinical information.
+              When you press Send message, EmailJS processes your enquiry and all four researchers receive the message. Do not include patient records or sensitive clinical information.
             </p>
             <p className="contact-note">
               Research information only, not clinical advice. In a crisis, contact local emergency services or a mental-health helpline.
@@ -254,6 +256,10 @@ export default function ContactSection({ id = "contact", variant = "full" }) {
                   ))}
                 </select>
               </label>
+              <div className="contact-routing-preview contact-form-wide" role="note" aria-live="polite">
+                <p><strong>To:</strong> {primaryRecipient?.name} ({recipient})</p>
+                <p><strong>CC:</strong> {copiedRecipients.map((person) => person.name).join(", ")}</p>
+              </div>
               <label>
                 Your name
                 <input type="text" minLength={2} maxLength={120} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} required />
