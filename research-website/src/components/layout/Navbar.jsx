@@ -6,7 +6,9 @@ import SiteSearch from "./SiteSearch";
 import { navigation, site } from "../../data/site";
 import { navigationMenus } from "../../data/navigationMenus.js";
 import { navParentForPath } from "../../lib/navParent.js";
+import { advanceNavScroll, initialNavScroll, NAV_TOP_BOUNDARY } from "../../lib/navScroll.js";
 import "./nav-dropdown.css";
+import "./nav-scroll.css";
 
 const desktopQuery = "(min-width: 1181px)";
 const hoverQuery = "(min-width: 1181px) and (hover: hover)";
@@ -14,10 +16,41 @@ const hoverQuery = "(min-width: 1181px) and (hover: hover)";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(null);
+  const [scrollMode, setScrollMode] = useState("full");
+  const [focusWithin, setFocusWithin] = useState(false);
+  const scrollPosition = useRef(initialNavScroll());
   const menuButtons = useRef({});
   const preventFocusOpen = useRef(false);
   const location = useLocation();
   const activeParent = navParentForPath(location.pathname);
+  // Menus and keyboard focus keep navigation visible even on a long page.
+  const interacting = open || expandedMenu !== null || focusWithin;
+  const visibleMode = interacting
+    ? (scrollPosition.current.y <= NAV_TOP_BOUNDARY ? "full" : "compact")
+    : scrollMode;
+
+  useEffect(() => {
+    const initial = initialNavScroll(window.scrollY);
+    scrollPosition.current = initial;
+    setScrollMode(initial.mode);
+
+    let pendingFrame = 0;
+    const updatePosition = () => {
+      pendingFrame = 0;
+      const next = advanceNavScroll(scrollPosition.current, window.scrollY);
+      scrollPosition.current = next;
+      setScrollMode((current) => current === next.mode ? current : next.mode);
+    };
+    const onScroll = () => {
+      if (!pendingFrame) pendingFrame = window.requestAnimationFrame(updatePosition);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (pendingFrame) window.cancelAnimationFrame(pendingFrame);
+    };
+  }, []);
 
   const closeMenus = () => {
     setOpen(false);
@@ -50,7 +83,14 @@ export default function Navbar() {
   }, [expandedMenu, open]);
 
   return (
-    <nav className="site-nav" aria-label="Primary">
+    <nav
+      className={`site-nav site-nav--${visibleMode}`}
+      aria-label="Primary"
+      onFocusCapture={() => setFocusWithin(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocusWithin(false);
+      }}
+    >
       <div className="site-nav-bar">
         <Link className="brand" to="/" onClick={closeMenus}>
           <LogoMark />
