@@ -83,16 +83,16 @@
   top:var(--step-top);
   left:0;
   right:0;
-  height:136px;
+  height:176px;
 }
 .journey-stop-button { display:block; width:100%; height:100%; padding:0; border:0; background:none; text-align:left; cursor:pointer; color:var(--ink); }
 .journey-stop-pin {
   position:absolute;
-  top:68px;
+  top:82px;
   left:var(--pin-x);
   transform:translate(-50%,-50%);
   display:grid; place-items:center;
-  width:44px; height:44px;
+  width:49px; height:49px;
   border:5px solid #faf0e1;
   background:#285f57;
   color:#fffaf2;
@@ -104,27 +104,35 @@
 .journey-stop-card {
   position:absolute;
   top:0;
-  width:36%;
-  min-height:113px;
+  min-height:144px;
+  
   display:grid;
   align-content:center;
   gap:7px;
-  padding:16px 19px;
+  padding:15px 16px;
   border:1px solid rgba(30,77,69,.21);
   border-radius:17px;
   background:rgba(255,252,246,.97);
   box-shadow:0 7px 18px rgba(20,65,60,.055);
   transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
 }
-.journey-stop--left .journey-stop-card { right:calc(100% - var(--pin-x) + 37px); }
-.journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 37px); }
+.journey-stop--left .journey-stop-card { left:16px; right:calc(100% - var(--pin-x) + 36px); }
+.journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 36px); right:16px; }
+.journey-stop-pin-number { font-size:.75rem; font-weight:800; line-height:1; letter-spacing:.02em; }
 .journey-stop-topline {
   color:#2d756c;
   font-weight:800;
   font-size:.64rem;
   letter-spacing:.14em;
 }
-.journey-stop-card strong { font-size:clamp(.81rem,.95vw,.97rem); line-height:1.3; font-weight:680; }
+.journey-stop-card strong {
+  display:block;
+  font-size:clamp(.86rem,.95vw,.99rem);
+  line-height:1.3;
+  font-weight:680;
+  overflow-wrap:break-word;
+  text-wrap:pretty;
+}
 .journey-stop-date { font-size:.78rem; line-height:1.45; color:#576963; }
 .journey-stop-arrow {
   position:absolute;
@@ -179,31 +187,31 @@
 .journey-detail-actions > span { color:var(--ink-soft); font-size:.83rem; }
 @media (max-width:1200px) and (min-width:981px) {
   .journey-layout { grid-template-columns:minmax(0,1fr) minmax(310px,.85fr); gap:24px; }
-  .journey-stop-card { width:35%; padding:13px 14px; }
-  .journey-stop--left .journey-stop-card { right:calc(100% - var(--pin-x) + 31px); }
-  .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 31px); }
+  .journey-stop-card { padding:13px 12px; }
+  .journey-stop--left .journey-stop-card { left:12px; right:calc(100% - var(--pin-x) + 31px); }
+  .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 31px); right:12px; }
 }
 @media (max-width:980px) {
   .journey-layout { grid-template-columns: minmax(0,1fr); gap:30px; }
   .journey-detail { position:static; scroll-margin-top:100px; }
-  .journey-stop-card { width:37%; }
-  .journey-stop--left .journey-stop-card { right:calc(100% - var(--pin-x) + 36px); }
-  .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 36px); }
+  .journey-stop--left .journey-stop-card { left:16px; right:calc(100% - var(--pin-x) + 36px); }
+  .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 36px); right:16px; }
 }
 @media (max-width:600px) {
   .journey-map { border-radius:22px; }
   .journey-route-svg--desktop { display:none; }
   .journey-route-svg--mobile { display:block; width:104px; }
   .journey-map-header,.journey-map-end { left:16px; font-size:.56rem; }
-  .journey-stop-pin { left:var(--mobile-pin-x); width:38px; height:38px; border-width:4px; }
+  .journey-stop-pin { left:var(--mobile-pin-x); width:43px; height:43px; border-width:4px; }
+  .journey-stop-pin-number { font-size:.68rem; }
   .journey-stop--left .journey-stop-card,
   .journey-stop--right .journey-stop-card {
-    left:108px;
+    left:107px;
     right:12px;
     width:auto;
   }
-  .journey-stop-card { min-height:110px; padding:13px 14px; }
-  .journey-stop-card strong { font-size:.87rem; padding-right:9px; }
+  .journey-stop-card { min-height:136px;  padding:13px 14px; }
+  .journey-stop-card strong { font-size:.9rem; padding-right:9px; }
   .journey-stop-arrow { display:none; }
   .journey-road-shadow { stroke-width:60px; }
   .journey-road-surface { stroke-width:42px; }

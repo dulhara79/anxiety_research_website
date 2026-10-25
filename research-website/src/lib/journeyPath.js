@@ -1,8 +1,8 @@
 // One source of geometry for the decorative SVG trail and its interactive stops.
 // The highlighted trail indicates the selected stage, not verified completion.
 export const JOURNEY_WIDTH = 700;
-export const JOURNEY_ROW_HEIGHT = 154;
-export const JOURNEY_START_Y = 104;
+export const JOURNEY_ROW_HEIGHT = 188;
+export const JOURNEY_START_Y = 145;
 export const JOURNEY_MOBILE_WIDTH = 104;
 
 export function journeyHeight(count) {

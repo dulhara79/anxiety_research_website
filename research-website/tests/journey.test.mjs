@@ -16,7 +16,7 @@ test("all 14 milestones retain their sequence and route stop coordinates", () =>
 test("curved road passes every milestone without changing stored deadline information", () => {
   const stops = journeyStops(milestones.length);
   const d = journeyPath(stops);
-  assert.match(d, /^M 270 104/);
+  assert.equal(d.startsWith(`M ${stops[0].x} ${stops[0].y}`), true);
   assert.equal((d.match(/ C /g) || []).length, milestones.length - 1);
   assert.ok(d.endsWith(stops.at(-1).x + " " + stops.at(-1).y));
   assert.equal(milestones.find((item) => item.id === "publication-evidence").deadline, "1 December 2026");
@@ -27,4 +27,11 @@ test("mobile path is inside its dedicated narrow SVG strip", () => {
   assert.ok(stops.every((point) => point.x >= 0 && point.x <= 104));
   assert.equal(journeyPath([]), "");
   assert.match(journeyPath(stops), /^M /);
+});
+
+test("stage numbering and generous spacing remain consistent from 01 to 14", () => {
+  assert.deepEqual(journeyStops(milestones.length).map(({ index }) => String(index + 1).padStart(2, "0")),
+    Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, "0")));
+  assert.ok(JOURNEY_ROW_HEIGHT >= 180);
+  assert.ok(JOURNEY_START_Y >= 120);
 });

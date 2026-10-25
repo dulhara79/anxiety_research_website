@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CalendarDays, ClipboardList, Footprints, MapPinned } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ClipboardList, MapPinned } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import { milestones, assessmentWeights, milestoneSources } from "../data/documents";
 import { JOURNEY_WIDTH, JOURNEY_MOBILE_WIDTH, journeyHeight, journeyPath, journeyStops } from "../lib/journeyPath.js";
@@ -83,8 +83,7 @@ export default function Milestones() {
           <div className="journey-layout">
             <nav className="journey-map" aria-label="Interactive research milestone path" style={{ "--journey-height": height + "px" }}>
               <div className="journey-map-header" aria-hidden="true">
-                <span>START · RESEARCH INITIATION</span>
-                <Footprints size={19} />
+                <span>START · STEP 01</span>
               </div>
 
               <WalkingRoute stops={desktopStops} selectedIndex={activeIndex} height={height} />
@@ -100,7 +99,7 @@ export default function Milestones() {
                       key={item.id}
                       className={"journey-stop journey-stop--" + stop.side + (isActive ? " is-active" : "")}
                       style={{
-                        "--step-top": (stop.y - 68) + "px",
+                        "--step-top": (stop.y - 82) + "px",
                         "--pin-x": (stop.x / JOURNEY_WIDTH * 100) + "%",
                         "--mobile-pin-x": mobileStop.x + "px",
                       }}
@@ -113,7 +112,7 @@ export default function Milestones() {
                         onClick={() => choose(item.id)}
                       >
                         <span className="journey-stop-pin" aria-hidden="true">
-                          <Footprints size={17} strokeWidth={2.2} />
+                          <span className="journey-stop-pin-number">{String(index + 1).padStart(2, "0")}</span>
                         </span>
                         <span className="journey-stop-card">
                           <span className="journey-stop-topline">STAGE {String(index + 1).padStart(2, "0")}</span>
@@ -127,7 +126,7 @@ export default function Milestones() {
                 })}
               </ol>
               <div className="journey-map-end" aria-hidden="true">
-                <span>FINISH · EVIDENCE SUBMISSION</span>
+                <span>FINISH · STEP {String(milestones.length).padStart(2, "0")}</span>
                 <span className="journey-end-dot" />
               </div>
             </nav>
