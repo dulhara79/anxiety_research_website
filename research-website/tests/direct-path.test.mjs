@@ -52,7 +52,8 @@ test("Vercel serves SPA document for unrecognized non-file routes", () => {
 test("bundled JavaScript and CSS use root-based URLs for nested direct paths", () => {
   const vite = readFileSync(fileURLToPath(new URL("../vite.config.js", import.meta.url)), "utf8");
   const html = readFileSync(fileURLToPath(new URL("../index.html", import.meta.url)), "utf8");
-  assert.match(vite, /base:\\s*['"]\\/['"]/);
-  assert.match(html, /href="\\/favicon\\.svg"/);
-  assert.match(html, /href="\\/site\\.webmanifest"/);
+  // Exact strings avoid unnecessary regex escaping for basic asset paths.
+  assert.ok(vite.includes("base: '/'"), "Vite base must use root-relative assets");
+  assert.ok(html.includes('href="/favicon.svg"'), "Favicon must use root path");
+  assert.ok(html.includes('href="/site.webmanifest"'), "Manifest must use root path");
 });
