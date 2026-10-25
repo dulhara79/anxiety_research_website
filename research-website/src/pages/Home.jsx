@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import CinematicHero from "../components/hero/CinematicHero";
 import Reveal from "../components/ui/Reveal";
 import ImageSlot from "../components/ui/ImageSlot";
@@ -9,7 +9,7 @@ import ContactSection from "../components/layout/ContactSection";
 import { homeContext, timescales } from "../data/research";
 import { team } from "../data/team";
 import { components } from "../data/components";
-import { homeEvidenceHighlights, homeFusionHighlight } from "../data/homeResearch.js";
+import { homeEvidenceHighlights } from "../data/homeResearch.js";
 import "../styles/home-research.css";
 
 const headlineResults = [
@@ -81,20 +81,15 @@ export default function Home() {
           <SectionHead
             id="components-title"
             eyebrow="Explore the research"
-            title="Different signals. One evidence-aware framework."
-            lead="Physiology, behaviour and clinical language are studied separately. A fourth component explores how eligible findings and contextual evidence can be integrated without hiding uncertainty."
+            title="Four components. One research effort."
+            lead="Explore the four complementary investigations that make up R26-DS-012. Each has its own methods, evaluation evidence and research limitations."
           />
 
-          <div className="home-research-group-heading">
-            <span className="home-research-step">01 / Evidence streams</span>
-            <p>Three investigations. Different datasets, timescales and validation boundaries.</p>
-          </div>
-
           <div className="home-research-evidence-grid">
-            {components.filter((component) => component.id !== "C4").map((component, index) => {
+            {components.map((component, index) => {
               const highlight = homeEvidenceHighlights[component.id];
               return (
-                <Reveal className="home-research-evidence-card" key={component.id} delay={index * 0.07}>
+                <Reveal className="home-research-evidence-card" key={component.id} delay={index * 0.06}>
                   <div className="home-research-card-visual">
                     <ImageSlot name={component.image} alt={highlight.imageAlt} className="home-research-card-image" />
                     <span className="home-research-image-label">{component.id} · {component.modality}</span>
@@ -110,8 +105,7 @@ export default function Home() {
                       </span>
                     </div>
                     <Link className="home-research-card-action" to={"/components/" + component.slug}>
-                      Explore {component.id}
-                      <ArrowRight size={17} aria-hidden="true" />
+                      Explore {component.id} <ArrowRight size={17} aria-hidden="true" />
                     </Link>
                   </div>
                 </Reveal>
@@ -119,47 +113,14 @@ export default function Home() {
             })}
           </div>
 
-          <div className="home-research-bridge" aria-label="Evidence is checked for eligibility before integration">
-            <span className="home-research-bridge-line" aria-hidden="true" />
-            <div className="home-research-bridge-copy">
-              <ShieldCheck size={19} aria-hidden="true" />
-              <span>Only eligible, sufficiently reliable evidence can contribute</span>
-              <ArrowDown size={18} aria-hidden="true" />
-            </div>
-            <span className="home-research-bridge-line" aria-hidden="true" />
-          </div>
-
-          <Reveal className="home-research-integration">
-            <div className="home-research-integration-copy">
-              <p className="home-research-integration-eyebrow">02 / Integration & evidence · C4</p>
-              <h3 className="serif-title">Multimodal fusion & CARE-AnxRAG</h3>
-              <p className="home-research-integration-lead">{homeFusionHighlight.description}</p>
-              <ul className="home-research-feature-list">
-                {homeFusionHighlight.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-              <p className="home-research-integration-note">
-                {homeFusionHighlight.boundary}
-              </p>
-              <div className="home-research-integration-actions">
-                <Link className="button button--paper" to="/components/fusion-and-rag">
-                  Explore C4 <ArrowRight size={17} aria-hidden="true" />
-                </Link>
-                <Link className="home-research-system-link" to="/system">
-                  View system architecture <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-              </div>
-            </div>
-            <div className="home-research-integration-image">
-              <ImageSlot name={components.find((component) => component.id === "C4").image}
-                alt="Abstract illustration of eligible evidence streams and source-grounded retrieval" />
-            </div>
-          </Reveal>
-
           <p className="home-research-section-note">
-            Research streams are evaluated on different datasets; this is an overview of the framework, not a unified clinical validation result.
+            These components have different evaluation settings; their research findings do not establish validated clinical prediction or effectiveness.
           </p>
+          <div className="button-row">
+            <Link className="button button--ink" to="/components">
+              View all research components <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
 

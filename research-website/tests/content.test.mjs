@@ -7,26 +7,26 @@ import { documents, presentationSlides, presentationStages, publishedAdditionalD
 
 
 
-test("homepage evidence showcase keeps three distinct streams and C4 integration", async () => {
-  const { homeEvidenceHighlights, homeFusionHighlight } =
-    await import("../src/data/homeResearch.js");
-  assert.deepEqual(Object.keys(homeEvidenceHighlights).sort(), ["C1", "C2", "C3"]);
-  for (const id of ["C1", "C2", "C3"]) {
-    assert.ok(components.some((component) => component.id === id));
-    assert.ok(homeEvidenceHighlights[id].title.length > 5);
-    assert.ok(homeEvidenceHighlights[id].status.length > 15);
+test("homepage gives C1–C4 equal visual treatment with correct evidence boundaries", async () => {
+  const { homeEvidenceHighlights } = await import("../src/data/homeResearch.js");
+  assert.deepEqual(Object.keys(homeEvidenceHighlights), ["C1", "C2", "C3", "C4"]);
+  for (const component of components) {
+    const highlight = homeEvidenceHighlights[component.id];
+    assert.ok(highlight.title.length > 5);
+    assert.ok(highlight.description.length > 25);
+    assert.ok(highlight.imageAlt.length > 10);
+    assert.ok(highlight.status.length > 15);
   }
   assert.match(homeEvidenceHighlights.C2.status, /0\.5205.*0\.0/);
   assert.match(homeEvidenceHighlights.C3.status, /leakage-audited verification/i);
-  assert.match(homeFusionHighlight.boundary, /C2.*weight 0\.0/i);
-  assert.match(homeFusionHighlight.boundary, /not a validated diagnostic/i);
+  assert.match(homeEvidenceHighlights.C4.status, /not clinically validated/i);
   const { readFileSync } = await import("node:fs");
   const { fileURLToPath } = await import("node:url");
   const homepage = readFileSync(fileURLToPath(new URL("../src/pages/Home.jsx", import.meta.url)), "utf8");
-  assert.match(homepage, /components\.filter\(\(component\) => component\.id !== "C4"\)/);
-  assert.match(homepage, /home-research-integration/);
-  assert.match(homepage, /to="\/components\/fusion-and-rag"/);
+  assert.match(homepage, /components\.map\(\(component, index\)/);
+  assert.doesNotMatch(homepage, /home-research-integration|home-research-bridge|homeFusionHighlight/);
   assert.match(homepage, /name=\{component\.image\}/);
+  assert.match(homepage, /to=\{"\/components\/" \+ component\.slug\}/);
 });
 
 test("homepage group context matches the current research export", async () => {

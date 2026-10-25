@@ -1,5 +1,5 @@
-// Homepage-only summaries of the published R26-DS-012 component descriptions.
-// Do not imply that every modality is validated or actively contributes to fusion.
+// Equal-layout homepage summaries of the R26-DS-012 components.
+// Equal visual treatment does not imply equal validation or active fusion eligibility.
 export const homeEvidenceHighlights = {
   C1: {
     title: "Wearable physiology",
@@ -25,16 +25,12 @@ export const homeEvidenceHighlights = {
     status: "Independent leakage-audited verification needed",
     statusType: "limited",
   },
-};
-
-export const homeFusionHighlight = {
-  description:
-    "A contextual prior and eligible component outputs are considered through reliability-aware fusion, with source-grounded evidence retrieval and explicit withholding when support is insufficient.",
-  features: [
-    "Reliability and recency checks",
-    "Evidence provenance and relevance",
-    "Insufficient-evidence safeguards",
-  ],
-  boundary:
-    "C2 is excluded from active fusion (weight 0.0). Missing or unvalidated inputs are not treated as low risk. The framework is a research prototype, not a validated diagnostic system.",
+  C4: {
+    title: "Multimodal fusion & CARE-AnxRAG",
+    description: "Reliability-aware integration of eligible signals and contextual inputs with source-grounded evidence retrieval.",
+    imageAlt: "Multimodal fusion and evidence retrieval research illustration",
+    dataset: "Contextual prior · fusion · CARE-AnxRAG",
+    status: "Research decision-support prototype; not clinically validated",
+    statusType: "limited",
+  },
 };
