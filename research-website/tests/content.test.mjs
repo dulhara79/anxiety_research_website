@@ -6,6 +6,21 @@ import { supervisors, team } from "../src/data/team.js";
 import { documents, presentationSlides, presentationStages, publishedAdditionalDocuments, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
 
 
+test("homepage group context matches the current research export", async () => {
+  const { homeContext, groupAbstract } = await import("../src/data/research.js");
+  assert.ok(homeContext.lead.length > 60);
+  assert.equal(homeContext.body.length, 2);
+  assert.match(homeContext.body.join(" "), /not a clinically validated diagnostic/i);
+  assert.equal(groupAbstract.paragraphs.length, 3);
+
+  const { readFileSync } = await import("node:fs");
+  const { fileURLToPath } = await import("node:url");
+  const homeFile = fileURLToPath(new URL("../src/pages/Home.jsx", import.meta.url));
+  const page = readFileSync(homeFile, "utf8");
+  assert.match(page, /import \{ homeContext, timescales \} from ["']\.\.\/data\/research["']/);
+  assert.doesNotMatch(page, /\boverview\.(?:lead|body)\b/);
+});
+
 test("group abstract preserves group-level evidence and clinical boundaries", async () => {
   const { groupAbstract } = await import("../src/data/research.js");
   assert.equal(groupAbstract.paragraphs.length, 3);

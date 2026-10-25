@@ -22,6 +22,16 @@ export const groupAbstract = {
   source: "R26-DS-012 Final Group Report · October 2026",
 };
 
+// Concise group-level introduction for the homepage. The full paper-style
+// abstract remains exclusive to the Domain page.
+export const homeContext = {
+  lead: "Anxiety-related vulnerability unfolds across physiological changes, everyday behaviour and clinical context—not within a single observation.",
+  body: [
+    "R26-DS-012 investigates wearable physiology, longitudinal behavioural signals and clinical notes as complementary but differently timed research evidence. Each component is evaluated on its own datasets and under its own limitations.",
+    "The integrated prototype is designed to admit only eligible, sufficiently reliable evidence and to withhold unsupported conclusions. It is not a clinically validated diagnostic or acute-event prediction system.",
+  ],
+};
+
 export const problems = [
   [
     "Anxiety-related change is continuous and multimodal",

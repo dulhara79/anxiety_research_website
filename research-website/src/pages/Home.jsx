@@ -6,10 +6,7 @@ import ImageSlot from "../components/ui/ImageSlot";
 import SectionHead from "../components/ui/SectionHead";
 import ArchitectureDiagram from "../components/research/ArchitectureDiagram";
 import ContactSection from "../components/layout/ContactSection";
-import {
-  overview,
-  timescales,
-} from "../data/research";
+import { homeContext, timescales } from "../data/research";
 import { team } from "../data/team";
 import { components } from "../data/components";
 
@@ -48,9 +45,9 @@ export default function Home() {
             <h2 className="display" id="context-title">
               Anxiety is not a single moment.
             </h2>
-            <p className="lead">{overview.lead}</p>
+            <p className="lead">{homeContext.lead}</p>
             <div className="body-copy" style={{ marginTop: 20 }}>
-              {overview.body.map((paragraph) => (
+              {homeContext.body.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
