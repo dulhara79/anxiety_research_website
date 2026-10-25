@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { componentBySlug } from "../../data/components.js";
 
 // Search can open a page AND its specific section, including across hash routes.
 export default function ScrollManager() {
@@ -12,7 +13,10 @@ export default function ScrollManager() {
       "/team": "About Us", "/contact": "Contact Us", "/components": "Components",
       "/system": "System Architecture", "/findings": "Research Findings",
     };
-    const section = titles[pathname] || (pathname.startsWith("/components/") ? "Research Component" : "Research Website");
+    const componentSlug = pathname.startsWith("/components/") ? pathname.slice("/components/".length) : null;
+    const isKnownComponent = componentSlug && Object.prototype.hasOwnProperty.call(componentBySlug, componentSlug);
+    const section = titles[pathname]
+      || (isKnownComponent ? "Research Component" : "Not Found");
     document.title = section + " | R26-DS-012 · SLIIT";
   }, [pathname]);
 
