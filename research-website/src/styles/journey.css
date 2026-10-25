@@ -118,7 +118,7 @@
 }
 .journey-stop--left .journey-stop-card { left:16px; right:calc(100% - var(--pin-x) + 36px); }
 .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 36px); right:16px; }
-.journey-stop-pin-number { font-size:.75rem; font-weight:800; line-height:1; letter-spacing:.02em; }
+.journey-stop-pin svg { width:19px; height:19px; display:block; }
 .journey-stop-topline {
   color:#2d756c;
   font-weight:800;
@@ -203,7 +203,7 @@
   .journey-route-svg--mobile { display:block; width:104px; }
   .journey-map-header,.journey-map-end { left:16px; font-size:.56rem; }
   .journey-stop-pin { left:var(--mobile-pin-x); width:43px; height:43px; border-width:4px; }
-  .journey-stop-pin-number { font-size:.68rem; }
+  .journey-stop-pin svg { width:17px; height:17px; }
   .journey-stop--left .journey-stop-card,
   .journey-stop--right .journey-stop-card {
     left:107px;

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CalendarDays, ClipboardList, MapPinned } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ClipboardList, Footprints, MapPinned } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import { milestones, assessmentWeights, milestoneSources } from "../data/documents";
 import { JOURNEY_WIDTH, JOURNEY_MOBILE_WIDTH, journeyHeight, journeyPath, journeyStops } from "../lib/journeyPath.js";
@@ -112,7 +112,7 @@ export default function Milestones() {
                         onClick={() => choose(item.id)}
                       >
                         <span className="journey-stop-pin" aria-hidden="true">
-                          <span className="journey-stop-pin-number">{String(index + 1).padStart(2, "0")}</span>
+                          <Footprints size={19} strokeWidth={2.1} />
                         </span>
                         <span className="journey-stop-card">
                           <span className="journey-stop-topline">STAGE {String(index + 1).padStart(2, "0")}</span>
