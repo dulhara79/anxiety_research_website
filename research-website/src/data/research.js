@@ -46,44 +46,50 @@ export const timescales = [
   ["Background", "Context", "Demographic and contextual factors"],
 ].map(([when, stream, detail]) => ({ when, stream, detail }));
 
-export const literatureThemes = [
-  [
-    "Physiological sensing",
-    "Physiological signals can capture short-timescale change, but baselines differ substantially across people.",
-    "Population-level thresholds may not represent an individual baseline.",
-    "Motivates personalized anomaly modelling in C1.",
+// Group-level synthesis adapted from R26-DS-012 Final Group Report
+// (October 2026), Chapter 1 and Chapter 2.2 "Root causes and overall research gap".
+// Citation numbers intentionally refer to methodologyReferences on this page,
+// NOT the numbering used in the group-report PDF.
+export const groupLiteratureReview = {
+  introduction: [
+    "The literature motivating R26-DS-012 concerns more than the prediction of anxiety from an individual sensor. It asks how clinical assessment, repeated digital observations and recorded patient context can inform one another without assuming that any single measurement is a clinical diagnosis. Screening instruments such as the PHQ-4 and GAD-7 capture defined constructs [5] [6], while digital datasets offer different windows onto physiology, behaviour and clinical documentation [1] [3] [4].",
+    "Taken together, these sources point to three connected challenges. First, clinical encounters and digital measurements observe different parts of an individual's experience. Second, apparent predictive performance may not generalize across participants, populations, collection settings or outcome definitions. Third, integrating evidence into a decision-support workflow requires explicit treatment of quality, uncertainty and provenance rather than simply combining model scores.",
   ],
-  [
-    "Passive behavioural sensing",
-    "Everyday sensing can encode longer-term behavioural patterns.",
-    "Signals are noisy, cohort-dependent and vulnerable to leakage or weak external generalization.",
-    "Motivates the participant-grouped C2 evaluation and its explicit exclusion when evidence is weak.",
+  themes: [
+    {
+      id: "observation",
+      number: "01",
+      title: "Clinical assessment and longitudinal observation",
+      paragraphs: [
+        "Traditional clinical assessment draws on patient history, interviews and purpose-specific screening instruments. The PHQ-4 and GAD-7 are useful examples of standardized measures, but neither turns an isolated digital observation into a verified diagnosis or a forecast of an acute event [5] [6]. Repeated measurements may reveal changes between appointments, yet they must be interpreted within the clinical and personal context in which they were collected.",
+        "Published research resources illustrate both the opportunity and the constraint. WESAD records stress- and affect-related wearable signals in a laboratory setting [1]; AffectiveROAD documents physiological sensing in a driving environment [2]; GLOBEM supplies multi-year longitudinal behavioural measurements [3]; and MIMIC-IV provides hospital electronic health records [4]. These are complementary research sources, not one matched cohort with common anxiety-escalation labels. Their observations span different people, settings, outcomes and timescales.",
+      ],
+    },
+    {
+      id: "validity",
+      number: "02",
+      title: "Predictive validity, dataset shift and evaluation",
+      paragraphs: [
+        "Model performance is meaningful only in relation to the population, label and evaluation protocol that produced it. Stress-related physiology, retrospective behavioural associations and anxiety-coded clinical notes are not interchangeable targets. Evidence drawn from wearable, longitudinal sensing and hospital-record datasets therefore cannot be pooled into a single claim of clinical anxiety-prediction accuracy [1] [3] [4].",
+        "The research literature and reporting guidance make careful validation central to interpretation: subject or patient overlap, missing observations, changes in collection conditions, weak comparison baselines and uncertain calibration can each distort conclusions. TRIPOD+AI emphasizes transparent reporting of prediction-model development and evaluation [12]. In a multimodal project, this means that an apparently sophisticated model is not automatically a trustworthy input to a combined assessment.",
+      ],
+    },
+    {
+      id: "integration",
+      number: "03",
+      title: "Evidence integration, uncertainty and explainability",
+      paragraphs: [
+        "Combining heterogeneous outputs presents a distinct problem from training their underlying models. Physiological deviations may be available over minutes, behavioural summaries over weeks, clinical notes at encounters and contextual factors over longer intervals. Missing or stale inputs must not be silently converted into reassuring scores, and unaligned numerical outputs should not be interpreted as calibrated probabilities of the same clinical event.",
+        "Evidence retrieval adds another layer of responsibility. Retrieval-augmented generation provides a framework for consulting external material [11], but a retrieved passage can still be irrelevant, outdated or contradictory. Transparent prediction-model reporting [12] and explicit source provenance support the case for indicating when evidence is insufficient, where it came from and why an integrated output may need to be withheld. These are design and validation requirements, not evidence that a finished clinical system has been validated.",
+      ],
+    },
   ],
-  [
-    "Clinical NLP",
-    "Clinical documentation can contain relevant anxiety-related evidence.",
-    "Label scarcity, patient overlap and text-derived labels can inflate apparent performance.",
-    "Motivates patient-disjoint few-shot evaluation in C3.",
-  ],
-  [
-    "Multimodal modelling",
-    "Different evidence streams can be complementary.",
-    "Availability, timescale and validation quality differ between modalities.",
-    "Motivates reliability-aware fusion rather than equal weighting.",
-  ],
-  [
-    "Uncertainty and reliability",
-    "Weak or missing evidence must remain visible as uncertainty.",
-    "A numeric output can create false certainty if quality gates are hidden.",
-    "Motivates masking, abstention and explicit evidence states.",
-  ],
-  [
-    "Evidence-aware decision support",
-    "Retrieval can connect outputs with external evidence.",
-    "Retrieved evidence can be stale, conflicting or low authority.",
-    "Motivates CARE-AnxRAG provenance, contradiction checks, citation validation and abstention.",
-  ],
-].map(([theme, shows, limits, relevance]) => ({ theme, shows, limits, relevance }));
+  synthesis: {
+    title: "What the literature means for the group research",
+    summary: "The shared gap is not simply that no single application combines four data types. It is the lack of an adequately validated, uncertainty-aware process for deciding which differently timed signals can contribute to an interpretable assessment—and which should be excluded or left undecided.",
+    boundary: "The reviewed sources motivate an integrated research framework; they do not establish prospective clinical effectiveness. R26-DS-012 evaluates its streams on separate datasets and retains explicit evidence-quality and fusion boundaries.",
+  },
+};
 
 export const researchGap = {
   headline:

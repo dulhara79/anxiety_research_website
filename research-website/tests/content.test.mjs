@@ -5,6 +5,28 @@ import { images, imageDriveIds, imageSrc } from "../src/data/images.js";
 import { supervisors, team } from "../src/data/team.js";
 import { documents, presentationSlides, presentationStages, publishedAdditionalDocuments, documentStages, milestones, assessmentWeights } from "../src/data/documents.js";
 
+
+test("group literature review is an integrated, properly cited synthesis", async () => {
+  const { groupLiteratureReview } = await import("../src/data/research.js");
+  const { methodologyReferences } = await import("../src/data/methodologyDetail.js");
+  assert.equal(groupLiteratureReview.themes.length, 3);
+  assert.deepEqual(groupLiteratureReview.themes.map((theme) => theme.id),
+    ["observation", "validity", "integration"]);
+  const allParagraphs = [
+    ...groupLiteratureReview.introduction,
+    ...groupLiteratureReview.themes.flatMap((theme) => theme.paragraphs),
+  ];
+  assert.ok(allParagraphs.every((paragraph) => paragraph.length > 110));
+  assert.ok(allParagraphs.every((paragraph) => !/\bC[1-4]\b/.test(paragraph)),
+    "Group literature should not be organized as individual component reports.");
+  const citations = allParagraphs.flatMap((paragraph) =>
+    [...paragraph.matchAll(/\[(\d+)\]/g)].map((m) => Number(m[1])));
+  assert.ok(citations.length >= 10);
+  assert.ok(citations.every((number) =>
+    methodologyReferences.some((reference) => reference.number === number)));
+  assert.match(groupLiteratureReview.synthesis.boundary, /not establish prospective clinical effectiveness/i);
+});
+
 test("component slugs and ids are unique", () => {
   assert.equal(new Set(components.map((c) => c.slug)).size, components.length);
   assert.deepEqual(

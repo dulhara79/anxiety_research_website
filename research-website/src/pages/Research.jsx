@@ -4,7 +4,7 @@ import PageHero from "../components/ui/PageHero";
 import Reveal from "../components/ui/Reveal";
 import SectionHead from "../components/ui/SectionHead";
 import {
-  literatureThemes,
+  groupLiteratureReview,
   objectives,
   overview,
   problems,
@@ -26,6 +26,24 @@ const domainSections = [
   ["References", "method-references-title"],
   ["Technologies", "tech-title"],
 ];
+
+// Citation numbers here link to the public IEEE bibliography already used on
+// this page. They are independent source identifiers, not component result IDs.
+function CitedLiterature({ text }) {
+  return text.split(/(\[\d+\])/g).map((part, index) => {
+    const match = /^\[(\d+)\]$/.exec(part);
+    return match ? (
+      <a
+        key={index}
+        className="ieee-inline-citation"
+        href={"#reference-" + match[1]}
+        aria-label={"Reference " + match[1]}
+      >
+        {part}
+      </a>
+    ) : part;
+  });
+}
 
 export default function Research() {
   const slugFor = (id) =>
@@ -119,32 +137,47 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="literature-title">
+      <section className="section literature-review" aria-labelledby="literature-title">
         <div className="shell">
           <SectionHead
             id="literature-title"
-            eyebrow="Literature landscape"
-            title="Every signal is informative. Every signal has a failure mode."
-            lead="A synthesis of the themes that motivated each component, and the limits each one carries."
+            eyebrow="Group literature review"
+            title="From clinical observation to trustworthy multimodal evidence."
+            lead="An integrated synthesis of published research and the three interconnected challenges identified in the R26-DS-012 group report."
           />
-          <div className="grid-3">
-            {literatureThemes.map((theme, index) => (
-              <Reveal
-                className="card lit-card"
-                key={theme.theme}
-                delay={(index % 3) * 0.06}
-              >
-                <h3 className="card-title">{theme.theme}</h3>
-                <dl>
-                  <dt>Shows</dt>
-                  <dd>{theme.shows}</dd>
-                  <dt>Limits</dt>
-                  <dd>{theme.limits}</dd>
-                  <dt>In this project</dt>
-                  <dd>{theme.relevance}</dd>
-                </dl>
+          <div className="literature-review-layout">
+            <div className="literature-review-main">
+              <Reveal className="literature-review-intro body-copy">
+                <p className="eyebrow">The shared research context</p>
+                {groupLiteratureReview.introduction.map((paragraph, index) => (
+                  <p key={index}><CitedLiterature text={paragraph} /></p>
+                ))}
               </Reveal>
-            ))}
+              <div className="literature-review-themes">
+                {groupLiteratureReview.themes.map((theme) => (
+                  <Reveal as="article" className="literature-review-theme" key={theme.id} id={"literature-" + theme.id}>
+                    <div className="literature-review-theme-heading">
+                      <span className="literature-review-number" aria-hidden="true">{theme.number}</span>
+                      <h3 className="serif-title">{theme.title}</h3>
+                    </div>
+                    <div className="body-copy">
+                      {theme.paragraphs.map((paragraph, index) => (
+                        <p key={index}><CitedLiterature text={paragraph} /></p>
+                      ))}
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <aside className="literature-review-aside" aria-label="Literature synthesis">
+              <p className="eyebrow">Literature synthesis</p>
+              <h3 className="serif-title">{groupLiteratureReview.synthesis.title}</h3>
+              <p>{groupLiteratureReview.synthesis.summary}</p>
+              <p className="literature-review-caution">{groupLiteratureReview.synthesis.boundary}</p>
+              <a href="#method-references-title" className="literature-review-reference-link">
+                Review the cited literature <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </aside>
           </div>
         </div>
       </section>
