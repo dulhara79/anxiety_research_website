@@ -118,7 +118,7 @@
 }
 .journey-stop--left .journey-stop-card { left:16px; right:calc(100% - var(--pin-x) + 36px); }
 .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 36px); right:16px; }
-.journey-stop-pin svg { width:19px; height:19px; display:block; }
+.journey-stop-pin svg { width:19px; height:19px; display:block; transform:rotate(180deg); transform-origin:center; }
 .journey-stop-topline {
   color:#2d756c;
   font-weight:800;
@@ -162,14 +162,39 @@
 }
 .journey-stop-button:focus-visible { outline:none; }
 .journey-stop-button:focus-visible .journey-stop-card { outline:3px solid #326762; outline-offset:3px; }
-.journey-detail { position:sticky; top:110px; }
+/* Keep the lower navigation controls visible while longer milestone text scrolls.
+   Allow normal page scrolling on small screens where the card is below the path. */
+.journey-detail {
+  position:sticky;
+  top:110px;
+  display:flex;
+  flex-direction:column;
+  max-height:calc(100vh - 132px);
+  max-height:calc(100dvh - 132px);
+  padding-bottom:clamp(26px, 3vw, 38px);
+  overflow:hidden;
+}
+.journey-detail-scroll {
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(36,82,79,.38) transparent;
+  padding-right:8px;
+  padding-bottom:24px;
+}
+.journey-detail-scroll:focus-visible { outline:2px solid var(--teal); outline-offset:-2px; }
+.journey-detail-scroll > p:not(.milestone-detail-kicker) { line-height:1.7; }
 .journey-detail h4 { display:flex; align-items:center; gap:9px; }
 .journey-detail-actions {
   display:flex; justify-content:space-between; align-items:center;
   flex-wrap:wrap; gap:8px;
-  padding:18px 0 0;
-  margin-top:30px;
+  flex:0 0 auto;
+  padding:18px 0 8px;
+  margin-top:0;
   border-top:1px solid var(--rule);
+  background:var(--paper-2);
 }
 .journey-detail-actions button {
   display:inline-flex; align-items:center; gap:6px;
@@ -193,7 +218,18 @@
 }
 @media (max-width:980px) {
   .journey-layout { grid-template-columns: minmax(0,1fr); gap:30px; }
-  .journey-detail { position:static; scroll-margin-top:100px; }
+  .journey-detail {
+    position:static;
+    max-height:none;
+    overflow:visible;
+    scroll-margin-top:100px;
+  }
+  .journey-detail-scroll {
+    flex:auto;
+    overflow:visible;
+    padding:0 0 10px;
+  }
+  .journey-detail-actions { margin-top:12px; }
   .journey-stop--left .journey-stop-card { left:16px; right:calc(100% - var(--pin-x) + 36px); }
   .journey-stop--right .journey-stop-card { left:calc(var(--pin-x) + 36px); right:16px; }
 }

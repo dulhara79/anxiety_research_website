@@ -132,6 +132,7 @@ export default function Milestones() {
             </nav>
 
             <article className="milestone-detail journey-detail" id="milestone-detail" ref={detailRef} aria-live="polite" aria-atomic="true">
+              <div className="journey-detail-scroll" tabIndex={0} role="region" aria-label="Selected milestone information">
               <p className="milestone-detail-kicker"><CalendarDays size={18} aria-hidden="true" /> Selected milestone · {String(activeIndex + 1).padStart(2, "0")} / {milestones.length}</p>
               <h3 className="display milestone-detail-title">{active.title}</h3>
               <dl className="milestone-facts">
@@ -153,6 +154,10 @@ export default function Milestones() {
                   View related records <ArrowRight size={17} aria-hidden="true" />
                 </Link>
               )}
+              <p className="milestone-disclaimer">
+                The selected path segment indicates navigation, not milestone completion. Scheduled dates do not establish actual completion. Assessment weights come from the 2019 module outline and have not been independently confirmed for 2026.
+              </p>
+              </div>
               <div className="journey-detail-actions" aria-label="Browse adjacent milestones">
                 <button type="button" onClick={() => choose(milestones[activeIndex - 1]?.id)} disabled={activeIndex === 0}>
                   <ArrowLeft size={16} aria-hidden="true" /> Previous
@@ -162,9 +167,6 @@ export default function Milestones() {
                   Next <ArrowRight size={16} aria-hidden="true" />
                 </button>
               </div>
-              <p className="milestone-disclaimer">
-                The selected path segment indicates navigation, not milestone completion. Scheduled dates do not establish actual completion. Assessment weights come from the 2019 module outline and have not been independently confirmed for 2026.
-              </p>
             </article>
           </div>
         </div>
