@@ -1,8 +1,30 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarDays, ClipboardList } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ClipboardList, Footprints, MapPinned } from "lucide-react";
 import PageHero from "../components/ui/PageHero";
 import { milestones, assessmentWeights, milestoneSources } from "../data/documents";
+import { JOURNEY_WIDTH, JOURNEY_MOBILE_WIDTH, journeyHeight, journeyPath, journeyStops } from "../lib/journeyPath.js";
+import "../styles/journey.css";
+
+function WalkingRoute({ stops, selectedIndex, mobile = false, height }) {
+  const path = journeyPath(stops);
+  const highlighted = journeyPath(stops.slice(0, selectedIndex + 1));
+  return (
+    <svg
+      className={"journey-route-svg " + (mobile ? "journey-route-svg--mobile" : "journey-route-svg--desktop")}
+      viewBox={`0 0 ${mobile ? JOURNEY_MOBILE_WIDTH : JOURNEY_WIDTH} ${height}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path className="journey-road-shadow" d={path} />
+      <path className="journey-road-surface" d={path} />
+      <path className="journey-road-centerline" d={path} />
+      {/* This accent marks the currently selected stage, not achieved milestones. */}
+      <path className="journey-road-selected" d={highlighted} />
+    </svg>
+  );
+}
 
 export default function Milestones() {
   const [selected, setSelected] = useState(milestones[0]?.id ?? null);
@@ -10,15 +32,18 @@ export default function Milestones() {
   const activeIndex = Math.max(0, milestones.findIndex((item) => item.id === selected));
   const active = milestones[activeIndex];
   const weights = assessmentWeights.filter((weight) => active.weights.includes(weight.id));
+  const desktopStops = journeyStops(milestones.length);
+  const mobileStops = journeyStops(milestones.length, true);
+  const height = journeyHeight(milestones.length);
 
   const choose = (id) => {
+    if (!milestones.some((item) => item.id === id)) return;
     setSelected(id);
-    // The details sit beside the list on desktop and below it on small screens.
-    if (window.matchMedia("(max-width: 800px)").matches) {
+    if (window.matchMedia("(max-width: 980px)").matches) {
       window.requestAnimationFrame(() => {
         detailRef.current?.scrollIntoView({
           block: "start",
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
         });
       });
     }
@@ -33,58 +58,82 @@ export default function Milestones() {
         image="bannerDocuments"
       />
 
-      <section className="section" aria-labelledby="milestones-title">
+      <section className="section journey-section" aria-labelledby="milestones-title">
         <div className="shell">
           <div className="milestone-heading">
             <div>
-              <p className="eyebrow">Project timeline</p>
-              <h2 className="display" id="milestones-title">Explore the milestones.</h2>
-              <p className="lead">Select a stage to read its original schedule, assessment context and linked evidence.</p>
+              <p className="eyebrow">Project journey</p>
+              <h2 className="display" id="milestones-title">Every milestone tells part of the story.</h2>
+              <p className="lead">Follow the winding route from topic assessment to publication evidence. Select a stop to explore its documented schedule and context.</p>
             </div>
-            <span className="milestone-count"><CalendarDays size={18} aria-hidden="true" /> 14 recorded stages</span>
+            <span className="milestone-count"><MapPinned size={18} aria-hidden="true" /> {milestones.length} research stages</span>
           </div>
 
-          <div className="milestone-selector">
-            <label htmlFor="milestone-stage">Select an assessment stage</label>
-            <select
-              id="milestone-stage"
-              value={selected}
-              onChange={(event) => choose(event.target.value)}
-            >
-              {milestones.map((item, i) => (
+          <div className="milestone-selector journey-selector">
+            <label htmlFor="milestone-stage">Jump to a milestone</label>
+            <select id="milestone-stage" value={selected} onChange={(event) => choose(event.target.value)}>
+              {milestones.map((item, index) => (
                 <option key={item.id} value={item.id}>
-                  {String(i + 1).padStart(2, "0")} · {item.title}
+                  {String(index + 1).padStart(2, "0")} · {item.title}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="milestone-layout">
-            <nav className="milestone-rail" aria-label="Research milestone timeline">
-              <ol className="milestone-list">
-                {milestones.map((item, i) => (
-                  <li key={item.id}>
-                    <button
-                      className={"milestone-select" + (item.id === selected ? " is-active" : "")}
-                      type="button"
-                      aria-current={item.id === selected ? "step" : undefined}
-                      aria-controls="milestone-detail"
-                      onClick={() => choose(item.id)}
+          <div className="journey-layout">
+            <nav className="journey-map" aria-label="Interactive research milestone path" style={{ "--journey-height": height + "px" }}>
+              <div className="journey-map-header" aria-hidden="true">
+                <span>START · RESEARCH INITIATION</span>
+                <Footprints size={19} />
+              </div>
+
+              <WalkingRoute stops={desktopStops} selectedIndex={activeIndex} height={height} />
+              <WalkingRoute stops={mobileStops} selectedIndex={activeIndex} mobile height={height} />
+
+              <ol className="journey-stop-list">
+                {milestones.map((item, index) => {
+                  const stop = desktopStops[index];
+                  const mobileStop = mobileStops[index];
+                  const isActive = selected === item.id;
+                  return (
+                    <li
+                      key={item.id}
+                      className={"journey-stop journey-stop--" + stop.side + (isActive ? " is-active" : "")}
+                      style={{
+                        "--step-top": (stop.y - 68) + "px",
+                        "--pin-x": (stop.x / JOURNEY_WIDTH * 100) + "%",
+                        "--mobile-pin-x": mobileStop.x + "px",
+                      }}
                     >
-                      <span className="milestone-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                      <span className="milestone-select-copy">
-                        <strong>{item.title}</strong>
-                        <span>{item.deadline ?? "Date not specified"}</span>
-                      </span>
-                      <ArrowRight size={16} aria-hidden="true" />
-                    </button>
-                  </li>
-                ))}
+                      <button
+                        className="journey-stop-button"
+                        type="button"
+                        aria-pressed={isActive}
+                        aria-controls="milestone-detail"
+                        onClick={() => choose(item.id)}
+                      >
+                        <span className="journey-stop-pin" aria-hidden="true">
+                          <Footprints size={17} strokeWidth={2.2} />
+                        </span>
+                        <span className="journey-stop-card">
+                          <span className="journey-stop-topline">STAGE {String(index + 1).padStart(2, "0")}</span>
+                          <strong>{item.title}</strong>
+                          <span className="journey-stop-date">{item.deadline ?? "Date not specified"}</span>
+                          <ArrowRight className="journey-stop-arrow" size={17} aria-hidden="true" />
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
               </ol>
+              <div className="journey-map-end" aria-hidden="true">
+                <span>FINISH · EVIDENCE SUBMISSION</span>
+                <span className="journey-end-dot" />
+              </div>
             </nav>
 
-            <article className="milestone-detail" id="milestone-detail" ref={detailRef} aria-live="polite" aria-atomic="true">
-              <p className="milestone-detail-kicker"><ClipboardList size={18} aria-hidden="true" /> Stage {String(activeIndex + 1).padStart(2, "0")} of {milestones.length}</p>
+            <article className="milestone-detail journey-detail" id="milestone-detail" ref={detailRef} aria-live="polite" aria-atomic="true">
+              <p className="milestone-detail-kicker"><CalendarDays size={18} aria-hidden="true" /> Selected milestone · {String(activeIndex + 1).padStart(2, "0")} / {milestones.length}</p>
               <h3 className="display milestone-detail-title">{active.title}</h3>
               <dl className="milestone-facts">
                 <div>
@@ -98,15 +147,24 @@ export default function Milestones() {
                     : "No separate weighting specified"}</dd>
                 </div>
               </dl>
-              <h4>Evidence and interpretation</h4>
+              <h4><ClipboardList size={19} aria-hidden="true" /> Evidence and interpretation</h4>
               <p>{active.detail}</p>
               {active.href && (
                 <Link className="button button--ink" to={active.href}>
                   View related records <ArrowRight size={17} aria-hidden="true" />
                 </Link>
               )}
+              <div className="journey-detail-actions" aria-label="Browse adjacent milestones">
+                <button type="button" onClick={() => choose(milestones[activeIndex - 1]?.id)} disabled={activeIndex === 0}>
+                  <ArrowLeft size={16} aria-hidden="true" /> Previous
+                </button>
+                <span>{activeIndex + 1} of {milestones.length}</span>
+                <button type="button" onClick={() => choose(milestones[activeIndex + 1]?.id)} disabled={activeIndex === milestones.length - 1}>
+                  Next <ArrowRight size={16} aria-hidden="true" />
+                </button>
+              </div>
               <p className="milestone-disclaimer">
-                Scheduled dates do not establish actual completion. Assessment weights come from the 2019 module outline and have not been independently confirmed for 2026.
+                The selected path segment indicates navigation, not milestone completion. Scheduled dates do not establish actual completion. Assessment weights come from the 2019 module outline and have not been independently confirmed for 2026.
               </p>
             </article>
           </div>
